@@ -49,6 +49,26 @@
       "version": "latest"
     },
     {
+      "name": "folio_orders",
+      "version": "latest"
+    },
+    {
+      "name": "folio_invoice",
+      "version": "latest"
+    },
+    {
+      "name": "folio_finance",
+      "version": "latest"
+    },
+    {
+      "name": "folio_receiving",
+      "version": "latest"
+    },
+    {
+      "name": "folio_claims",
+      "version": "latest"
+    },
+    {
       "name": "folio_plugin-find-organization",
       "version": "latest"
     },
@@ -61,23 +81,7 @@
       "version": "latest"
     },
     {
-      "name": "folio_invoice",
-      "version": "latest"
-    },
-    {
-      "name": "folio_finance",
-      "version": "latest"
-    },
-    {
       "name": "folio_plugin-find-fund",
-      "version": "latest"
-    },
-    {
-      "name": "folio_orders",
-      "version": "latest"
-    },
-    {
-      "name": "folio_receiving",
       "version": "latest"
     },
     {
@@ -86,10 +90,6 @@
     },
     {
       "name": "folio_plugin-find-po-line",
-      "version": "latest"
-    },
-    {
-      "name": "folio_claims",
       "version": "latest"
     }
   ]
