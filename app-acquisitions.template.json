@@ -69,6 +69,10 @@
       "version": "latest"
     },
     {
+      "name": "folio_acquisition-units",
+      "version": "latest"
+    },
+    {
       "name": "folio_plugin-find-organization",
       "version": "latest"
     },
@@ -82,10 +86,6 @@
     },
     {
       "name": "folio_plugin-find-fund",
-      "version": "latest"
-    },
-    {
-      "name": "folio_acquisition-units",
       "version": "latest"
     },
     {

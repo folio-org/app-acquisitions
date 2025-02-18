@@ -19,15 +19,15 @@ Application Descriptor Repository for the FOLIO Acquisitions application.
 | Module name                      |
 |:---------------------------------|
 | `folio_organizations`            |
+| `folio_orders`                   |
+| `folio_invoice`                  |
+| `folio_finance`                  |
+| `folio_receiving`                |
+| `folio_claims`                   |
+| `folio_acquisition-units`        |
 | `folio_plugin-find-organization` |
 | `folio_plugin-find-contact`      |
 | `folio_plugin-find-interface`    |
-| `folio_invoice`                  |
-| `folio_finance`                  |
 | `folio_plugin-find-fund`         |
-| `folio_orders`                   |
-| `folio_receiving`                |
-| `folio_acquisition-units`        |
 | `folio_plugin-find-po-line`      |
-| `folio_claims`                   |
 
