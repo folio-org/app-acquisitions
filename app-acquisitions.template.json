@@ -41,6 +41,10 @@
     {
       "name": "mod-finance-storage",
       "version": "latest"
+    },
+    {
+      "name": "edge-orders",
+      "version": "latest"
     }
   ],
   "uiModules": [

@@ -13,6 +13,7 @@ Application Descriptor Repository for the FOLIO Acquisitions application.
 | `mod-invoice-storage`       |
 | `mod-finance`               |
 | `mod-finance-storage`       |
+| `edge-orders`               |
 
 ## UI Modules
 
