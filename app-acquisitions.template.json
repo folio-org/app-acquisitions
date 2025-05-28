@@ -12,35 +12,35 @@
   "modules": [
     {
       "name": "mod-organizations",
-      "version": "latest"
+      "version": "2.1.0.109"
     },
     {
       "name": "mod-organizations-storage",
-      "version": "latest"
+      "version": "4.9.0.148"
     },
     {
       "name": "mod-orders",
-      "version": "latest"
+      "version": "13.0.4.457"
     },
     {
       "name": "mod-orders-storage",
-      "version": "latest"
+      "version": "13.9.4.273"
     },
     {
       "name": "mod-invoice",
-      "version": "latest"
+      "version": "6.0.1.227"
     },
     {
       "name": "mod-invoice-storage",
-      "version": "latest"
+      "version": "6.0.0.156"
     },
     {
       "name": "mod-finance",
-      "version": "latest"
+      "version": "5.1.1.192"
     },
     {
       "name": "mod-finance-storage",
-      "version": "latest"
+      "version": "8.8.2.208"
     }
   ],
   "uiModules": [
