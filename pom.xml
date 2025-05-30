@@ -79,7 +79,7 @@
   </pluginRepositories>
 
   <scm>
-    <url>https://https://github.com/folio-org/app-acquisitions</url>
+    <url>https://github.com/folio-org/app-acquisitions</url>
     <connection>scm:git:git://github.com:folio-org/app-acquisitions.git</connection>
     <developerConnection>scm:git:git@github.com:folio-org/app-acquisitions.git</developerConnection>
     <tag>HEAD</tag>
