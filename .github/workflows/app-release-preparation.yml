@@ -1,5 +1,7 @@
 name: Application Release Branch Preparation
 
+run-name: Application Release Branch Preparation [${{ inputs.dispatch_id }}]
+
 on:
   workflow_dispatch:
     inputs:
@@ -25,9 +27,9 @@ on:
         description: 'Perform dry run without making changes'
         required: false
         type: boolean
-        default: false        
+        default: false
       dispatch_id:
-        description: 'Unique identifier for this workflow dispatch'
+        description: 'Unique identifier for workflow tracking'
         required: false
         type: string
         default: ''
