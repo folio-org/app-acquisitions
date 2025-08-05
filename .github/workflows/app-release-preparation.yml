@@ -68,7 +68,7 @@ jobs:
           payload: |
             channel: "$SLACK_NOTIF_CHANNEL"
 
-      - name: Send Global Slack Notification
+      - name: Send Slack Notification
         if: env.SLACK_BOT_TOKEN != ''
         uses: slackapi/slack-github-action@v2.1.1
         with:
