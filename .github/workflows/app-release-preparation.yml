@@ -54,45 +54,47 @@ jobs:
     name: Slack Notification
     runs-on: ubuntu-latest
     needs: prepare-app-release
-    if: always() && inputs.dry_run == false
+    if: always() && inputs.dry_run == false && vars.SLACK_NOTIF_CHANNEL != ''
     steps:
+      - name: Check Slack Bot Token existence
+        id: check-slack-bot-token-and-channel
+        run: |
+          test -n ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }} || echo "::error::SLACK_BOT_TOKEN is not set"
+          echo "is_exist=$(test -n ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }})" >> "$GITHUB_OUTPUT"
       - name: Join Slack Channel
-        if: always() && inputs.dry_run == false
+        if: steps.check-slack-bot-token-and-channel.outputs.is_exist == 'true'      
         uses: slackapi/slack-github-action@v2.1.1
         with:
           method: conversations.join
           token: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
           payload: |
-            channel: "#folio-rancher-debug-notifications"
+            channel: "${{ vars.SLACK_NOTIF_CHANNEL }}"
 
       - name: Send Global Slack Notification
-        if: always() && inputs.dry_run == false
+        if: steps.check-slack-bot-token-and-channel.outputs.is_exist == 'true'
         uses: slackapi/slack-github-action@v2.1.1
         with:
           method: chat.postMessage
           token: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
           payload: |
-            channel: "#folio-rancher-debug-notifications"
+            channel: "${{ vars.SLACK_NOTIF_CHANNEL }}"
             blocks:
               - type: section
                 text:
                   type: mrkdwn
-                  text: "*Application Release Preparation ${{ job.status == 'success' && 'SUCCESS' || 'FAILED' }} <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|#${{ github.run_number }}>*"
+                  text: "*Application Release Preparation ${{ needs.prepare-app-release.result == 'success' && 'SUCCESS' || 'FAILED' }} <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|#${{ github.run_number }}>*"
             attachments:
-              - color: "${{ job.status == 'success' && 'good' || 'danger' }}"
+              - color: "${{ needs.prepare-app-release.result == 'success' && 'good' || 'danger' }}"
                 fields:
                   - title: "New Release"
                     value: "<${{ github.server_url }}/${{ github.repository }}/tree/${{ inputs.new_release_branch }}|${{ inputs.new_release_branch }}>"
                     short: true
-                  - title: "Previous Release"
-                    value: "<${{ github.server_url }}/${{ github.repository }}/tree/${{ inputs.previous_release_branch }}|${{ inputs.previous_release_branch }}>"
+                  - title: "Source Branch"
+                    value: "<${{ github.server_url }}/${{ github.repository }}/tree/${{ needs.prepare-app-release.outputs.source_branch }}|${{ needs.prepare-app-release.outputs.source_branch }}>"
                     short: true                    
                   - title: "New Version"
                     value: "${{ needs.prepare-app-release.outputs.app_version }}"
-                    short: true
-                  - title: "Source Branch"
-                    value: "${{ needs.prepare-app-release.outputs.source_branch }}"
-                    short: true                    
+                    short: true                   
                   - title: "Commit"
                     value: "<${{ github.server_url }}/${{ github.repository }}/commit/${{ needs.prepare-app-release.outputs.commit_sha }}|${{ needs.prepare-app-release.outputs.commit_sha }}>"
                     short: true
