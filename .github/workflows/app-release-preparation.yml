@@ -59,15 +59,6 @@ jobs:
       SLACK_BOT_TOKEN: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
       SLACK_NOTIF_CHANNEL: ${{ vars.SLACK_NOTIF_CHANNEL }}
     steps:
-      - name: Join Slack Channel
-        if: env.SLACK_BOT_TOKEN != ''      
-        uses: slackapi/slack-github-action@v2.1.1
-        with:
-          method: conversations.join
-          token: ${{ env.SLACK_BOT_TOKEN }}
-          payload: |
-            channel: "$SLACK_NOTIF_CHANNEL"
-
       - name: Send Slack Notification
         if: env.SLACK_BOT_TOKEN != ''
         uses: slackapi/slack-github-action@v2.1.1
