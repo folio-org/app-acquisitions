@@ -48,4 +48,52 @@ jobs:
       use_snapshot_fallback: ${{ inputs.use_snapshot_fallback }}
       use_snapshot_version: ${{ inputs.use_snapshot_version }}
       dry_run: ${{ inputs.dry_run }}      
-    secrets: inherit 
+    secrets: inherit
+
+  slack_notification:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    needs: prepare-app-release
+    if: always() && inputs.dry_run == false
+    steps:
+      - name: Join Slack Channel
+        if: always() && inputs.dry_run == false
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          method: conversations.join
+          token: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
+          payload: |
+            channel: "#folio-rancher-debug-notifications"
+
+      - name: Send Global Slack Notification
+        if: always() && inputs.dry_run == false
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
+          payload: |
+            channel: "#folio-rancher-debug-notifications"
+            blocks:
+              - type: section
+                text:
+                  type: mrkdwn
+                  text: "*Application Release Preparation ${{ job.status == 'success' && 'SUCCESS' || 'FAILED' }} <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|#${{ github.run_number }}>*"
+            attachments:
+              - color: "${{ job.status == 'success' && 'good' || 'danger' }}"
+                fields:
+                  - title: "New Release"
+                    value: "<${{ github.server_url }}/${{ github.repository }}/tree/${{ inputs.new_release_branch }}|${{ inputs.new_release_branch }}>"
+                    short: true
+                  - title: "Previous Release"
+                    value: "<${{ github.server_url }}/${{ github.repository }}/tree/${{ inputs.previous_release_branch }}|${{ inputs.previous_release_branch }}>"
+                    short: true                    
+                  - title: "New Version"
+                    value: "${{ needs.prepare-app-release.outputs.app_version }}"
+                    short: true
+                  - title: "Source Branch"
+                    value: "${{ needs.prepare-app-release.outputs.source_branch }}"
+                    short: true                    
+                  - title: "Commit"
+                    value: "<${{ github.server_url }}/${{ github.repository }}/commit/${{ needs.prepare-app-release.outputs.commit_sha }}|${{ needs.prepare-app-release.outputs.commit_sha }}>"
+                    short: true
+                footer: "Eureka CI/CD" 
