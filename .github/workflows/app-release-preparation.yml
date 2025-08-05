@@ -74,6 +74,7 @@ jobs:
         with:
           method: chat.postMessage
           token: ${{ env.SLACK_BOT_TOKEN }}
+          errors: true
           payload: |
             channel: "$SLACK_NOTIF_CHANNEL"
             blocks:
