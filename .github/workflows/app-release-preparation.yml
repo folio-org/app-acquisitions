@@ -58,9 +58,11 @@ jobs:
     steps:
       - name: Check Slack Bot Token existence
         id: check-slack-bot-token-and-channel
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
         run: |
-          test -n ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }} || echo "::error::SLACK_BOT_TOKEN is not set"
-          echo "is_exist=$(test -n ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }})" >> "$GITHUB_OUTPUT"
+          test -n $SLACK_BOT_TOKEN || echo "::error::EUREKA_CI_SLACK_BOT_TOKEN is not set"
+          echo "is_exist=$(test -n $SLACK_BOT_TOKEN)" >> "$GITHUB_OUTPUT"
       - name: Join Slack Channel
         if: steps.check-slack-bot-token-and-channel.outputs.is_exist == 'true'      
         uses: slackapi/slack-github-action@v2.1.1
