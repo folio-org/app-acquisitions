@@ -55,33 +55,27 @@ jobs:
     runs-on: ubuntu-latest
     needs: prepare-app-release
     if: always() && inputs.dry_run == false && vars.SLACK_NOTIF_CHANNEL != ''
+    env:
+      SLACK_BOT_TOKEN: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
+      SLACK_NOTIF_CHANNEL: ${{ vars.SLACK_NOTIF_CHANNEL }}
     steps:
-      - name: Check Slack Bot Token existence
-        id: check-slack-bot-token-and-channel
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
-        run: |
-          set -eo pipefail
-
-          test -n "$SLACK_BOT_TOKEN" || echo "::error::EUREKA_CI_SLACK_BOT_TOKEN is not set"
-          echo "is_exist=$([ -n "$SLACK_BOT_TOKEN" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
       - name: Join Slack Channel
-        if: steps.check-slack-bot-token-and-channel.outputs.is_exist == 'true'      
+        if: env.SLACK_BOT_TOKEN != ''      
         uses: slackapi/slack-github-action@v2.1.1
         with:
           method: conversations.join
-          token: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
+          token: ${{ env.SLACK_BOT_TOKEN }}
           payload: |
-            channel: "${{ vars.SLACK_NOTIF_CHANNEL }}"
+            channel: "$SLACK_NOTIF_CHANNEL"
 
       - name: Send Global Slack Notification
-        if: steps.check-slack-bot-token-and-channel.outputs.is_exist == 'true'
+        if: env.SLACK_BOT_TOKEN != ''
         uses: slackapi/slack-github-action@v2.1.1
         with:
           method: chat.postMessage
-          token: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
+          token: ${{ env.SLACK_BOT_TOKEN }}
           payload: |
-            channel: "${{ vars.SLACK_NOTIF_CHANNEL }}"
+            channel: "$SLACK_NOTIF_CHANNEL"
             blocks:
               - type: section
                 text:
