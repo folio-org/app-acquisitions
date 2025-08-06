@@ -68,6 +68,7 @@ jobs:
           errors: true
           payload: |
             channel: "$SLACK_NOTIF_CHANNEL"
+            text: "Application Release Preparation"
             blocks:
               - type: section
                 text:
