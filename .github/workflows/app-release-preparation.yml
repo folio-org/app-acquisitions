@@ -57,7 +57,6 @@ jobs:
     if: always() && inputs.dry_run == false && vars.SLACK_NOTIF_CHANNEL != ''
     env:
       SLACK_BOT_TOKEN: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
-      SLACK_NOTIF_CHANNEL: ${{ vars.SLACK_NOTIF_CHANNEL }}
     steps:
       - name: Send Slack Notification
         if: env.SLACK_BOT_TOKEN != ''
@@ -67,7 +66,7 @@ jobs:
           token: ${{ env.SLACK_BOT_TOKEN }}
           errors: true
           payload: |
-            channel: "$SLACK_NOTIF_CHANNEL"
+            channel: "${{ vars.SLACK_NOTIF_CHANNEL }}"
             text: "Application Release Preparation"
             blocks:
               - type: section
