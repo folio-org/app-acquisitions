@@ -1,6 +1,6 @@
 name: Update Snapshot Application
 
-run-name: Application Release Branch Preparation ${{ github.event_name == 'schedule' && '[scheduled]' }}
+run-name: Application Release Branch Preparation ${{ github.event_name == 'schedule' && '[scheduled]' || '' }}
 
 on:
   schedule:
