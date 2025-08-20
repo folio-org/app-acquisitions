@@ -50,7 +50,7 @@ jobs:
       repo: ${{ github.repository }}
       branch: ${{ needs.update-application.outputs.branch }}
       new_version: ${{ needs.update-application.outputs.new_version }}
-      app_previous_version: ${{ needs.update-application.outputs.previous_version }}
+      previous_version: ${{ needs.update-application.outputs.previous_version }}
       updated_cnt: ${{ needs.update-application.outputs.updated_cnt }}
       updated_modules: ${{ needs.update-application.outputs.updated_modules }}
       failure_reason: ${{ needs.update-application.outputs.failure_reason }}
