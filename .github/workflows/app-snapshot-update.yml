@@ -26,7 +26,7 @@ on:
 
 jobs:
   update-application:
-    name: Snapshot Update POC
+    name: Update Application
     uses: folio-org/kitfox-github/.github/workflows/app-update.yml@RANCHER-2321-test #TODO: Switch to master before PR merge
     with:
       app_name: ${{ github.event.repository.name }}
