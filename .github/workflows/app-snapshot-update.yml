@@ -55,7 +55,6 @@ jobs:
     with:
       app_name: ${{ github.event.repository.name }}
       repo: ${{ github.repository }}
-      branch: ${{ needs.update-application.outputs.branch }}
       new_version: ${{ needs.update-application.outputs.new_version }}
       previous_version: ${{ needs.update-application.outputs.previous_version }}
       updated_cnt: ${{ needs.update-application.outputs.updated_cnt }}
