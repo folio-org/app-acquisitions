@@ -1,6 +1,6 @@
 {
   "name": "app-acquisitions",
-  "version": "1.2.0-SNAPSHOT.100000000000001",
+  "version": "1.2.0-SNAPSHOT.100100000000036",
   "description": "Application Descriptor Repository for the FOLIO Acquisitions application",
   "platform": "complete",
   "dependencies": [
@@ -12,39 +12,39 @@
   "modules": [
     {
       "name": "mod-organizations",
-      "version": "2.2.0-SNAPSHOT.73"
+      "version": "2.2.0-SNAPSHOT.74"
     },
     {
       "name": "mod-organizations-storage",
-      "version": "5.0.0-SNAPSHOT.128"
+      "version": "5.0.0-SNAPSHOT.129"
     },
     {
       "name": "mod-orders",
-      "version": "13.1.0-SNAPSHOT.1053"
+      "version": "13.1.0-SNAPSHOT.1063"
     },
     {
       "name": "mod-orders-storage",
-      "version": "14.0.0-SNAPSHOT.445"
+      "version": "14.0.0-SNAPSHOT.447"
     },
     {
       "name": "mod-invoice",
-      "version": "6.1.0-SNAPSHOT.480"
+      "version": "6.1.0-SNAPSHOT.486"
     },
     {
       "name": "mod-invoice-storage",
-      "version": "6.1.0-SNAPSHOT.177"
+      "version": "6.1.0-SNAPSHOT.178"
     },
     {
       "name": "mod-finance",
-      "version": "5.2.0-SNAPSHOT.295"
+      "version": "5.2.0-SNAPSHOT.298"
     },
     {
       "name": "mod-finance-storage",
-      "version": "8.9.0-SNAPSHOT.415"
+      "version": "8.9.0-SNAPSHOT.416"
     },
     {
       "name": "edge-orders",
-      "version": "3.3.0-SNAPSHOT.93"
+      "version": "3.3.0-SNAPSHOT.94"
     }
   ],
   "uiModules": [
