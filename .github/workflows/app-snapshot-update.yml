@@ -68,10 +68,11 @@ jobs:
   slack_notification:
     name: Slack Notification
     needs: update-application
-    matrix:
-      channel:
-        - ${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}
-        - ${{ vars.SLACK_NOTIF_CHANNEL }}
+    strategy:
+      matrix:
+        channel:
+          - ${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}
+          - ${{ vars.SLACK_NOTIF_CHANNEL }}
     if: >
       always() &&
       !(github.event_name == 'workflow_dispatch' && inputs.dry_run) &&
