@@ -1,6 +1,6 @@
 {
   "name": "app-acquisitions",
-  "version": "1.2.0-SNAPSHOT.100000000000001",
+  "version": "1.2.0-SNAPSHOT.100100000000117",
   "description": "Application Descriptor Repository for the FOLIO Acquisitions application",
   "platform": "complete",
   "dependencies": [
@@ -12,39 +12,39 @@
   "modules": [
     {
       "name": "mod-organizations",
-      "version": "2.2.0-SNAPSHOT.73"
+      "version": "2.2.0-SNAPSHOT.74"
     },
     {
       "name": "mod-organizations-storage",
-      "version": "5.0.0-SNAPSHOT.128"
+      "version": "5.0.0-SNAPSHOT.129"
     },
     {
       "name": "mod-orders",
-      "version": "13.1.0-SNAPSHOT.1053"
+      "version": "13.1.0-SNAPSHOT.1063"
     },
     {
       "name": "mod-orders-storage",
-      "version": "14.0.0-SNAPSHOT.445"
+      "version": "14.0.0-SNAPSHOT.447"
     },
     {
       "name": "mod-invoice",
-      "version": "6.1.0-SNAPSHOT.480"
+      "version": "6.1.0-SNAPSHOT.486"
     },
     {
       "name": "mod-invoice-storage",
-      "version": "6.1.0-SNAPSHOT.177"
+      "version": "6.1.0-SNAPSHOT.178"
     },
     {
       "name": "mod-finance",
-      "version": "5.2.0-SNAPSHOT.295"
+      "version": "5.2.0-SNAPSHOT.298"
     },
     {
       "name": "mod-finance-storage",
-      "version": "8.9.0-SNAPSHOT.415"
+      "version": "8.9.0-SNAPSHOT.416"
     },
     {
       "name": "edge-orders",
-      "version": "3.3.0-SNAPSHOT.93"
+      "version": "3.3.0-SNAPSHOT.94"
     }
   ],
   "uiModules": [
@@ -54,19 +54,19 @@
     },
     {
       "name": "folio_orders",
-      "version": "9.0.109900000000414"
+      "version": "9.0.109900000000492"
     },
     {
       "name": "folio_invoice",
-      "version": "8.0.109900000000264"
+      "version": "8.0.109900000000314"
     },
     {
       "name": "folio_finance",
-      "version": "9.0.109900000000348"
+      "version": "9.0.109900000000388"
     },
     {
       "name": "folio_receiving",
-      "version": "8.0.109900000000199"
+      "version": "8.0.109900000000223"
     },
     {
       "name": "folio_claims",
@@ -74,27 +74,27 @@
     },
     {
       "name": "folio_acquisition-units",
-      "version": "6.0.10990000000047"
+      "version": "6.0.10990000000054"
     },
     {
       "name": "folio_plugin-find-organization",
-      "version": "6.0.10990000000031"
+      "version": "6.0.10990000000038"
     },
     {
       "name": "folio_plugin-find-contact",
-      "version": "6.0.10990000000040"
+      "version": "6.0.10990000000047"
     },
     {
       "name": "folio_plugin-find-interface",
-      "version": "6.0.10990000000042"
+      "version": "6.0.10990000000049"
     },
     {
       "name": "folio_plugin-find-fund",
-      "version": "4.0.10990000000027"
+      "version": "4.0.10990000000036"
     },
     {
       "name": "folio_plugin-find-po-line",
-      "version": "6.0.10990000000059"
+      "version": "6.0.10990000000089"
     }
   ]
 }
