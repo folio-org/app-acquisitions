@@ -65,5 +65,5 @@ jobs:
       workflow_result: ${{ needs.prepare-app-release.result }}
       workflow_run_id: ${{ github.run_id }}
       workflow_run_number: ${{ github.run_number }}
-      slack_notif_channel: ${{ vars.SLACK_NOTIF_CHANNEL }}
+      slack_notif_channel: ${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }} # ${{ vars.SLACK_NOTIF_CHANNEL }}
     secrets: inherit
