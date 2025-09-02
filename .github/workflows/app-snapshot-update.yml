@@ -136,7 +136,7 @@ jobs:
     needs: update-application
     strategy:
       matrix:
-        channel: ${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}
+        channel: [ "${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}" ]
     if: >
       always() &&
       !(github.event_name == 'workflow_dispatch' && inputs.dry_run) &&
