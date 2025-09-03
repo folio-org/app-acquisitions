@@ -1,13 +1,148 @@
 name: Application Release Scan
 
+run-name: Application Release Scan ${{ github.event_name == 'schedule' && '[scheduled]' || '' }}
+
 on:
+  schedule:
+    - cron: "*/20 * * * *"
+  
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Perform dry run without creating PRs'
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: release-scan-${{ github.repository }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  CONFIG_FILE: ".github/release-scan-config.yml"
 
 jobs:
-  build:
+  get-branches:
+    name: Determine Branches
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.determine.outputs.matrix }}
+      has_branches: ${{ steps.determine.outputs.has_branches }}
     steps:
-      - name: Run a multi-line script
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: Determine Branches to Scan
+        id: determine
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          if [ ! -f "$CONFIG_FILE" ]; then
+            echo "::error::Configuration file not found: $CONFIG_FILE"
+            echo "matrix={\"branch\":[]}" >> "$GITHUB_OUTPUT"
+            echo "has_branches=false" >> "$GITHUB_OUTPUT"
+            exit 1
+          fi
+          
+          ENABLED=$(yq eval '.scan_config.enabled // true' "$CONFIG_FILE")
+          BRANCHES=$(yq -o=json '{branch: (.release_branches // [])}' "$CONFIG_FILE")
+          BRANCH_COUNT=$(yq -e '(.release_branches // []) | length' "$CONFIG_FILE")
+          HAS_BRANCHES=$([ $BRANCH_COUNT -gt 0 ] && echo true || echo false)
+          
+          echo "::notice::Found $BRANCH_COUNT branch(es) to scan"
+          [ "$ENABLED" != "true" ] && echo "::warning::Release scanning is disabled in configuration"
+          [ -z "$BRANCHES" ] && echo "::warning::No release branches configured for scanning"
+          echo "matrix=$BRANCHES" >> "$GITHUB_OUTPUT"
+          echo "has_branches=$HAS_BRANCHES" >> "$GITHUB_OUTPUT"
+
+  scan:
+    name: Scan ${{ matrix.branch }}
+    needs: get-branches
+    if: needs.get-branches.outputs.has_branches == 'true'
+    strategy:
+      matrix: ${{ fromJson(needs.get-branches.outputs.matrix) }}
+      fail-fast: false
+      max-parallel: 3
+    uses: folio-org/kitfox-github/.github/workflows/app-release-scan.yml@RANCHER-2323-test #TODO: Change to master when ready
+    with:
+      app_name: ${{ github.event.repository.name }}
+      repo: ${{ github.repository }}
+      release_branch: ${{ matrix.branch }}
+      workflow_run_number: ${{ github.run_number }}
+      dry_run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+    secrets: inherit
+
+#  summary:
+#    name: Summary
+#    needs: [get-branches, scan]
+#    if: always()
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Generate Summary
+#        run: |
+#          {
+#            echo "## 📋 Release Branch Scan Summary"
+#            echo ""
+#            echo "### 🔍 Scan Information"
+#            echo "- **Application:** \`${{ github.repository }}\`"
+#            echo "- **Trigger:** ${{ github.event_name == 'schedule' && '⏰ Scheduled' || github.event_name == 'workflow_dispatch' && '👤 Manual' || '❓ Unknown' }}"
+#            if [[ "${{ github.event_name }}" == "workflow_dispatch" ]] && [[ -n "${{ inputs.release_branch }}" ]]; then
+#              echo "- **Target Branch:** \`${{ inputs.release_branch }}\`"
+#            fi
+#            echo "- **Time:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+#            echo "- **Run:** [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+#            echo ""
+#
+#            if [[ "${{ needs.get-branches.outputs.has_branches }}" != "true" ]]; then
+#              echo "### ⚠️ No Branches Scanned"
+#              echo ""
+#              echo "**Possible reasons:**"
+#              echo "- No \`.github/release-scan-config.yml\` file found"
+#              echo "- Scanning is disabled in configuration"
+#              echo "- No release branches configured"
+#              echo "- All branches are excluded"
+#              echo ""
+#              echo "To enable scanning, create \`.github/release-scan-config.yml\` with:"
+#              echo "\`\`\`yaml"
+#              echo "release_branches:"
+#              echo "  - R1-2025"
+#              echo "  - R2-2024"
+#              echo "scan_config:"
+#              echo "  enabled: true"
+#              echo "\`\`\`"
+#            else
+#              echo "### 📊 Results"
+#              echo ""
+#
+#              if [[ "${{ needs.scan.result }}" == "success" ]]; then
+#                echo "✅ **Status:** All branch scans completed successfully"
+#                echo ""
+#                echo "Check individual branch jobs above for:"
+#                echo "- Module updates found"
+#                echo "- Pull requests created"
+#                echo "- Version changes"
+#              elif [[ "${{ needs.scan.result }}" == "failure" ]]; then
+#                echo "⚠️ **Status:** Some scans failed"
+#                echo ""
+#                echo "Review the failed jobs above for error details."
+#              elif [[ "${{ needs.scan.result }}" == "skipped" ]]; then
+#                echo "⏭️ **Status:** Scans were skipped"
+#              else
+#                echo "❓ **Status:** Unknown result: ${{ needs.scan.result }}"
+#              fi
+#            fi
+#
+#            echo ""
+#            echo "### ℹ️ About This Workflow"
+#            echo ""
+#            echo "This workflow automatically:"
+#            echo "1. Reads release branches from \`.github/release-scan-config.yml\`"
+#            echo "2. Checks each branch for available module updates"
+#            echo "3. Creates pull requests when updates are found"
+#            echo "4. Runs on schedule (every 20 minutes) or manually"
+#            echo ""
+#            echo "---"
+#            echo "_Part of the FOLIO Release CI system (RANCHER-2323)_"
+#          } >> $GITHUB_STEP_SUMMARY
