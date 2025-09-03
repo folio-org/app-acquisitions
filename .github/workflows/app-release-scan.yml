@@ -48,7 +48,13 @@ jobs:
             echo "::error::Configuration file not found: $CONFIG_FILE"
             ENABLED=false; BRANCHES=''; BRANCH_COUNT=0
           else
-            ENABLED=$(yq eval '.scan_config.enabled // true' "$CONFIG_FILE" 2>/dev/null || echo false)
+            ENABLED=ENABLED=$(yq eval '
+                if has("scan_config") and (.scan_config | has("enabled")) then
+                .scan_config.enabled
+                else
+                true
+                end
+              ' "$CONFIG_FILE" | tr -d "\r")
             BRANCHES=$(yq eval -o=json -I=0 '.release_branches // []' "$CONFIG_FILE")
             BRANCH_COUNT=$(yq -e '(.release_branches // []) | length' "$CONFIG_FILE")
           
