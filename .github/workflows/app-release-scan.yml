@@ -39,7 +39,7 @@ jobs:
       - name: Determine Branches to Scan
         id: determine
         run: |
-          [ ! -f "$CONFIG_FILE" ] && { echo "::error::Configuration file not found: $CONFIG_FILE"; exit 1 }
+          [ ! -f "$CONFIG_FILE" ] && { echo "::error::Configuration file not found: $CONFIG_FILE"; exit 1; }
           
           ENABLED=$(yq eval '.scan_config.enabled // true' "$CONFIG_FILE")
           BRANCHES=$(yq -o=json '{branch: (.release_branches // [])}' "$CONFIG_FILE")
