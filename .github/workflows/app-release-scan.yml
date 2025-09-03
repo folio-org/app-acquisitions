@@ -81,7 +81,7 @@ jobs:
           mapfile -t branches < <(jq -r '.[]?' <<<"${BRANCHES:-'[]'}")
           
           filtered=()
-          for b in "${BRANCHES[@]}"; do
+          for b in "${branches[@]}"; do
             if git ls-remote --exit-code --heads origin "refs/heads/$b" >/dev/null 2>&1 || \
                git ls-remote --exit-code --heads origin "$b" >/dev/null 2>&1; then
               filtered+=("$b")
@@ -93,7 +93,7 @@ jobs:
           matrix_json=$(jq -n --argjson arr "$(printf '%s\n' "${filtered[@]}" | jq -R . | jq -s .)" '{branch:$arr}')
           
           echo "::notice::Exist ${#filtered[@]} branch(es) to scan"
-          echo "::notice::Branches: ${filtered[*]}"
+          [ ${#filtered[@]} -gt 0 ] && echo "::notice::Branches: ${filtered[*]}"
           
           echo "matrix=$matrix_json" >> "$GITHUB_OUTPUT"
           echo "branch_count=${#filtered[@]}" >> "$GITHUB_OUTPUT"
