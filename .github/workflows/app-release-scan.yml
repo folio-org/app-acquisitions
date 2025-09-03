@@ -89,12 +89,12 @@ jobs:
             fi
           done
 
-          matrix_json=$(jq -c -n --argjson arr "$(printf '%s\n' "${filtered[@]}" | jq -R . | jq -s .)" '{branch:$arr}')
+          json_array=$(printf '%s\n' "${filtered[@]}" | jq -R . | jq -s .)
           
           echo "::notice::Exist ${#filtered[@]} branch(es) to scan"
           [ ${#filtered[@]} -gt 0 ] && echo "::notice::Branches: ${filtered[*]}"
           
-          echo "branches=$matrix_json" >> "$GITHUB_OUTPUT"
+          echo "branches=$json_array" >> "$GITHUB_OUTPUT"
           echo "branch_count=${#filtered[@]}" >> "$GITHUB_OUTPUT"
 
   scan:
