@@ -1,5 +1,5 @@
 scan_config:
-  enabled: true
+  enabled: false
 
 release_branches:
   - R1-2025
