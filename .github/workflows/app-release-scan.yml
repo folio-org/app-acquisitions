@@ -54,6 +54,10 @@ jobs:
           
             echo "::notice::enabled from config: '$ENABLED'"
           
+            echo "::group::Debug scan_config block"
+            yq eval '.scan_config' "$CONFIG_FILE" || true
+            echo "::endgroup::"
+          
             [ "$ENABLED" != "true" ] && echo "::warning::Release scanning is disabled in configuration"
             [ -z "$BRANCHES" ] && echo "::warning::No release branches configured for scanning"
             echo "::notice::Found $BRANCH_COUNT branch(es) to scan"
