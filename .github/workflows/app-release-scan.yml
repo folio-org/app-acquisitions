@@ -30,7 +30,7 @@ jobs:
     name: Determine Branches
     runs-on: ubuntu-latest
     outputs:
-      branches: ${{ steps.check.outputs.branches }}
+      matrix: ${{ steps.check.outputs.matrix }}
       enabled: ${{ steps.determine.outputs.enabled }}
       branch_count: ${{ steps.check.outputs.branch_count }}
     steps:
@@ -71,7 +71,7 @@ jobs:
           set -eo pipefail
           
           if [ "$ENABLED" != "true" ]; then
-            echo "branches=[]" >> "$GITHUB_OUTPUT"
+            echo 'matrix={"include":[]}' >> "$GITHUB_OUTPUT"
             echo "branch_count=0" >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -80,33 +80,28 @@ jobs:
           
           mapfile -t branches < <(jq -r '.[]?' <<<"${BRANCHES:-'[]'}")
           
-          filtered=()
+          include='[]'
           for b in "${branches[@]}"; do
             if git ls-remote --exit-code --heads origin "$b" >/dev/null 2>&1; then
-              filtered+=("$b")
+              include=$(jq -c --arg b "$b" '. + [{branch:$b}]' <<<"$include")
             else
               echo "::warning::Branch '$b' not found; skipping"
             fi
           done
 
-          echo "::notice::Exist ${#filtered[@]} branch(es) to scan"
-          [ ${#filtered[@]} -gt 0 ] && echo "::notice::Branches: ${filtered[*]}"
+          count=$(jq 'length' <<<"$include")
           
-          if [ ${#filtered[@]} -eq 0 ]; then
-            echo "branches=[]" >> "$GITHUB_OUTPUT"
-            echo "branch_count=0" >> "$GITHUB_OUTPUT"
-          else
-            arr_json=$(printf '%s\n' "${filtered[@]}" | jq -R -s 'split("\n")[:-1]')
-            echo "branches=$arr_json" >> "$GITHUB_OUTPUT"
-            echo "branch_count=${#filtered[@]}" >> "$GITHUB_OUTPUT"
-          fi
+          echo "::notice::Exist $count branch(es) to scan"
+          [ $count -gt 0 ] && echo "::notice::Branches: $(jq -r 'map(.branch) | join(", ")' <<<"$include")"
+          
+          echo "branch_count=$count" >> "$GITHUB_OUTPUT"
+          echo "$(jq -c -n --argjson inc "$include" '{include:$inc}')" | sed 's/^/matrix=/' >> "$GITHUB_OUTPUT"
 
   scan:
     name: Scan ${{ matrix.branch }}
     needs: get-branches
     strategy:
-      matrix:
-        branches: ${{ fromJSON(needs.get-branches.outputs.branches) }}
+      matrix: ${{ fromJSON(needs.get-branches.outputs.matrix) }}
       fail-fast: false
       max-parallel: 3
     uses: folio-org/kitfox-github/.github/workflows/app-release-scan.yml@RANCHER-2323-test #TODO: Change to master when ready
