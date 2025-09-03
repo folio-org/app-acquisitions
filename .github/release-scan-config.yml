@@ -1,0 +1,6 @@
+scan_config:
+  enabled: true
+
+release_branches:
+  - R1-2025
+  - R2-2024
