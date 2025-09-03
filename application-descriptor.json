@@ -1,6 +1,6 @@
 {
   "name": "app-acquisitions",
-  "version": "1.2.0-SNAPSHOT.100000000000001",
+  "version": "2.0.0",
   "description": "Application Descriptor Repository for the FOLIO Acquisitions application",
   "platform": "complete",
   "dependencies": [
@@ -12,89 +12,89 @@
   "modules": [
     {
       "name": "mod-organizations",
-      "version": "2.2.0-SNAPSHOT.73"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "mod-organizations-storage",
-      "version": "5.0.0-SNAPSHOT.128"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "mod-orders",
-      "version": "13.1.0-SNAPSHOT.1053"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "mod-orders-storage",
-      "version": "14.0.0-SNAPSHOT.445"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "mod-invoice",
-      "version": "6.1.0-SNAPSHOT.480"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "mod-invoice-storage",
-      "version": "6.1.0-SNAPSHOT.177"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "mod-finance",
-      "version": "5.2.0-SNAPSHOT.295"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "mod-finance-storage",
-      "version": "8.9.0-SNAPSHOT.415"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "edge-orders",
-      "version": "3.3.0-SNAPSHOT.93"
+      "version": "<CHANGE_ME>"
     }
   ],
   "uiModules": [
     {
       "name": "folio_organizations",
-      "version": "7.0.10990000000098"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "folio_orders",
-      "version": "9.0.109900000000414"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "folio_invoice",
-      "version": "8.0.109900000000264"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "folio_finance",
-      "version": "9.0.109900000000348"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "folio_receiving",
-      "version": "8.0.109900000000199"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "folio_claims",
-      "version": "2.0.109900000000198"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "folio_acquisition-units",
-      "version": "6.0.10990000000047"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "folio_plugin-find-organization",
-      "version": "6.0.10990000000031"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "folio_plugin-find-contact",
-      "version": "6.0.10990000000040"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "folio_plugin-find-interface",
-      "version": "6.0.10990000000042"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "folio_plugin-find-fund",
-      "version": "4.0.10990000000027"
+      "version": "<CHANGE_ME>"
     },
     {
       "name": "folio_plugin-find-po-line",
-      "version": "6.0.10990000000059"
+      "version": "<CHANGE_ME>"
     }
   ]
 }
