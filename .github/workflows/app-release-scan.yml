@@ -89,7 +89,7 @@ jobs:
             fi
           done
 
-          json_array=$(printf '%s\n' "${filtered[@]}" | jq -R . | jq -s .)
+          json_array=$(printf '%s\n' "${filtered[@]}" | jq -R . | jq -cs .)
           
           echo "::notice::Exist ${#filtered[@]} branch(es) to scan"
           [ ${#filtered[@]} -gt 0 ] && echo "::notice::Branches: ${filtered[*]}"
