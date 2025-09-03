@@ -97,7 +97,7 @@ jobs:
             echo "branch_count=0" >> "$GITHUB_OUTPUT"
           else
             arr_json=$(printf '%s\n' "${filtered[@]}" | jq -R -s 'split("\n")[:-1]')
-            echo "branches=$arr_json" >> "$GITHUB_OUTPUT"           # compact one-line JSON array
+            echo "branches=$arr_json" >> "$GITHUB_OUTPUT"
             echo "branch_count=${#filtered[@]}" >> "$GITHUB_OUTPUT"
           fi
 
