@@ -30,8 +30,9 @@ jobs:
     name: Determine Branches
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.determine.outputs.matrix }}
-      has_branches: ${{ steps.determine.outputs.has_branches }}
+      matrix: ${{ steps.check.outputs.matrix }}
+      enabled: ${{ steps.determine.outputs.enabled }}
+      branch_count: ${{ steps.check.outputs.branch_count }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -39,24 +40,67 @@ jobs:
       - name: Determine Branches to Scan
         id: determine
         run: |
-          [ ! -f "$CONFIG_FILE" ] && { echo "::error::Configuration file not found: $CONFIG_FILE"; exit 1; }
+          set -eo pipefail
           
-          ENABLED=$(yq eval '.scan_config.enabled // true' "$CONFIG_FILE" 2>/dev/null || echo false)
-          BRANCHES=$(yq eval -o=json -I=0 '.release_branches // []' "$CONFIG_FILE")
-          BRANCHES=$(printf '{"branch":%s}' "$BRANCHES")
-          BRANCH_COUNT=$(yq -e '(.release_branches // []) | length' "$CONFIG_FILE")
-          HAS_BRANCHES=$([ $BRANCH_COUNT -gt 0 ] && echo true || echo false)
+          echo "::notice::Reading configuration from $CONFIG_FILE"
           
-          echo "::notice::Found $BRANCH_COUNT branch(es) to scan"
-          [ "$ENABLED" != "true" ] && echo "::warning::Release scanning is disabled in configuration"
-          [ -z "$BRANCHES" ] && echo "::warning::No release branches configured for scanning"
-          echo "matrix=$BRANCHES" >> "$GITHUB_OUTPUT"
-          echo "has_branches=$HAS_BRANCHES" >> "$GITHUB_OUTPUT"
+          if [ ! -f "$CONFIG_FILE" ]; then
+            echo "::error::Configuration file not found: $CONFIG_FILE"
+            ENABLED=false; BRANCHES=''; BRANCH_COUNT=0
+          else
+            ENABLED=$(yq eval '.scan_config.enabled // true' "$CONFIG_FILE" 2>/dev/null || echo false)
+            BRANCHES=$(yq eval -o=json -I=0 '.release_branches // []' "$CONFIG_FILE")
+            BRANCH_COUNT=$(yq -e '(.release_branches // []) | length' "$CONFIG_FILE")
+          
+            [ "$ENABLED" != "true" ] && echo "::warning::Release scanning is disabled in configuration"
+            [ -z "$BRANCHES" ] && echo "::warning::No release branches configured for scanning"
+            echo "::notice::Found $BRANCH_COUNT branch(es) to scan"
+            echo "::notice::Branches: $BRANCHES"
+          fi
+          
+          echo "branches=$BRANCHES" >> "$GITHUB_OUTPUT"
+          echo "enabled=$ENABLED" >> "$GITHUB_OUTPUT"
+          echo "branch_count=$BRANCH_COUNT" >> "$GITHUB_OUTPUT"
+      - name: Check branches
+        id: check
+        env:
+          ENABLED: ${{ steps.determine.outputs.enabled }}
+          BRANCHES: ${{ steps.determine.outputs.branches }}
+          BRANCH_COUNT: ${{ steps.determine.outputs.branch_count }}
+        run: |
+          set -eo pipefail
+          
+          if [ "$ENABLED" != "true" ]; then
+            echo "matrix={\"branch\":[]}" >> "$GITHUB_OUTPUT"
+            echo "branch_count=$BRANCH_COUNT" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          
+          echo "::notice::Checking branches exist"
+          
+          mapfile -t branches < <(jq -r '.[]?' <<<"${BRANCHES:-'[]'}")
+          
+          filtered=()
+          for b in "${BRANCHES[@]}"; do
+            if git ls-remote --exit-code --heads origin "refs/heads/$b" >/dev/null 2>&1 || \
+               git ls-remote --exit-code --heads origin "$b" >/dev/null 2>&1; then
+              filtered+=("$b")
+            else
+              echo "::warning::Branch '$b' not found; skipping"
+            fi
+          done
+
+          matrix_json=$(jq -n --argjson arr "$(printf '%s\n' "${filtered[@]}" | jq -R . | jq -s .)" '{branch:$arr}')
+          
+          echo "::notice::Exist ${#filtered[@]} branch(es) to scan"
+          echo "::notice::Branches: ${filtered[*]}"
+          
+          echo "matrix=$matrix_json" >> "$GITHUB_OUTPUT"
+          echo "branch_count=${#filtered[@]}" >> "$GITHUB_OUTPUT"
 
   scan:
     name: Scan ${{ matrix.branch }}
     needs: get-branches
-    if: needs.get-branches.outputs.has_branches == 'true'
     strategy:
       matrix: ${{ fromJson(needs.get-branches.outputs.matrix) }}
       fail-fast: false
