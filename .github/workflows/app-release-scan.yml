@@ -52,6 +52,8 @@ jobs:
             BRANCHES=$(yq eval -o=json -I=0 '.release_branches // []' "$CONFIG_FILE")
             BRANCH_COUNT=$(yq -e '(.release_branches // []) | length' "$CONFIG_FILE")
           
+            echo "::notice::enabled from config: '$ENABLED'"
+          
             [ "$ENABLED" != "true" ] && echo "::warning::Release scanning is disabled in configuration"
             [ -z "$BRANCHES" ] && echo "::warning::No release branches configured for scanning"
             echo "::notice::Found $BRANCH_COUNT branch(es) to scan"
