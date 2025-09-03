@@ -90,7 +90,7 @@ jobs:
             fi
           done
 
-          matrix_json=$(jq -n --argjson arr "$(printf '%s\n' "${filtered[@]}" | jq -R . | jq -s .)" '{branch:$arr}')
+          matrix_json=$(jq -c -n --argjson arr "$(printf '%s\n' "${filtered[@]}" | jq -R . | jq -s .)" '{branch:$arr}')
           
           echo "::notice::Exist ${#filtered[@]} branch(es) to scan"
           [ ${#filtered[@]} -gt 0 ] && echo "::notice::Branches: ${filtered[*]}"
