@@ -1,5 +1,9 @@
 scan_config:
   enabled: true
+  
+  # Reviewers to add to auto-generated PRs (comma-separated)
+  # Use format: username for users, org/team-name for teams
+  pr_reviewers: ''
 
 release_branches:
   - R1-2025
