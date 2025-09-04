@@ -33,6 +33,7 @@ jobs:
       branches: ${{ steps.check.outputs.branches }}
       enabled: ${{ steps.determine.outputs.enabled }}
       branch_count: ${{ steps.check.outputs.branch_count }}
+      pr_reviewers: ${{ steps.determine.outputs.pr_reviewers }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -57,16 +58,19 @@ jobs:
           
             BRANCHES=$(yq eval -o=json -I=0 '.release_branches // []' "$CONFIG_FILE")
             BRANCH_COUNT=$(yq -e '(.release_branches // []) | length' "$CONFIG_FILE")
+            PR_REVIEWERS=$(yq eval '.scan_config.pr_reviewers // ""' "$CONFIG_FILE")
           
             [ "$ENABLED" != "true" ] && echo "::warning::Release scanning is disabled in configuration"
             [ -z "$BRANCHES" ] && echo "::warning::No release branches configured for scanning"
             echo "::notice::Found $BRANCH_COUNT branch(es) to scan"
             echo "::notice::Branches: $BRANCHES"
+            [ -n "$PR_REVIEWERS" ] && echo "::notice::PR Reviewers: $PR_REVIEWERS"
           fi
           
           echo "branches=$BRANCHES" >> "$GITHUB_OUTPUT"
           echo "enabled=$ENABLED" >> "$GITHUB_OUTPUT"
           echo "branch_count=$BRANCH_COUNT" >> "$GITHUB_OUTPUT"
+          echo "pr_reviewers=${PR_REVIEWERS:-}" >> "$GITHUB_OUTPUT"
       - name: Check branches
         id: check
         env:
@@ -119,6 +123,7 @@ jobs:
       release_branch: ${{ matrix.branch }}
       workflow_run_number: ${{ github.run_number }}
       dry_run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+      pr_reviewers: ${{ needs.get-branches.outputs.pr_reviewers }}
     secrets: inherit
 
 #  summary:
