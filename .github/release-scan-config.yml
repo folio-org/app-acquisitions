@@ -1,9 +1,9 @@
 scan_config:
   enabled: true
-  
-  # Reviewers to add to auto-generated PRs (comma-separated)
-  # Use format: username for users, org/team-name for teams
-  pr_reviewers: ''
+
+  pr_reviewers:
+    - folio-org/kitfox
+    - folio-org/acquisitions
 
 release_branches:
   - R1-2025
