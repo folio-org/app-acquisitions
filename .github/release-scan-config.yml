@@ -1,6 +1,14 @@
 scan_config:
   enabled: true
-
+  
+  # Reviewers to add to auto-generated PRs
+  # Can be either:
+  #   - Array format (recommended):
+  #     pr_reviewers:
+  #       - username
+  #       - folio-org/team-name
+  #   - String format:
+  #     pr_reviewers: 'username,folio-org/team-name'
   pr_reviewers:
     - folio-org/kitfox
     - folio-org/acquisitions

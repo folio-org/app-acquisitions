@@ -59,7 +59,8 @@ jobs:
           
             BRANCHES=$(yq eval -o=json -I=0 '.release_branches // []' "$CONFIG_FILE")
             BRANCH_COUNT=$(yq -e '(.release_branches // []) | length' "$CONFIG_FILE")
-            PR_REVIEWERS=$(yq eval '.scan_config.pr_reviewers // ""' "$CONFIG_FILE")
+            PR_REVIEWERS=$(yq eval -o=json -I=0 '.scan_config.pr_reviewers // []' "$CONFIG_FILE" | \
+               jq -r 'if type == "array" then join(",") elif type == "string" then . else "" end')
           
             [ "$ENABLED" != "true" ] && echo "::warning::Release scanning is disabled in configuration"
             [ -z "$BRANCHES" ] && echo "::warning::No release branches configured for scanning"
