@@ -12,6 +12,7 @@ scan_config:
   pr_reviewers:
 #    - eldiiar-duishenaliev
     - epam-avramenko
+    - OHaimanov
 #    - folio-org/kitfox
 #    - folio-org/acquisitions
 
