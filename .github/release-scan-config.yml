@@ -13,8 +13,8 @@ scan_config:
     - eldiiar-duishenaliev
     - epam-avramenko
     - OHaimanov
-#    - folio-org/kitfox
-#    - folio-org/acquisitions
+    - folio-org/kitfox
+    - folio-org/acquisitions
 
 release_branches:
   - R1-2025
