@@ -9,7 +9,7 @@ scan_config:
   #       - folio-org/team-name
   #   - String format:
   #     pr_reviewers: 'username,folio-org/team-name'
-  pr_reviewers: 'epam-avramenko, OHaimanov'
+  pr_reviewers: 'epam-avramenko, folio-org/kitfox'
 #    - eldiiar-duishenaliev
 #    - epam-avramenko
 #    - OHaimanov
