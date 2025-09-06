@@ -16,7 +16,7 @@
     },
     {
       "name": "mod-organizations-storage",
-      "version": "<CHANGE_ME>"
+      "version": "4.9.0"
     },
     {
       "name": "mod-orders",
