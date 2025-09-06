@@ -32,6 +32,12 @@ on:
       pr_url:
         description: 'URL of the created PR'
         value: ${{ jobs.scan.outputs.pr_url }}
+      workflow_status:
+        description: 'Overall workflow status'
+        value: ${{ jobs.scan.outputs.workflow_status }}
+      failure_reason:
+        description: 'Reason for workflow failure if any'
+        value: ${{ jobs.scan.outputs.failure_reason }}
 
 permissions:
   contents: write
@@ -86,7 +92,7 @@ jobs:
           workflow_result: ${{ needs.scan.result }}
           workflow_run_id: ${{ github.run_id }}
           workflow_run_number: ${{ github.run_number }}
-          error_message: ${{ needs.scan.result == 'failure' && format('Scan failed for branch {0}', inputs.release_branch) || '' }}
+          error_message: ${{ needs.scan.outputs.failure_reason || (needs.scan.result == 'failure' && format('Scan failed for branch {0}', inputs.release_branch) || '') }}
           slack_channel: # ${{ vars.SLACK_NOTIF_CHANNEL }} uncomment when ready to send to project channel
           slack_bot_token: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
 
@@ -110,7 +116,7 @@ jobs:
           workflow_result: ${{ needs.scan.result }}
           workflow_run_id: ${{ github.run_id }}
           workflow_run_number: ${{ github.run_number }}
-          error_message: ${{ needs.scan.result == 'failure' && format('Scan failed for branch {0}', inputs.release_branch) || '' }}
+          error_message: ${{ needs.scan.outputs.failure_reason || (needs.scan.result == 'failure' && format('Scan failed for branch {0}', inputs.release_branch) || '') }}
           slack_channel: ${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}
           slack_bot_token: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
 
@@ -133,6 +139,8 @@ jobs:
           UPDATED_MODULES: ${{ needs.scan.outputs.updated_modules }}
           SUCCESSFUL_REVIEWERS: ${{ needs.scan.outputs.successful_reviewers }}
           FAILED_REVIEWERS: ${{ needs.scan.outputs.failed_reviewers }}
+          WORKFLOW_STATUS: ${{ needs.scan.outputs.workflow_status }}
+          FAILURE_REASON: ${{ needs.scan.outputs.failure_reason }}
           PROJECT_NOTIF_SENT: ${{ needs.notify.outputs.project_notification_sent }}
           PROJECT_NOTIF_STATUS: ${{ needs.notify.outputs.project_notification_status }}
           GENERAL_NOTIF_SENT: ${{ needs.notify.outputs.general_notification_sent }}
@@ -190,7 +198,11 @@ jobs:
               fi
             elif [[ "$SCAN_RESULT" == "failure" ]]; then
               echo "❌ **Scan Result:** Failed"
-              echo "- Check the scan job logs for details"
+              if [[ -n "$FAILURE_REASON" ]]; then
+                echo "- **Reason:** $FAILURE_REASON"
+              else
+                echo "- Check the scan job logs for details"
+              fi
             elif [[ "$SCAN_RESULT" == "cancelled" ]]; then
               echo "⚠️ **Scan Result:** Cancelled"
             else
