@@ -23,93 +23,14 @@ permissions:
   pull-requests: write
   issues: write
 
-env:
-  CONFIG_FILE: ".github/release-scan-config.yml"
-
 jobs:
   get-branches:
     name: Determine Branches
-    runs-on: ubuntu-latest
-    outputs:
-      branches: ${{ steps.check.outputs.branches }}
-      enabled: ${{ steps.determine.outputs.enabled }}
-      branch_count: ${{ steps.check.outputs.branch_count }}
-      pr_reviewers: ${{ steps.determine.outputs.pr_reviewers }}
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    uses: folio-org/kitfox-github/.github/workflows/app-release-scan-get-branches.yml@RANCHER-2323-test #TODO: Change to master when ready
+    with:
+      config_file: '.github/release-scan-config.yml'
 
-      - name: Determine Branches to Scan
-        id: determine
-        run: |
-          set -eo pipefail
-          
-          echo "::notice::Reading configuration from $CONFIG_FILE"
-          
-          if [ ! -f "$CONFIG_FILE" ]; then
-            echo "::error::Configuration file not found: $CONFIG_FILE"
-            ENABLED=false; BRANCHES=''; BRANCH_COUNT=0
-          else
-            raw_enabled=$(yq eval '.scan_config.enabled' "$CONFIG_FILE" 2>/dev/null | tr -d '\r' | tr 'A-Z' 'a-z')
-            if [[ "$raw_enabled" == "true" || "$raw_enabled" == "false" ]]; then
-              ENABLED="$raw_enabled"
-            else
-              ENABLED="false"
-            fi
-          
-            BRANCHES=$(yq eval -o=json -I=0 '.release_branches // []' "$CONFIG_FILE")
-            BRANCH_COUNT=$(yq -e '(.release_branches // []) | length' "$CONFIG_FILE")
-            PR_REVIEWERS=$(yq eval -o=json -I=0 '.scan_config.pr_reviewers // []' "$CONFIG_FILE" | \
-               jq -r 'if type == "array" then join(",") elif type == "string" then . else "" end')
-          
-            [ "$ENABLED" != "true" ] && echo "::warning::Release scanning is disabled in configuration"
-            [ -z "$BRANCHES" ] && echo "::warning::No release branches configured for scanning"
-            echo "::notice::Found $BRANCH_COUNT branch(es) to scan"
-            echo "::notice::Branches: $BRANCHES"
-            [ -n "$PR_REVIEWERS" ] && echo "::notice::PR Reviewers: $PR_REVIEWERS"
-          fi
-          
-          echo "branches=$BRANCHES" >> "$GITHUB_OUTPUT"
-          echo "enabled=$ENABLED" >> "$GITHUB_OUTPUT"
-          echo "branch_count=$BRANCH_COUNT" >> "$GITHUB_OUTPUT"
-          echo "pr_reviewers=${PR_REVIEWERS:-}" >> "$GITHUB_OUTPUT"
-      - name: Check branches
-        id: check
-        env:
-          ENABLED: ${{ steps.determine.outputs.enabled }}
-          BRANCHES: ${{ steps.determine.outputs.branches }}
-          BRANCH_COUNT: ${{ steps.determine.outputs.branch_count }}
-        run: |
-          set -eo pipefail
-          
-          if [ "$ENABLED" != "true" ]; then
-            echo "branches=[]" >> "$GITHUB_OUTPUT"
-            echo "branch_count=0" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          
-          echo "::notice::Checking branches exist"
-          
-          mapfile -t branches < <(jq -r '.[]?' <<<"${BRANCHES:-'[]'}")
-          
-          filtered=()
-          for b in "${branches[@]}"; do
-            if git ls-remote --exit-code --heads origin "$b" >/dev/null 2>&1; then
-              filtered+=("$b")
-            else
-              echo "::warning::Branch '$b' not found; skipping"
-            fi
-          done
-
-          json_array=$(printf '%s\n' "${filtered[@]}" | jq -R . | jq -cs .)
-          
-          echo "::notice::Exist ${#filtered[@]} branch(es) to scan"
-          [ ${#filtered[@]} -gt 0 ] && echo "::notice::Branches: ${filtered[*]}"
-          
-          echo "branches=$json_array" >> "$GITHUB_OUTPUT"
-          echo "branch_count=${#filtered[@]}" >> "$GITHUB_OUTPUT"
-
-  scan:
+  scan-branches:
     name: Scan ${{ matrix.branch }}
     needs: get-branches
     if: needs.get-branches.outputs.branch_count > 0
@@ -118,85 +39,9 @@ jobs:
         branch: ${{ fromJson(needs.get-branches.outputs.branches) }}
       fail-fast: false
       max-parallel: 3
-    uses: folio-org/kitfox-github/.github/workflows/app-release-scan.yml@RANCHER-2323-test #TODO: Change to master when ready
+    uses: ./.github/workflows/app-release-scan-single-branch.yml
     with:
-      app_name: ${{ github.event.repository.name }}
-      repo: ${{ github.repository }}
       release_branch: ${{ matrix.branch }}
-      workflow_run_number: ${{ github.run_number }}
       dry_run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
       pr_reviewers: ${{ needs.get-branches.outputs.pr_reviewers }}
     secrets: inherit
-
-#  summary:
-#    name: Summary
-#    needs: [get-branches, scan]
-#    if: always()
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Generate Summary
-#        run: |
-#          {
-#            echo "## 📋 Release Branch Scan Summary"
-#            echo ""
-#            echo "### 🔍 Scan Information"
-#            echo "- **Application:** \`${{ github.repository }}\`"
-#            echo "- **Trigger:** ${{ github.event_name == 'schedule' && '⏰ Scheduled' || github.event_name == 'workflow_dispatch' && '👤 Manual' || '❓ Unknown' }}"
-#            if [[ "${{ github.event_name }}" == "workflow_dispatch" ]] && [[ -n "${{ inputs.release_branch }}" ]]; then
-#              echo "- **Target Branch:** \`${{ inputs.release_branch }}\`"
-#            fi
-#            echo "- **Time:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-#            echo "- **Run:** [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
-#            echo ""
-#
-#            if [[ "${{ needs.get-branches.outputs.has_branches }}" != "true" ]]; then
-#              echo "### ⚠️ No Branches Scanned"
-#              echo ""
-#              echo "**Possible reasons:**"
-#              echo "- No \`.github/release-scan-config.yml\` file found"
-#              echo "- Scanning is disabled in configuration"
-#              echo "- No release branches configured"
-#              echo "- All branches are excluded"
-#              echo ""
-#              echo "To enable scanning, create \`.github/release-scan-config.yml\` with:"
-#              echo "\`\`\`yaml"
-#              echo "release_branches:"
-#              echo "  - R1-2025"
-#              echo "  - R2-2024"
-#              echo "scan_config:"
-#              echo "  enabled: true"
-#              echo "\`\`\`"
-#            else
-#              echo "### 📊 Results"
-#              echo ""
-#
-#              if [[ "${{ needs.scan.result }}" == "success" ]]; then
-#                echo "✅ **Status:** All branch scans completed successfully"
-#                echo ""
-#                echo "Check individual branch jobs above for:"
-#                echo "- Module updates found"
-#                echo "- Pull requests created"
-#                echo "- Version changes"
-#              elif [[ "${{ needs.scan.result }}" == "failure" ]]; then
-#                echo "⚠️ **Status:** Some scans failed"
-#                echo ""
-#                echo "Review the failed jobs above for error details."
-#              elif [[ "${{ needs.scan.result }}" == "skipped" ]]; then
-#                echo "⏭️ **Status:** Scans were skipped"
-#              else
-#                echo "❓ **Status:** Unknown result: ${{ needs.scan.result }}"
-#              fi
-#            fi
-#
-#            echo ""
-#            echo "### ℹ️ About This Workflow"
-#            echo ""
-#            echo "This workflow automatically:"
-#            echo "1. Reads release branches from \`.github/release-scan-config.yml\`"
-#            echo "2. Checks each branch for available module updates"
-#            echo "3. Creates pull requests when updates are found"
-#            echo "4. Runs on schedule (every 20 minutes) or manually"
-#            echo ""
-#            echo "---"
-#            echo "_Part of the FOLIO Release CI system (RANCHER-2323)_"
-#          } >> $GITHUB_STEP_SUMMARY
