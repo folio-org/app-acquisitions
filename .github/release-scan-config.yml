@@ -15,7 +15,6 @@ scan_config:
     - OHaimanov
     - folio-org/kitfox
     - folio-org/acquisitions
-    - blablabla
 
 release_branches:
   - R1-2025
