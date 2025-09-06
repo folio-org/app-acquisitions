@@ -1,0 +1,205 @@
+name: Application Release Scan - Single Branch
+
+run-name: Application Release Scan ${{ inputs.release_branch }}
+
+on:
+  workflow_call:
+    inputs:
+      release_branch:
+        description: 'Release branch to scan'
+        required: true
+        type: string
+      dry_run:
+        description: 'Perform dry run without creating PRs'
+        required: false
+        type: boolean
+        default: false
+      pr_reviewers:
+        description: 'Comma-separated list of reviewers'
+        required: false
+        type: string
+        default: ''
+    outputs:
+      scan_result:
+        description: 'Result of the scan (success/failure/skipped)'
+        value: ${{ jobs.scan.result }}
+      updated:
+        description: 'Whether updates were found'
+        value: ${{ jobs.scan.outputs.updated }}
+      pr_created:
+        description: 'Whether a PR was created'
+        value: ${{ jobs.scan.outputs.pr_created }}
+      pr_url:
+        description: 'URL of the created PR'
+        value: ${{ jobs.scan.outputs.pr_url }}
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: release-scan-${{ github.repository }}-${{ inputs.release_branch }}
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    name: Scan Branch
+    uses: folio-org/kitfox-github/.github/workflows/app-release-scan.yml@RANCHER-2323-test #TODO: Change to master when ready
+    with:
+      app_name: ${{ github.event.repository.name }}
+      repo: ${{ github.repository }}
+      release_branch: ${{ inputs.release_branch }}
+      workflow_run_number: ${{ github.run_number }}
+      dry_run: ${{ inputs.dry_run }}
+      pr_reviewers: ${{ inputs.pr_reviewers }}
+    secrets: inherit
+
+  notify:
+    name: Send Notifications
+    needs: scan
+    if: always() && !cancelled() && !inputs.dry_run
+    runs-on: ubuntu-latest
+    outputs:
+      project_notification_sent: ${{ steps.notify-project.outputs.notification_sent }}
+      project_notification_status: ${{ steps.notify-project.outputs.notification_status }}
+      general_notification_sent: ${{ steps.notify-general.outputs.notification_sent }}
+      general_notification_status: ${{ steps.notify-general.outputs.notification_status }}
+    steps:
+      - name: Send to Project Channel
+        id: notify-project
+        if: vars.SLACK_NOTIF_CHANNEL != ''
+        uses: folio-org/kitfox-github/actions/slack-release-scan-notification@RANCHER-2323-test #TODO: Change to master when ready
+        with:
+          app_name: ${{ github.event.repository.name }}
+          repo: ${{ github.repository }}
+          release_branch: ${{ inputs.release_branch }}
+          pr_created: ${{ needs.scan.outputs.pr_created == 'true' }}
+          pr_number: ${{ needs.scan.outputs.pr_number || '' }}
+          pr_url: ${{ needs.scan.outputs.pr_url || '' }}
+          updated: ${{ needs.scan.outputs.updated == 'true' }}
+          new_version: ${{ needs.scan.outputs.new_version || '' }}
+          updates_cnt: ${{ needs.scan.outputs.updates_cnt || '0' }}
+          updated_modules: ${{ needs.scan.outputs.updated_modules || '' }}
+          workflow_result: ${{ needs.scan.result }}
+          workflow_run_id: ${{ github.run_id }}
+          workflow_run_number: ${{ github.run_number }}
+          error_message: ${{ needs.scan.result == 'failure' && format('Scan failed for branch {0}', inputs.release_branch) || '' }}
+          slack_channel: ${{ vars.SLACK_NOTIF_CHANNEL }}
+          slack_bot_token: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
+
+      - name: Send to General Channel
+        id: notify-general
+        if: vars.GENERAL_SLACK_NOTIF_CHANNEL != ''
+        uses: folio-org/kitfox-github/actions/slack-release-scan-notification@RANCHER-2323-test #TODO: Change to master when ready
+        with:
+          app_name: ${{ github.event.repository.name }}
+          repo: ${{ github.repository }}
+          release_branch: ${{ inputs.release_branch }}
+          pr_created: ${{ needs.scan.outputs.pr_created == 'true' }}
+          pr_number: ${{ needs.scan.outputs.pr_number || '' }}
+          pr_url: ${{ needs.scan.outputs.pr_url || '' }}
+          updated: ${{ needs.scan.outputs.updated == 'true' }}
+          new_version: ${{ needs.scan.outputs.new_version || '' }}
+          updates_cnt: ${{ needs.scan.outputs.updates_cnt || '0' }}
+          updated_modules: ${{ needs.scan.outputs.updated_modules || '' }}
+          workflow_result: ${{ needs.scan.result }}
+          workflow_run_id: ${{ github.run_id }}
+          workflow_run_number: ${{ github.run_number }}
+          error_message: ${{ needs.scan.result == 'failure' && format('Scan failed for branch {0}', inputs.release_branch) || '' }}
+          slack_channel: ${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}
+          slack_bot_token: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
+
+  summarize:
+    name: Branch Summary
+    needs: [scan, notify]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Branch Summary
+        env:
+          BRANCH: ${{ inputs.release_branch }}
+          SCAN_RESULT: ${{ needs.scan.result }}
+          UPDATED: ${{ needs.scan.outputs.updated }}
+          PR_CREATED: ${{ needs.scan.outputs.pr_created }}
+          PR_URL: ${{ needs.scan.outputs.pr_url }}
+          PR_NUMBER: ${{ needs.scan.outputs.pr_number }}
+          NEW_VERSION: ${{ needs.scan.outputs.new_version }}
+          UPDATES_CNT: ${{ needs.scan.outputs.updates_cnt }}
+          PROJECT_NOTIF_SENT: ${{ needs.notify.outputs.project_notification_sent }}
+          PROJECT_NOTIF_STATUS: ${{ needs.notify.outputs.project_notification_status }}
+          GENERAL_NOTIF_SENT: ${{ needs.notify.outputs.general_notification_sent }}
+          GENERAL_NOTIF_STATUS: ${{ needs.notify.outputs.general_notification_status }}
+        run: |
+          {
+            echo "### 🌿 Branch: \`$BRANCH\`"
+            echo ""
+            
+            # Scan Results
+            if [[ "$SCAN_RESULT" == "success" ]]; then
+              if [[ "$UPDATED" == "true" ]]; then
+                echo "✅ **Scan Result:** Updates found"
+                echo "- **New Version:** $NEW_VERSION"
+                echo "- **Updates Count:** $UPDATES_CNT"
+                if [[ "$PR_CREATED" == "true" ]] && [[ -n "$PR_URL" ]]; then
+                  echo "- **Pull Request:** [#$PR_NUMBER]($PR_URL)"
+                elif [[ -n "$PR_URL" ]]; then
+                  echo "- **Pull Request:** [Updated #$PR_NUMBER]($PR_URL)"
+                else
+                  echo "- **Pull Request:** Not created (dry run or error)"
+                fi
+              else
+                echo "✅ **Scan Result:** No updates needed"
+                echo "- All modules are up to date"
+              fi
+            elif [[ "$SCAN_RESULT" == "failure" ]]; then
+              echo "❌ **Scan Result:** Failed"
+              echo "- Check the scan job logs for details"
+            elif [[ "$SCAN_RESULT" == "cancelled" ]]; then
+              echo "⚠️ **Scan Result:** Cancelled"
+            else
+              echo "⏭️ **Scan Result:** Skipped"
+            fi
+            
+            echo ""
+            
+            # Notification Status
+            echo "### 📨 Notification Status"
+            echo ""
+            
+            if [[ "${{ inputs.dry_run }}" == "true" ]]; then
+              echo "**Status:** Skipped (dry run mode)"
+            else
+              notif_sent=false
+              
+              # Project Channel
+              if [[ -n "${{ vars.SLACK_NOTIF_CHANNEL }}" ]]; then
+                if [[ "$PROJECT_NOTIF_STATUS" == "success" ]]; then
+                  echo "✅ **Project Channel** (\`${{ vars.SLACK_NOTIF_CHANNEL }}\`): Sent successfully"
+                  notif_sent=true
+                elif [[ "$PROJECT_NOTIF_STATUS" == "failure" ]]; then
+                  echo "⚠️ **Project Channel** (\`${{ vars.SLACK_NOTIF_CHANNEL }}\`): Failed to send"
+                elif [[ "$PROJECT_NOTIF_STATUS" == "skipped" ]]; then
+                  echo "ℹ️ **Project Channel** (\`${{ vars.SLACK_NOTIF_CHANNEL }}\`): Not needed (no updates or failures)"
+                fi
+              fi
+              
+              # General Channel
+              if [[ -n "${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}" ]]; then
+                if [[ "$GENERAL_NOTIF_STATUS" == "success" ]]; then
+                  echo "✅ **General Channel** (\`${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}\`): Sent successfully"
+                  notif_sent=true
+                elif [[ "$GENERAL_NOTIF_STATUS" == "failure" ]]; then
+                  echo "⚠️ **General Channel** (\`${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}\`): Failed to send"
+                elif [[ "$GENERAL_NOTIF_STATUS" == "skipped" ]]; then
+                  echo "ℹ️ **General Channel** (\`${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}\`): Not needed (no updates or failures)"
+                fi
+              fi
+              
+              if [[ -z "${{ vars.SLACK_NOTIF_CHANNEL }}" ]] && [[ -z "${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}" ]]; then
+                echo "ℹ️ **Status:** No Slack channels configured"
+              fi
+            fi
+            
+            echo ""
+          } >> $GITHUB_STEP_SUMMARY
