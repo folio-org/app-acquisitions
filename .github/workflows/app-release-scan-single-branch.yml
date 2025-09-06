@@ -81,6 +81,8 @@ jobs:
           new_version: ${{ needs.scan.outputs.new_version || '' }}
           updates_cnt: ${{ needs.scan.outputs.updates_cnt || '0' }}
           updated_modules: ${{ needs.scan.outputs.updated_modules || '' }}
+          successful_reviewers: ${{ needs.scan.outputs.successful_reviewers || '' }}
+          failed_reviewers: ${{ needs.scan.outputs.failed_reviewers || '' }}
           workflow_result: ${{ needs.scan.result }}
           workflow_run_id: ${{ github.run_id }}
           workflow_run_number: ${{ github.run_number }}
@@ -103,6 +105,8 @@ jobs:
           new_version: ${{ needs.scan.outputs.new_version || '' }}
           updates_cnt: ${{ needs.scan.outputs.updates_cnt || '0' }}
           updated_modules: ${{ needs.scan.outputs.updated_modules || '' }}
+          successful_reviewers: ${{ needs.scan.outputs.successful_reviewers || '' }}
+          failed_reviewers: ${{ needs.scan.outputs.failed_reviewers || '' }}
           workflow_result: ${{ needs.scan.result }}
           workflow_run_id: ${{ github.run_id }}
           workflow_run_number: ${{ github.run_number }}
@@ -126,6 +130,9 @@ jobs:
           PR_NUMBER: ${{ needs.scan.outputs.pr_number }}
           NEW_VERSION: ${{ needs.scan.outputs.new_version }}
           UPDATES_CNT: ${{ needs.scan.outputs.updates_cnt }}
+          UPDATED_MODULES: ${{ needs.scan.outputs.updated_modules }}
+          SUCCESSFUL_REVIEWERS: ${{ needs.scan.outputs.successful_reviewers }}
+          FAILED_REVIEWERS: ${{ needs.scan.outputs.failed_reviewers }}
           PROJECT_NOTIF_SENT: ${{ needs.notify.outputs.project_notification_sent }}
           PROJECT_NOTIF_STATUS: ${{ needs.notify.outputs.project_notification_status }}
           GENERAL_NOTIF_SENT: ${{ needs.notify.outputs.general_notification_sent }}
@@ -141,12 +148,41 @@ jobs:
                 echo "✅ **Scan Result:** Updates found"
                 echo "- **New Version:** $NEW_VERSION"
                 echo "- **Updates Count:** $UPDATES_CNT"
-                if [[ "$PR_CREATED" == "true" ]] && [[ -n "$PR_URL" ]]; then
-                  echo "- **Pull Request:** [#$PR_NUMBER]($PR_URL)"
+                if [[ "${{ inputs.dry_run }}" == "true" ]]; then
+                  echo "- **Pull Request:** Not created (dry run mode)"
+                elif [[ "$PR_CREATED" == "true" ]] && [[ -n "$PR_URL" ]]; then
+                  echo "- **Pull Request:** [Created PR #$PR_NUMBER]($PR_URL)"
                 elif [[ -n "$PR_URL" ]]; then
-                  echo "- **Pull Request:** [Updated #$PR_NUMBER]($PR_URL)"
+                  echo "- **Pull Request:** [Updated PR #$PR_NUMBER]($PR_URL)"
+                elif [[ "$PR_CREATED" == "true" ]]; then
+                  echo "- **Pull Request:** Created but URL not available"
                 else
-                  echo "- **Pull Request:** Not created (dry run or error)"
+                  echo "- **Pull Request:** No PR created"
+                fi
+                
+                # Module Updates
+                if [[ -n "$UPDATED_MODULES" ]]; then
+                  echo ""
+                  echo "#### 📦 Updated Modules:"
+                  echo '```'
+                  echo "$UPDATED_MODULES"
+                  echo '```'
+                fi
+                
+                # Reviewer Status
+                if [[ "$PR_CREATED" == "true" ]]; then
+                  if [[ -n "$FAILED_REVIEWERS" ]]; then
+                    echo ""
+                    echo "#### ⚠️ Reviewer Assignment:"
+                    echo "- **Failed:** $FAILED_REVIEWERS"
+                    if [[ -n "$SUCCESSFUL_REVIEWERS" ]]; then
+                      echo "- **Successful:** $SUCCESSFUL_REVIEWERS"
+                    fi
+                  elif [[ -n "$SUCCESSFUL_REVIEWERS" ]]; then
+                    echo ""
+                    echo "#### ✅ Reviewer Assignment:"
+                    echo "- **Successful:** $SUCCESSFUL_REVIEWERS"
+                  fi
                 fi
               else
                 echo "✅ **Scan Result:** No updates needed"
