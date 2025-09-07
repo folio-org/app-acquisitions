@@ -9,6 +9,10 @@ on:
         description: 'Release branch to scan'
         required: true
         type: string
+      update_branch:
+        description: 'Update branch name for this release branch'
+        required: true
+        type: string
       dry_run:
         description: 'Perform dry run without creating PRs'
         required: false
@@ -16,6 +20,11 @@ on:
         default: false
       pr_reviewers:
         description: 'Comma-separated list of reviewers'
+        required: false
+        type: string
+        default: ''
+      pr_labels:
+        description: 'Comma-separated list of labels'
         required: false
         type: string
         default: ''
@@ -56,9 +65,11 @@ jobs:
       app_name: ${{ github.event.repository.name }}
       repo: ${{ github.repository }}
       release_branch: ${{ inputs.release_branch }}
+      update_branch: ${{ inputs.update_branch }}
       workflow_run_number: ${{ github.run_number }}
       dry_run: ${{ inputs.dry_run }}
       pr_reviewers: ${{ inputs.pr_reviewers }}
+      pr_labels: ${{ inputs.pr_labels }}
     secrets: inherit
 
   notify:
