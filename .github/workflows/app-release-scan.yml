@@ -24,24 +24,48 @@ permissions:
   issues: write
 
 jobs:
-  get-branches:
-    name: Determine Branches
-    uses: folio-org/kitfox-github/.github/workflows/app-release-scan/app-release-scan-get-branches.yml@RANCHER-2323-test #TODO: Change to master when ready
-    with:
-      config_file: '.github/release-scan-config.yml'
+  get-config:
+    name: Get Configuration
+    runs-on: ubuntu-latest
+    outputs:
+      branches: ${{ steps.get-config.outputs.release_branches }}
+      branch_count: ${{ steps.get-config.outputs.branch_count }}
+      pr_reviewers: ${{ steps.get-config.outputs.pr_reviewers }}
+      pr_labels: ${{ steps.get-config.outputs.pr_labels }}
+      matrix_includes: ${{ steps.build-matrix.outputs.includes }}
+    steps:
+      - name: Get Release Configuration
+        id: get-config
+        uses: folio-org/kitfox-github/.github/actions/get-release-config@RANCHER-2323-test #TODO: Change to master when ready
+        with:
+          repo: ${{ github.repository }}
+          github_token: ${{ github.token }}
+      
+      - name: Build Matrix Includes
+        id: build-matrix
+        env:
+          UPDATE_MAP: ${{ steps.get-config.outputs.update_branches_map }}
+        run: |
+          INCLUDES=$(echo "$UPDATE_MAP" | jq -c '[to_entries[] | {branch: .key, update_branch: .value}]')
+          
+          echo "includes=$INCLUDES" >> "$GITHUB_OUTPUT"
+          echo "::notice::Matrix includes: $INCLUDES"
 
   scan-branches:
     name: Scan ${{ matrix.branch }}
-    needs: get-branches
-    if: needs.get-branches.outputs.branch_count > 0
+    needs: get-config
+    if: needs.get-config.outputs.branch_count > 0
     strategy:
       matrix:
-        branch: ${{ fromJson(needs.get-branches.outputs.branches) }}
+        branch: ${{ fromJson(needs.get-config.outputs.branches) }}
+        include: ${{ fromJson(needs.get-config.outputs.matrix_includes) }}
       fail-fast: false
       max-parallel: 3
     uses: ./.github/workflows/app-release-scan-single-branch.yml
     with:
       release_branch: ${{ matrix.branch }}
+      update_branch: ${{ matrix.update_branch }}
       dry_run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
-      pr_reviewers: ${{ needs.get-branches.outputs.pr_reviewers }}
+      pr_reviewers: ${{ needs.get-config.outputs.pr_reviewers }}
+      pr_labels: ${{ needs.get-config.outputs.pr_labels }}
     secrets: inherit
