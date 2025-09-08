@@ -1,4 +1,4 @@
-name: Application Release Scan - Single Branch
+name: Release update
 
 on:
   workflow_dispatch:
