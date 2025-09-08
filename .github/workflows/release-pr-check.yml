@@ -33,7 +33,6 @@ jobs:
         with:
           repo: ${{ github.repository }}
           branch: ${{ github.base_ref }}
-          config_file: '.github/release-config.yml'
           github_token: ${{ github.token }}
 
       - name: Validate PR Configuration
