@@ -1,6 +1,6 @@
 name: Release update scheduler
 
-run-name: Release update ${{ github.event_name == 'schedule' && '[scheduled]' || '' }}
+run-name: Release update scheduler ${{ github.event_name == 'schedule' && '' || '[manual]' }}
 
 on:
   schedule:
