@@ -1,4 +1,8 @@
-name: Release PR Update Check
+name: Release PR Check
+
+#run-name: >-
+#  Release PR Check • PR #${{ github.event.pull_request.number }}
+#  — ${{ github.head_ref }} → ${{ github.base_ref }}
 
 on:
   pull_request:
@@ -164,7 +168,7 @@ jobs:
       - name: Send to Project Channel
         id: notify-project
         if: vars.SLACK_NOTIF_CHANNEL != ''
-        uses: folio-org/kitfox-github/.github/actions/app-release-pr-update-slack-notification@RANCHER-2323-test #TODO: Change to master when ready
+        uses: folio-org/kitfox-github/.github/actions/release-pr-check-notification@RANCHER-2323-test #TODO: Change to master when ready
         with:
           app_name: ${{ github.event.repository.name }}
           repo: ${{ github.repository }}
@@ -187,7 +191,7 @@ jobs:
       - name: Send to General Channel
         id: notify-general
         if: vars.GENERAL_SLACK_NOTIF_CHANNEL != ''
-        uses: folio-org/kitfox-github/.github/actions/app-release-pr-update-slack-notification@RANCHER-2323-test #TODO: Change to master when ready
+        uses: folio-org/kitfox-github/.github/actions/release-pr-check-notification@RANCHER-2323-test #TODO: Change to master when ready
         with:
           app_name: ${{ github.event.repository.name }}
           repo: ${{ github.repository }}
