@@ -1,4 +1,4 @@
-name: Release PR Check
+name: Release PR check
 
 #run-name: >-
 #  Release PR Check • PR #${{ github.event.pull_request.number }}
