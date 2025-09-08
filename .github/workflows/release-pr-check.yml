@@ -1,4 +1,8 @@
-name: Release PR Update Check
+name: Release PR Check
+
+#run-name: >-
+#  Release PR Check • PR #${{ github.event.pull_request.number }}
+#  — ${{ github.head_ref }} → ${{ github.base_ref }}
 
 on:
   pull_request:
