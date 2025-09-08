@@ -1,6 +1,6 @@
-name: Application Release Scan
+name: Releases update scheduler
 
-run-name: Application Release Scan ${{ github.event_name == 'schedule' && '[scheduled]' || '' }}
+run-name: Releases update ${{ github.event_name == 'schedule' && '[scheduled]' || '' }}
 
 on:
   schedule:
@@ -61,7 +61,7 @@ jobs:
         include: ${{ fromJson(needs.get-config.outputs.matrix_includes) }}
       fail-fast: false
       max-parallel: 3
-    uses: ./.github/workflows/app-release-scan-single-branch.yml
+    uses: ./.github/workflows/release-update.yml
     with:
       release_branch: ${{ matrix.branch }}
       update_branch: ${{ matrix.update_branch }}
