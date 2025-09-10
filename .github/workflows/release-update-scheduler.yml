@@ -51,8 +51,8 @@ jobs:
           echo "includes=$INCLUDES" >> "$GITHUB_OUTPUT"
           echo "::notice::Matrix includes: $INCLUDES"
 
-  scan-branches:
-    name: Scan ${{ matrix.branch }}
+  update-branches:
+    name: Update ${{ matrix.branch }}
     needs: get-config
     if: needs.get-config.outputs.branch_count > 0
     strategy:
