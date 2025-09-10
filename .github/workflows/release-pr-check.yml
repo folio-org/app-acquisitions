@@ -1,5 +1,7 @@
 name: Release PR check
 
+run-name: pr-check
+
 #run-name: >-
 #  Release PR Check • PR #${{ github.event.pull_request.number }}
 #  — ${{ github.head_ref }} → ${{ github.base_ref }}
