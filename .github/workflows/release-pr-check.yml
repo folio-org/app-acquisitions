@@ -1,0 +1,328 @@
+name: Release PR check
+
+#run-name: >-
+#  Release PR Check • PR #${{ github.event.pull_request.number }}
+#  — ${{ github.head_ref }} → ${{ github.base_ref }}
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
+  checks: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      validation_status: ${{ steps.validate.outputs.status }}
+      validation_message: ${{ steps.validate.outputs.message }}
+      target_branch: ${{ github.base_ref }}
+      source_branch: ${{ github.head_ref }}
+      pr_number: ${{ github.event.pull_request.number }}
+      pr_title: ${{ github.event.pull_request.title }}
+      pr_author: ${{ github.event.pull_request.user.login }}
+    steps:
+      - name: Get Release Configuration
+        id: get-config
+        uses: folio-org/kitfox-github/.github/actions/get-release-config@RANCHER-2323-test #TODO: Change to master when ready
+        with:
+          repo: ${{ github.repository }}
+          branch: ${{ github.base_ref }}
+          github_token: ${{ github.token }}
+
+      - name: Validate PR Configuration
+        id: validate
+        env:
+          TARGET_BRANCH: ${{ github.base_ref }}
+          SOURCE_BRANCH: ${{ github.head_ref }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_LABELS: ${{ toJson(github.event.pull_request.labels.*.name) }}
+          CONFIG_EXISTS: ${{ steps.get-config.outputs.config_exists }}
+          ENABLED: ${{ steps.get-config.outputs.enabled }}
+          RELEASE_BRANCHES: ${{ steps.get-config.outputs.release_branches }}
+          REQUIRED_LABELS: ${{ steps.get-config.outputs.pr_labels }}
+        run: |
+          echo "::notice::Validating PR for branch $TARGET_BRANCH"
+          
+          if [[ "$CONFIG_EXISTS" != "true" ]]; then
+            echo "status=failed" >> "$GITHUB_OUTPUT"
+            echo "message=Release configuration file not found" >> "$GITHUB_OUTPUT"
+            echo "::error::Configuration file not found: .github/release-config.yml"
+            exit 0
+          fi
+          
+          if [[ "$ENABLED" != "true" ]]; then
+            echo "status=skipped" >> "$GITHUB_OUTPUT"
+            echo "message=Release scanning is disabled in configuration" >> "$GITHUB_OUTPUT"
+            echo "::warning::Release scanning is disabled"
+            exit 0
+          fi
+          
+          BRANCH_EXISTS=$(echo "$RELEASE_BRANCHES" | jq -r ".[] | select(. == \"$TARGET_BRANCH\")" 2>/dev/null)
+          if [ -z "$BRANCH_EXISTS" ]; then
+            echo "status=failed" >> "$GITHUB_OUTPUT"
+            echo "message=Target branch $TARGET_BRANCH is not configured for release scanning" >> "$GITHUB_OUTPUT"
+            echo "::error::Branch $TARGET_BRANCH is not in release_branches configuration"
+            exit 0
+          fi
+          
+          if [ -n "$REQUIRED_LABELS" ]; then
+            echo "::notice::Checking for required labels: $REQUIRED_LABELS"
+            PR_LABELS_ARRAY=$(echo "$PR_LABELS" | jq -r '.[]' 2>/dev/null || echo "")
+            MISSING_LABELS=""
+            
+            # Convert comma-separated labels to array
+            IFS=',' read -ra LABEL_ARRAY <<< "$REQUIRED_LABELS"
+            for label in "${LABEL_ARRAY[@]}"; do
+              label=$(echo "$label" | xargs) # Trim whitespace
+              if ! echo "$PR_LABELS_ARRAY" | grep -q "^$label$"; then
+                MISSING_LABELS="${MISSING_LABELS}${MISSING_LABELS:+, }$label"
+              fi
+            done
+            
+            if [ -n "$MISSING_LABELS" ]; then
+              echo "status=skipped" >> "$GITHUB_OUTPUT"
+              echo "message=PR is missing required labels: $MISSING_LABELS" >> "$GITHUB_OUTPUT"
+              echo "::notice::PR does not have required labels, skipping validation"
+              exit 0
+            fi
+          fi
+          
+          echo "status=success" >> "$GITHUB_OUTPUT"
+          echo "message=PR validation passed" >> "$GITHUB_OUTPUT"
+          echo "::notice::PR validation successful"
+
+  generate-descriptor:
+    name: Generate Application Descriptor
+    needs: validate
+    if: needs.validate.outputs.validation_status != 'skipped' && needs.validate.outputs.validation_status != 'failed'
+    runs-on: ubuntu-latest
+    outputs:
+      generated: ${{ steps.generate.outputs.generated }}
+      descriptor_file: ${{ steps.generate.outputs.descriptor_file }}
+      descriptor_file_name: ${{ steps.generate.outputs.descriptor_file_name }}
+    steps:
+      - name: Checkout PR Branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Generate Application Descriptor
+        id: generate
+        uses: folio-org/kitfox-github/.github/actions/generate-application-descriptor@RANCHER-2323-test #TODO: Change to master when ready
+        with:
+          app_name: ${{ github.event.repository.name }}
+          state_file: 'application-descriptor.json'
+          upload_artifact: 'true'
+
+  verify-application:
+    name: Verify Application
+    needs: [validate, generate-descriptor]
+    if: needs.validate.outputs.validation_status != 'skipped' && needs.generate-descriptor.outputs.generated == 'true'
+    uses: folio-org/kitfox-github/.github/workflows/verify-application.yml@RANCHER-2323-test #TODO: Change to master when ready
+    with:
+      app_name: ${{ github.event.repository.name }}
+      app_descriptor_file: ${{ needs.generate-descriptor.outputs.descriptor_file }}
+      app_descriptor_file_name: ${{ needs.generate-descriptor.outputs.descriptor_file_name }}
+      rely_on_FAR: false
+      skip_upload: true
+    secrets: inherit
+
+  notify:
+    name: Send Notifications
+    needs: [validate, generate-descriptor, verify-application]
+    if: always() && !cancelled()
+    runs-on: ubuntu-latest
+    outputs:
+      project_notification_sent: ${{ steps.notify-project.outputs.notification_sent }}
+      project_notification_status: ${{ steps.notify-project.outputs.notification_status }}
+      general_notification_sent: ${{ steps.notify-general.outputs.notification_sent }}
+      general_notification_status: ${{ steps.notify-general.outputs.notification_status }}
+    steps:
+      - name: Determine Error Message
+        id: error-message
+        env:
+          VALIDATION_STATUS: ${{ needs.validate.outputs.validation_status }}
+          VALIDATION_MESSAGE: ${{ needs.validate.outputs.validation_message }}
+          DESCRIPTOR_GENERATED: ${{ needs.generate-descriptor.outputs.generated }}
+          VERIFICATION_RESULT: ${{ needs.verify-application.result }}
+          VERIFICATION_MESSAGE: ${{ needs.verify-application.outputs.validation_message }}
+        run: |
+          if [[ "$VALIDATION_STATUS" == "failed" ]]; then
+            echo "error_message=$VALIDATION_MESSAGE" >> "$GITHUB_OUTPUT"
+          elif [[ "$DESCRIPTOR_GENERATED" != "true" ]]; then
+            echo "error_message=Failed to generate application descriptor" >> "$GITHUB_OUTPUT"
+          elif [[ "$VERIFICATION_RESULT" == "failure" ]]; then
+            echo "error_message=${VERIFICATION_MESSAGE:-Application verification failed}" >> "$GITHUB_OUTPUT"
+          else
+            echo "error_message=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Send to Project Channel
+        id: notify-project
+        if: vars.SLACK_NOTIF_CHANNEL != ''
+        uses: folio-org/kitfox-github/.github/actions/release-pr-check-notification@RANCHER-2323-test #TODO: Change to master when ready
+        with:
+          app_name: ${{ github.event.repository.name }}
+          repo: ${{ github.repository }}
+          pr_number: ${{ github.event.pull_request.number }}
+          pr_title: ${{ github.event.pull_request.title }}
+          pr_author: ${{ github.event.pull_request.user.login }}
+          pr_url: ${{ github.event.pull_request.html_url }}
+          target_branch: ${{ github.base_ref }}
+          source_branch: ${{ github.head_ref }}
+          validation_status: ${{ needs.validate.outputs.validation_status }}
+          descriptor_generated: ${{ needs.generate-descriptor.outputs.generated }}
+          verification_passed: ${{ needs.verify-application.result == 'success' && 'true' || 'false' }}
+          error_message: ${{ steps.error-message.outputs.error_message }}
+          workflow_result: ${{ needs.verify-application.result }}
+          workflow_run_id: ${{ github.run_id }}
+          workflow_run_number: ${{ github.run_number }}
+          slack_channel: # ${{ vars.SLACK_NOTIF_CHANNEL }} uncomment when ready
+          slack_bot_token: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
+
+      - name: Send to General Channel
+        id: notify-general
+        if: vars.GENERAL_SLACK_NOTIF_CHANNEL != ''
+        uses: folio-org/kitfox-github/.github/actions/release-pr-check-notification@RANCHER-2323-test #TODO: Change to master when ready
+        with:
+          app_name: ${{ github.event.repository.name }}
+          repo: ${{ github.repository }}
+          pr_number: ${{ github.event.pull_request.number }}
+          pr_title: ${{ github.event.pull_request.title }}
+          pr_author: ${{ github.event.pull_request.user.login }}
+          pr_url: ${{ github.event.pull_request.html_url }}
+          target_branch: ${{ github.base_ref }}
+          source_branch: ${{ github.head_ref }}
+          validation_status: ${{ needs.validate.outputs.validation_status }}
+          descriptor_generated: ${{ needs.generate-descriptor.outputs.generated }}
+          verification_passed: ${{ needs.verify-application.result == 'success' && 'true' || 'false' }}
+          error_message: ${{ steps.error-message.outputs.error_message }}
+          workflow_result: ${{ needs.verify-application.result }}
+          workflow_run_id: ${{ github.run_id }}
+          workflow_run_number: ${{ github.run_number }}
+          slack_channel: ${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}
+          slack_bot_token: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
+
+  summarize:
+    name: Workflow Summary
+    needs: [validate, generate-descriptor, verify-application, notify]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Summary
+        env:
+          VALIDATION_STATUS: ${{ needs.validate.outputs.validation_status }}
+          VALIDATION_MESSAGE: ${{ needs.validate.outputs.validation_message }}
+          VERIFICATION_RESULT: ${{ needs.verify-application.result }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          TARGET_BRANCH: ${{ github.base_ref }}
+          SOURCE_BRANCH: ${{ github.head_ref }}
+          PROJECT_NOTIF_SENT: ${{ needs.notify.outputs.project_notification_sent }}
+          PROJECT_NOTIF_STATUS: ${{ needs.notify.outputs.project_notification_status }}
+          GENERAL_NOTIF_SENT: ${{ needs.notify.outputs.general_notification_sent }}
+          GENERAL_NOTIF_STATUS: ${{ needs.notify.outputs.general_notification_status }}
+        run: |
+          {
+            echo "## 🔍 Release PR Update Check Summary"
+            echo ""
+            echo "### 📋 Pull Request Details"
+            echo "- **PR:** [#$PR_NUMBER](${{ github.event.pull_request.html_url }}) - $PR_TITLE"
+            echo "- **Author:** @$PR_AUTHOR"
+            echo "- **Source Branch:** \`$SOURCE_BRANCH\`"
+            echo "- **Target Branch:** \`$TARGET_BRANCH\`"
+            echo ""
+            
+            echo "### ✅ Validation Status"
+            if [[ "$VALIDATION_STATUS" == "skipped" ]]; then
+              echo "⏭️ **Status:** Skipped"
+              echo "- $VALIDATION_MESSAGE"
+            elif [[ "$VALIDATION_STATUS" == "failed" ]]; then
+              echo "❌ **Status:** Failed"
+              echo "- **Reason:** $VALIDATION_MESSAGE"
+            elif [[ "$VALIDATION_STATUS" == "warning" ]]; then
+              echo "⚠️ **Status:** Warning"
+              echo "- **Message:** $VALIDATION_MESSAGE"
+            else
+              echo "✅ **Status:** Passed"
+              echo "- Configuration validation successful"
+            fi
+            echo ""
+            
+            if [[ "$VALIDATION_STATUS" != "skipped" ]]; then
+              echo "### 🔬 Application Verification"
+              if [[ "$VERIFICATION_RESULT" == "success" ]]; then
+                echo "✅ **Status:** Passed"
+                echo "- Application changes verified successfully"
+                echo "- Interface compatibility validated"
+                echo "- All checks passed"
+              elif [[ "$VERIFICATION_RESULT" == "failure" ]]; then
+                echo "❌ **Status:** Failed"
+                echo "- Application verification failed"
+                echo "- Check the verification job logs for details"
+              elif [[ "$VERIFICATION_RESULT" == "skipped" ]]; then
+                echo "⏭️ **Status:** Skipped"
+                echo "- Verification was skipped due to validation failure"
+              else
+                echo "⚠️ **Status:** Unknown"
+                echo "- Unable to determine verification status"
+              fi
+              echo ""
+            fi
+            
+            echo "### 📊 Overall Result"
+            if [[ "$VALIDATION_STATUS" == "skipped" ]]; then
+              echo "ℹ️ **Result:** Not Applicable"
+              echo "- PR check is not required for this branch"
+            elif [[ "$VALIDATION_STATUS" == "failed" || "$VERIFICATION_RESULT" == "failure" ]]; then
+              echo "❌ **Result:** Failed"
+              echo "- The PR does not meet the requirements"
+              echo "- Please address the issues before merging"
+            elif [[ "$VERIFICATION_RESULT" == "success" ]]; then
+              echo "✅ **Result:** Passed"
+              echo "- All checks completed successfully"
+              echo "- PR is ready for review and merge"
+            else
+              echo "⚠️ **Result:** Incomplete"
+              echo "- Some checks could not be completed"
+            fi
+            echo ""
+            
+            echo "### 📨 Notification Status"
+            echo ""
+            
+            if [[ -n "${{ vars.SLACK_NOTIF_CHANNEL }}" ]]; then
+              if [[ "$PROJECT_NOTIF_STATUS" == "success" ]]; then
+                echo "✅ **Project Channel** (\`${{ vars.SLACK_NOTIF_CHANNEL }}\`): Sent successfully"
+              elif [[ "$PROJECT_NOTIF_STATUS" == "failure" ]]; then
+                echo "⚠️ **Project Channel** (\`${{ vars.SLACK_NOTIF_CHANNEL }}\`): Failed to send"
+              elif [[ "$PROJECT_NOTIF_STATUS" == "skipped" ]]; then
+                echo "ℹ️ **Project Channel** (\`${{ vars.SLACK_NOTIF_CHANNEL }}\`): Skipped"
+              fi
+            fi
+            
+            if [[ -n "${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}" ]]; then
+              if [[ "$GENERAL_NOTIF_STATUS" == "success" ]]; then
+                echo "✅ **General Channel** (\`${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}\`): Sent successfully"
+              elif [[ "$GENERAL_NOTIF_STATUS" == "failure" ]]; then
+                echo "⚠️ **General Channel** (\`${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}\`): Failed to send"
+              elif [[ "$GENERAL_NOTIF_STATUS" == "skipped" ]]; then
+                echo "ℹ️ **General Channel** (\`${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}\`): Skipped"
+              fi
+            fi
+            
+            if [[ -z "${{ vars.SLACK_NOTIF_CHANNEL }}" ]] && [[ -z "${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}" ]]; then
+              echo "ℹ️ **Status:** No Slack channels configured"
+            fi
+            echo ""
+            
+            echo "---"
+            echo "*Generated by Release PR Update Check Workflow*"
+          } >> $GITHUB_STEP_SUMMARY
