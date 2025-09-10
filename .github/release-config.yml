@@ -10,7 +10,6 @@ scan_config:
 #    - OHaimanov
     - folio-org/kitfox
 #    - folio-org/acquisitions
-    - guess-who
 
 release_branches:
   - R1-2025
