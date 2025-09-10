@@ -1,4 +1,4 @@
-name: Release PR check
+name: pr-check
 
 run-name: pr-check
 
