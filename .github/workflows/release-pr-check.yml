@@ -15,8 +15,7 @@ permissions:
   checks: write
 
 jobs:
-  validate-pr:
-    name: Validate PR
+  validate:
     runs-on: ubuntu-latest
     outputs:
       validation_status: ${{ steps.validate.outputs.status }}
@@ -32,7 +31,7 @@ jobs:
         uses: folio-org/kitfox-github/.github/actions/get-release-config@RANCHER-2323-test #TODO: Change to master when ready
         with:
           repo: ${{ github.repository }}
-          branch: "RANCHER-2323-test"
+          branch: ${{ github.base_ref }}
           github_token: ${{ github.token }}
 
       - name: Validate PR Configuration
@@ -100,8 +99,8 @@ jobs:
 
   generate-descriptor:
     name: Generate Application Descriptor
-    needs: validate-pr
-    if: needs.validate-pr.outputs.validation_status != 'skipped' && needs.validate-pr.outputs.validation_status != 'failed'
+    needs: validate
+    if: needs.validate.outputs.validation_status != 'skipped' && needs.validate.outputs.validation_status != 'failed'
     runs-on: ubuntu-latest
     outputs:
       generated: ${{ steps.generate.outputs.generated }}
@@ -123,8 +122,8 @@ jobs:
 
   verify-application:
     name: Verify Application
-    needs: [validate-pr, generate-descriptor]
-    if: needs.validate-pr.outputs.validation_status != 'skipped' && needs.generate-descriptor.outputs.generated == 'true'
+    needs: [validate, generate-descriptor]
+    if: needs.validate.outputs.validation_status != 'skipped' && needs.generate-descriptor.outputs.generated == 'true'
     uses: folio-org/kitfox-github/.github/workflows/verify-application.yml@RANCHER-2323-test #TODO: Change to master when ready
     with:
       app_name: ${{ github.event.repository.name }}
@@ -136,7 +135,7 @@ jobs:
 
   notify:
     name: Send Notifications
-    needs: [validate-pr, generate-descriptor, verify-application]
+    needs: [validate, generate-descriptor, verify-application]
     if: always() && !cancelled()
     runs-on: ubuntu-latest
     outputs:
@@ -148,8 +147,8 @@ jobs:
       - name: Determine Error Message
         id: error-message
         env:
-          VALIDATION_STATUS: ${{ needs.validate-pr.outputs.validation_status }}
-          VALIDATION_MESSAGE: ${{ needs.validate-pr.outputs.validation_message }}
+          VALIDATION_STATUS: ${{ needs.validate.outputs.validation_status }}
+          VALIDATION_MESSAGE: ${{ needs.validate.outputs.validation_message }}
           DESCRIPTOR_GENERATED: ${{ needs.generate-descriptor.outputs.generated }}
           VERIFICATION_RESULT: ${{ needs.verify-application.result }}
           VERIFICATION_MESSAGE: ${{ needs.verify-application.outputs.validation_message }}
@@ -177,7 +176,7 @@ jobs:
           pr_url: ${{ github.event.pull_request.html_url }}
           target_branch: ${{ github.base_ref }}
           source_branch: ${{ github.head_ref }}
-          validation_status: ${{ needs.validate-pr.outputs.validation_status }}
+          validation_status: ${{ needs.validate.outputs.validation_status }}
           descriptor_generated: ${{ needs.generate-descriptor.outputs.generated }}
           verification_passed: ${{ needs.verify-application.result == 'success' && 'true' || 'false' }}
           error_message: ${{ steps.error-message.outputs.error_message }}
@@ -200,7 +199,7 @@ jobs:
           pr_url: ${{ github.event.pull_request.html_url }}
           target_branch: ${{ github.base_ref }}
           source_branch: ${{ github.head_ref }}
-          validation_status: ${{ needs.validate-pr.outputs.validation_status }}
+          validation_status: ${{ needs.validate.outputs.validation_status }}
           descriptor_generated: ${{ needs.generate-descriptor.outputs.generated }}
           verification_passed: ${{ needs.verify-application.result == 'success' && 'true' || 'false' }}
           error_message: ${{ steps.error-message.outputs.error_message }}
@@ -212,14 +211,14 @@ jobs:
 
   summarize:
     name: Workflow Summary
-    needs: [validate-pr, generate-descriptor, verify-application, notify]
+    needs: [validate, generate-descriptor, verify-application, notify]
     if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Generate Summary
         env:
-          VALIDATION_STATUS: ${{ needs.validate-pr.outputs.validation_status }}
-          VALIDATION_MESSAGE: ${{ needs.validate-pr.outputs.validation_message }}
+          VALIDATION_STATUS: ${{ needs.validate.outputs.validation_status }}
+          VALIDATION_MESSAGE: ${{ needs.validate.outputs.validation_message }}
           VERIFICATION_RESULT: ${{ needs.verify-application.result }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_TITLE: ${{ github.event.pull_request.title }}
