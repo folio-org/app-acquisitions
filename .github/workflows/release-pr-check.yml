@@ -7,7 +7,7 @@ run-name: pr-check
 #  — ${{ github.head_ref }} → ${{ github.base_ref }}
 
 on:
-  pull_request_target:
+  pull_request:
     types: [opened, reopened, synchronize]
 
 permissions:
