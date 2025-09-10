@@ -5,10 +5,10 @@ scan_config:
     - release-scan
     - auto-update
   pr_reviewers:
-    - eldiiar-duishenaliev
+#    - eldiiar-duishenaliev
     - epam-avramenko
 #    - OHaimanov
-    - folio-org/kitfox
+#    - folio-org/kitfox
 #    - folio-org/acquisitions
 
 release_branches:
