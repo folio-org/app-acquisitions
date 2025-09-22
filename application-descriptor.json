@@ -1,6 +1,6 @@
 {
   "name": "app-acquisitions",
-  "version": "1.2.0-SNAPSHOT.100100000000002",
+  "version": "1.2.0-SNAPSHOT.100100000000056",
   "description": "Application Descriptor Repository for the FOLIO Acquisitions application",
   "platform": "complete",
   "dependencies": [
@@ -54,7 +54,7 @@
     },
     {
       "name": "folio_orders",
-      "version": "9.0.1099000000000580"
+      "version": "9.0.1099000000000585"
     },
     {
       "name": "folio_invoice",
