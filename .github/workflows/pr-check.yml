@@ -1,7 +1,7 @@
-name: Application Check
+name: Release PR Check
 
 run-name: >-
-  Application Check • PR #${{ inputs.pr_number }}
+  Release application check • PR #${{ inputs.pr_number }}
 
 on:
   workflow_dispatch:
