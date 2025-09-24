@@ -102,18 +102,48 @@ jobs:
             console.log(`Validating that commit ${providedSha} exists in PR #${prNumber}`);
 
             try {
-              // Get all commits in the PR to verify the SHA exists
-              const { data: commits } = await github.rest.pulls.listCommits({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: prNumber
-              });
+              let shaFound = false;
+              let page = 1;
+              const perPage = 100;
 
-              console.log(`PR #${prNumber} has ${commits.length} commits`);
+              // GitHub API paginates commits, so we need to check all pages
+              while (!shaFound) {
+                const { data: commits } = await github.rest.pulls.listCommits({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: prNumber,
+                  per_page: perPage,
+                  page: page
+                });
 
-              const shaExists = commits.some(commit => commit.sha === providedSha);
+                if (commits.length === 0) {
+                  break; // No more commits
+                }
 
-              if (!shaExists) {
+                console.log(`Checking page ${page}: ${commits.length} commits`);
+
+                // Check if our SHA is in this batch
+                shaFound = commits.some(commit => {
+                  // Check both full SHA and short SHA
+                  return commit.sha === providedSha ||
+                         commit.sha.startsWith(providedSha) ||
+                         providedSha.startsWith(commit.sha);
+                });
+
+                if (shaFound) {
+                  console.log(`✓ Found commit ${providedSha} on page ${page}`);
+                  break;
+                }
+
+                // If we got fewer commits than requested, we've reached the end
+                if (commits.length < perPage) {
+                  break;
+                }
+
+                page++;
+              }
+
+              if (!shaFound) {
                 console.log(`Error: Commit ${providedSha} not found in PR #${prNumber}`);
                 console.log(`This commit does not belong to this PR`);
                 core.setOutput('commit_valid', 'false');
