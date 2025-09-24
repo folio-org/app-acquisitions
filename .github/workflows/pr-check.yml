@@ -415,13 +415,13 @@ jobs:
     if: always() && !cancelled() && needs.pre-check.outputs.validation_status == 'success'
     runs-on: ubuntu-latest
     env:
-      TITLE_TEXT: "${{ github.event.repository.name }} release update check ${{ needs.check.result == 'success' && 'passed' || 'failed' }}"
+      TITLE_TEXT: "${{ github.event.repository.name }} release update check ${{ (needs.check.result == 'success' && needs.check.outputs.validation_passed == 'true') && 'passed' || 'failed' }}"
       TITLE_BLOCK: |
         {
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "*${{ github.event.repository.name }} release update check ${{ needs.check.result == 'success' && 'passed' || 'failed' }} <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|#${{ github.run_number }}>*"
+            "text": "*${{ github.event.repository.name }} release update check ${{ (needs.check.result == 'success' && needs.check.outputs.validation_passed == 'true') && 'passed' || 'failed' }} <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|#${{ github.run_number }}>*"
           }
         }
     steps:
@@ -442,7 +442,7 @@ jobs:
               ],
               "attachments": [
                 {
-                  "color": "${{ needs.check.result == 'success' && 'good' || 'danger' }}",
+                  "color": "${{ (needs.check.result == 'success' && needs.check.outputs.validation_passed == 'true') && 'good' || 'danger' }}",
                   "fields": [
                     {
                       "title": "Release branch",
