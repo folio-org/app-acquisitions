@@ -34,7 +34,24 @@ jobs:
         with:
           github-token: ${{ github.token }}
           script: |
-            const prNumber = parseInt('${{ inputs.pr_number }}');
+            const prNumberInput = '${{ inputs.pr_number }}';
+
+            // Validate PR number input
+            if (!prNumberInput || prNumberInput === '0' || prNumberInput === '') {
+              console.log('No valid PR number provided, skipping checks');
+              core.setOutput('pr_exists', 'false');
+              core.setOutput('skip_reason', 'No PR number provided');
+              return;
+            }
+
+            const prNumber = parseInt(prNumberInput);
+
+            if (isNaN(prNumber) || prNumber <= 0) {
+              console.log(`Invalid PR number: ${prNumberInput}`);
+              core.setOutput('pr_exists', 'false');
+              core.setOutput('skip_reason', `Invalid PR number: ${prNumberInput}`);
+              return;
+            }
 
             console.log(`Fetching PR #${prNumber} from ${{ github.repository }}`);
 
@@ -55,6 +72,7 @@ jobs:
               console.log(`  SHA: ${pr.head.sha}`);
               console.log(`  Labels: ${labels.join(', ') || 'none'}`);
 
+              core.setOutput('pr_exists', 'true');
               core.setOutput('head_sha', pr.head.sha);
               core.setOutput('head_ref', pr.head.ref);
               core.setOutput('base_ref', pr.base.ref);
@@ -62,17 +80,21 @@ jobs:
               core.setOutput('state', pr.state);
 
             } catch (error) {
-              core.setFailed(`Failed to fetch PR #${prNumber}: ${error.message}`);
+              console.log(`Failed to fetch PR #${prNumber}: ${error.message}`);
+              core.setOutput('pr_exists', 'false');
+              core.setOutput('skip_reason', `PR #${prNumber} not found or inaccessible`);
             }
 
       - name: Checkout Repository
+        if: steps.pr-info.outputs.pr_exists == 'true'
         uses: actions/checkout@v4
         with:
           ref: ${{ steps.pr-info.outputs.head_sha }}
 
       - name: Get Release Configuration
         id: get-config
-        uses: folio-org/kitfox-github/.github/actions/get-release-config@RANCHER-2323-test
+        if: steps.pr-info.outputs.pr_exists == 'true'
+        uses: folio-org/kitfox-github/.github/actions/get-release-config@master
         with:
           repo: ${{ github.repository }}
           branch: ${{ steps.pr-info.outputs.base_ref }}
@@ -80,6 +102,7 @@ jobs:
 
       - name: Validate Configuration
         id: validate
+        if: steps.pr-info.outputs.pr_exists == 'true'
         env:
           TARGET_BRANCH: ${{ steps.pr-info.outputs.base_ref }}
           PR_LABELS: ${{ steps.pr-info.outputs.labels }}
@@ -140,7 +163,7 @@ jobs:
 
       - name: Generate GitHub App Token
         id: app-token
-        if: steps.validate.outputs.status == 'success'
+        if: steps.pr-info.outputs.pr_exists == 'true' && steps.validate.outputs.status == 'success'
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ vars.EUREKA_CI_APP_ID }}
@@ -150,7 +173,7 @@ jobs:
 
       - name: Create Check Run
         id: create-check
-        if: steps.validate.outputs.status == 'success'
+        if: steps.pr-info.outputs.pr_exists == 'true' && steps.validate.outputs.status == 'success'
         uses: actions/github-script@v7
         with:
           github-token: ${{ steps.app-token.outputs.token }}
