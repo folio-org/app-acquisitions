@@ -97,7 +97,7 @@ jobs:
         uses: folio-org/kitfox-github/.github/actions/get-release-config@master
         with:
           repo: ${{ github.repository }}
-          branch: ${{ steps.pr-info.outputs.base_ref }}
+          branch: ${{ github.ref_name }}
           github_token: ${{ github.token }}
 
       - name: Validate Configuration
