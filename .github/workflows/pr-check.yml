@@ -256,7 +256,7 @@ jobs:
             const { data: checkRun } = await github.rest.checks.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              name: 'Application Verification',
+              name: 'eureka-ci/release-app-validation',
               head_sha: '${{ inputs.head_sha }}',
               status: 'in_progress',
               started_at: new Date().toISOString(),
