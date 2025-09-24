@@ -369,6 +369,14 @@ jobs:
               summary = 'Some checks could not be completed';
             }
 
+            let verificationSection = '';
+            if (generated === 'true') {
+              verificationSection = `
+            ### Application Verification
+            - **Passed:** ${validationPassed || 'unknown'}
+            ${failureReason ? `- **Reason:** ${failureReason}` : ''}`;
+            }
+
             const text = `
             ## Application Verification Results
 
@@ -382,10 +390,7 @@ jobs:
 
             ### Descriptor Generation
             - **Generated:** ${generated || 'false'}
-
-            ### Application Verification
-            - **Passed:** ${validationPassed || 'unknown'}
-            ${failureReason ? `- **Reason:** ${failureReason}` : ''}
+            ${verificationSection}
 
             ### Workflow Run
             - **Run ID:** ${{ github.run_id }}
