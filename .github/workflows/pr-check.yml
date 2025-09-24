@@ -99,7 +99,7 @@ jobs:
             const prNumber = parseInt('${{ inputs.pr_number }}');
             const providedSha = '${{ inputs.head_sha }}';
 
-            console.log(`Validating commit ${providedSha} exists in PR #${prNumber}`);
+            console.log(`Validating that commit ${providedSha} exists in PR #${prNumber}`);
 
             try {
               // Get all commits in the PR to verify the SHA exists
@@ -109,14 +109,15 @@ jobs:
                 pull_number: prNumber
               });
 
+              console.log(`PR #${prNumber} has ${commits.length} commits`);
+
               const shaExists = commits.some(commit => commit.sha === providedSha);
 
               if (!shaExists) {
-                console.log(`Warning: Commit ${providedSha} not found in PR #${prNumber}`);
-                console.log(`Latest PR commit is ${{ steps.pr-info.outputs.current_head_sha }}`);
-                console.log(`PR may have newer commits since the check suite was triggered`);
+                console.log(`Error: Commit ${providedSha} not found in PR #${prNumber}`);
+                console.log(`This commit does not belong to this PR`);
                 core.setOutput('commit_valid', 'false');
-                core.setOutput('skip_reason', `Commit ${providedSha} not found in PR #${prNumber}. The PR has newer commits.`);
+                core.setOutput('skip_reason', `Commit ${providedSha} not found in PR #${prNumber}`);
                 return;
               }
 
