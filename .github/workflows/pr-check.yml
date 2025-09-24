@@ -292,7 +292,7 @@ jobs:
           app-id: ${{ vars.EUREKA_CI_APP_ID }}
           private-key: ${{ secrets.EUREKA_CI_APP_KEY }}
           owner: ${{ github.repository_owner }}
-          repositories: ${{ github.repository }}
+          repositories: ${{ github.event.repository.name }}
 
       - name: Update Check Run - Generating
         if: needs.pre-check.outputs.check_run_id != ''
@@ -345,7 +345,7 @@ jobs:
           app-id: ${{ vars.EUREKA_CI_APP_ID }}
           private-key: ${{ secrets.EUREKA_CI_APP_KEY }}
           owner: ${{ github.repository_owner }}
-          repositories: ${{ github.repository }}
+          repositories: ${{ github.event.repository.name }}
 
       - name: Determine Final Status
         id: status
