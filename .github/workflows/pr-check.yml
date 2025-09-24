@@ -244,7 +244,7 @@ jobs:
           app-id: ${{ vars.EUREKA_CI_APP_ID }}
           private-key: ${{ secrets.EUREKA_CI_APP_KEY }}
           owner: ${{ github.repository_owner }}
-          repositories: ${{ github.repository }}
+          repositories: ${{ github.event.repository.name }}
 
       - name: Create Check Run
         id: create-check
