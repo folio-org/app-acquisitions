@@ -464,12 +464,12 @@ jobs:
                     {
                       "title": "PR Number",
                       "value": "<https://github.com/${{ github.repository }}/pull/${{ inputs.pr_number }}|#${{ inputs.pr_number }}>",
-                      "short": false
+                      "short": true
                     },
                     {
                       "title": "Commit",
                       "value": "<https://github.com/${{ github.repository }}/commit/${{ inputs.head_sha }}|${{ inputs.head_sha }}>",
-                      "short": false
+                      "short": true
                     }            
                   ],
                   "footer": "Eureka CI/CD"
