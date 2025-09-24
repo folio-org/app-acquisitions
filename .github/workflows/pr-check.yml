@@ -10,6 +10,10 @@ on:
         description: 'Pull request number'
         required: true
         type: string
+      head_sha:
+        description: 'Head commit SHA that triggered the check suite'
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -69,11 +73,11 @@ jobs:
               console.log(`  State: ${pr.state}`);
               console.log(`  Base: ${pr.base.ref}`);
               console.log(`  Head: ${pr.head.ref}`);
-              console.log(`  SHA: ${pr.head.sha}`);
+              console.log(`  Current SHA: ${pr.head.sha}`);
               console.log(`  Labels: ${labels.join(', ') || 'none'}`);
 
               core.setOutput('pr_exists', 'true');
-              core.setOutput('head_sha', pr.head.sha);
+              core.setOutput('current_head_sha', pr.head.sha);
               core.setOutput('head_ref', pr.head.ref);
               core.setOutput('base_ref', pr.base.ref);
               core.setOutput('labels', JSON.stringify(labels));
@@ -85,15 +89,55 @@ jobs:
               core.setOutput('skip_reason', `PR #${prNumber} not found or inaccessible`);
             }
 
-      - name: Checkout Repository
+      - name: Validate Commit in PR
+        id: validate-commit
         if: steps.pr-info.outputs.pr_exists == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            const prNumber = parseInt('${{ inputs.pr_number }}');
+            const providedSha = '${{ inputs.head_sha }}';
+
+            console.log(`Validating commit ${providedSha} exists in PR #${prNumber}`);
+
+            try {
+              // Get all commits in the PR to verify the SHA exists
+              const { data: commits } = await github.rest.pulls.listCommits({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber
+              });
+
+              const shaExists = commits.some(commit => commit.sha === providedSha);
+
+              if (!shaExists) {
+                console.log(`Warning: Commit ${providedSha} not found in PR #${prNumber}`);
+                console.log(`Latest PR commit is ${{ steps.pr-info.outputs.current_head_sha }}`);
+                console.log(`PR may have newer commits since the check suite was triggered`);
+                core.setOutput('commit_valid', 'false');
+                core.setOutput('skip_reason', `Commit ${providedSha} not found in PR #${prNumber}. The PR has newer commits.`);
+                return;
+              }
+
+              console.log(`✓ Confirmed: Commit ${providedSha} exists in PR #${prNumber}`);
+              core.setOutput('commit_valid', 'true');
+
+            } catch (error) {
+              console.log(`Failed to verify commit: ${error.message}`);
+              core.setOutput('commit_valid', 'false');
+              core.setOutput('skip_reason', `Failed to verify commit: ${error.message}`);
+            }
+
+      - name: Checkout Repository
+        if: steps.pr-info.outputs.pr_exists == 'true' && steps.validate-commit.outputs.commit_valid == 'true'
         uses: actions/checkout@v4
         with:
-          ref: ${{ steps.pr-info.outputs.head_sha }}
+          ref: ${{ inputs.head_sha }}
 
       - name: Get Release Configuration
         id: get-config
-        if: steps.pr-info.outputs.pr_exists == 'true'
+        if: steps.pr-info.outputs.pr_exists == 'true' && steps.validate-commit.outputs.commit_valid == 'true'
         uses: folio-org/kitfox-github/.github/actions/get-release-config@master
         with:
           repo: ${{ github.repository }}
@@ -102,7 +146,7 @@ jobs:
 
       - name: Validate Configuration
         id: validate
-        if: steps.pr-info.outputs.pr_exists == 'true'
+        if: steps.pr-info.outputs.pr_exists == 'true' && steps.validate-commit.outputs.commit_valid == 'true'
         env:
           TARGET_BRANCH: ${{ steps.pr-info.outputs.base_ref }}
           PR_LABELS: ${{ steps.pr-info.outputs.labels }}
@@ -163,7 +207,7 @@ jobs:
 
       - name: Generate GitHub App Token
         id: app-token
-        if: steps.pr-info.outputs.pr_exists == 'true' && steps.validate.outputs.status == 'success'
+        if: steps.pr-info.outputs.pr_exists == 'true' && steps.validate-commit.outputs.commit_valid == 'true' && steps.validate.outputs.status == 'success'
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ vars.EUREKA_CI_APP_ID }}
@@ -173,7 +217,7 @@ jobs:
 
       - name: Create Check Run
         id: create-check
-        if: steps.pr-info.outputs.pr_exists == 'true' && steps.validate.outputs.status == 'success'
+        if: steps.pr-info.outputs.pr_exists == 'true' && steps.validate-commit.outputs.commit_valid == 'true' && steps.validate.outputs.status == 'success'
         uses: actions/github-script@v7
         with:
           github-token: ${{ steps.app-token.outputs.token }}
@@ -182,7 +226,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               name: 'Application Verification',
-              head_sha: '${{ steps.pr-info.outputs.head_sha }}',
+              head_sha: '${{ inputs.head_sha }}',
               status: 'in_progress',
               started_at: new Date().toISOString(),
               output: {
@@ -208,7 +252,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ needs.pre-check.outputs.head_sha }}
+          ref: ${{ inputs.head_sha }}
 
       - name: Generate GitHub App Token
         id: app-token
@@ -347,13 +391,13 @@ jobs:
     if: always() && !cancelled() && needs.pre-check.outputs.validation_status == 'success'
     runs-on: ubuntu-latest
     env:
-      TITLE_TEXT: "${{ github.repository }} check ${{ needs.verify-application.result == 'success' && 'passed' || 'failed' }}"
+      TITLE_TEXT: "${{ github.event.repository.name }} release update check ${{ needs.verify-application.result == 'success' && 'passed' || 'failed' }}"
       TITLE_BLOCK: |
         {
           "type": "section",
           "text": {
             "type": "mrkdwn",
-            "text": "*${{ github.repository }} check ${{ needs.verify-application.result == 'success' && 'passed' || 'failed' }} <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|#${{ github.run_number }}>*"
+            "text": "*${{ github.event.repository.name }} release update check ${{ needs.verify-application.result == 'success' && 'passed' || 'failed' }} <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|#${{ github.run_number }}>*"
           }
         }
     steps:
@@ -377,20 +421,25 @@ jobs:
                   "color": "${{ needs.verify-application.result == 'success' && 'good' || 'danger' }}",
                   "fields": [
                     {
-                      "title": "Repository",
-                      "value": "${{ github.repository }}",
+                      "title": "Release branch",
+                      "value": "${{ needs.pre-check.outputs.base_branch }}",
                       "short": true
                     },
                     {
-                      "title": "Branch",
+                      "title": "Update branch",
                       "value": "${{ needs.pre-check.outputs.head_branch }}",
                       "short": true
                     },
                     {
                       "title": "PR Number",
-                      "value": "#${{ inputs.pr_number }}",
+                      "value": "<https://github.com/${{ github.repository }}/pull/${{ inputs.pr_number }}|#${{ inputs.pr_number }}>",
                       "short": false
-                    }
+                    },
+                    {
+                      "title": "Commit",
+                      "value": "<https://github.com/${{ github.repository }}/commit/${{ inputs.head_sha }}|${{ inputs.head_sha }}>",
+                      "short": false
+                    }            
                   ],
                   "footer": "Eureka CI/CD"
                 }
