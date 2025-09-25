@@ -27,7 +27,6 @@ jobs:
     outputs:
       validation_status: ${{ steps.validate.outputs.status }}
       validation_message: ${{ steps.validate.outputs.message }}
-      head_sha: ${{ steps.pr-info.outputs.head_sha }}
       head_branch: ${{ steps.pr-info.outputs.head_ref }}
       base_branch: ${{ steps.pr-info.outputs.base_ref }}
     steps:
