@@ -309,6 +309,33 @@ jobs:
           state_file: 'application-descriptor.json'
           upload_artifact: 'true'
 
+      - name: Fetch Platform Descriptor
+        if: steps.generate.outputs.generated == 'true'
+        env:
+          BRANCH: ${{ needs.pre-check.outputs.base_branch }}
+        run: |
+          mkdir -p /tmp/platform
+
+          echo "::notice::Fetching platform descriptor from platform-lsp branch: $BRANCH"
+
+          curl -fsSL "https://raw.githubusercontent.com/folio-org/platform-lsp/$BRANCH/platform-descriptor.json" \
+            -o /tmp/platform/platform-descriptor.json || {
+            
+            echo "::warning::Could not fetch platform descriptor from branch $BRANCH, trying snapshot branch"
+            curl -fsSL "https://raw.githubusercontent.com/folio-org/platform-lsp/snapshot/platform-descriptor.json" \
+              -o /tmp/platform/platform-descriptor.json
+          }
+
+          echo "::notice::Platform descriptor fetched successfully"
+
+      - name: Upload Platform Descriptor
+        if: steps.generate.outputs.generated == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: platform-descriptor
+          path: /tmp/platform/platform-descriptor.json
+          retention-days: 1
+
       - name: Update Check Run - Validating
         if: steps.generate.outputs.generated == 'true'
         uses: actions/github-script@v7
