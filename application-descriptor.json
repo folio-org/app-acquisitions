@@ -1,12 +1,12 @@
 {
   "name": "app-acquisitions",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Application Descriptor Repository for the FOLIO Acquisitions application",
   "platform": "complete",
   "dependencies": [
     {
       "name": "app-platform-complete",
-      "version": "^3.0.0-SNAPSHOT"
+      "version": "^3.0.0"
     }
   ],
   "modules": [
@@ -20,81 +20,77 @@
     },
     {
       "name": "mod-orders",
-      "version": "<CHANGE_ME>"
+      "version": "13.0.0"
     },
     {
       "name": "mod-orders-storage",
-      "version": "<CHANGE_ME>"
+      "version": "13.0.0"
     },
     {
       "name": "mod-invoice",
-      "version": "<CHANGE_ME>"
+      "version": "6.0.0"
     },
     {
       "name": "mod-invoice-storage",
-      "version": "<CHANGE_ME>"
+      "version": "6.0.0"
     },
     {
       "name": "mod-finance",
-      "version": "<CHANGE_ME>"
+      "version": "5.0.0"
     },
     {
       "name": "mod-finance-storage",
-      "version": "<CHANGE_ME>"
-    },
-    {
-      "name": "edge-orders",
-      "version": "<CHANGE_ME>"
+      "version": "8.0.0"
     }
   ],
   "uiModules": [
     {
       "name": "folio_organizations",
-      "version": "<CHANGE_ME>"
+      "version": "6.0.0"
     },
     {
       "name": "folio_orders",
-      "version": "<CHANGE_ME>"
+      "version": "8.0.0"
     },
     {
       "name": "folio_invoice",
-      "version": "<CHANGE_ME>"
+      "version": "7.0.0"
     },
     {
       "name": "folio_finance",
-      "version": "<CHANGE_ME>"
+      "version": "8.0.0"
     },
     {
       "name": "folio_receiving",
-      "version": "<CHANGE_ME>"
+      "version": "7.0.0"
     },
     {
       "name": "folio_claims",
-      "version": "<CHANGE_ME>"
+      "version": "1.0.0"
     },
     {
       "name": "folio_acquisition-units",
-      "version": "<CHANGE_ME>"
+      "version": "6.0.0"
     },
     {
       "name": "folio_plugin-find-organization",
-      "version": "<CHANGE_ME>"
+      "version": "6.0.0"
     },
     {
       "name": "folio_plugin-find-contact",
-      "version": "<CHANGE_ME>"
+      "version": "6.0.0"
     },
     {
       "name": "folio_plugin-find-interface",
-      "version": "<CHANGE_ME>"
+      "version": "6.0.0"
     },
     {
       "name": "folio_plugin-find-fund",
-      "version": "<CHANGE_ME>"
+      "version": "4.0.0"
     },
     {
       "name": "folio_plugin-find-po-line",
-      "version": "<CHANGE_ME>"
+      "version": "6.0.0"
     }
   ]
 }
