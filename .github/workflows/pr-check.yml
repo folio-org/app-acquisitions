@@ -333,7 +333,7 @@ jobs:
         with:
           app_name: ${{ github.event.repository.name }}
           app_descriptor_file: ${{ steps.generate.outputs.descriptor_file }}
-          app_descriptor_artifact_name: ${{ steps.generate.outputs.descriptor_file_name }}
+          app_descriptor_artifact_name: ${{ steps.generate.outputs.artifact_name }}
           rely_on_FAR: 'false'
           skip_upload: 'true'
           far_url: ${{ vars.FAR_URL }}
