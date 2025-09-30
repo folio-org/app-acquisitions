@@ -314,19 +314,19 @@ jobs:
         env:
           BRANCH: ${{ needs.pre-check.outputs.base_branch }}
         run: |
+          set -eo pipefail
           mkdir -p /tmp/platform
 
           echo "::notice::Fetching platform descriptor from platform-lsp branch: $BRANCH"
 
-          curl -fsSL "https://raw.githubusercontent.com/folio-org/platform-lsp/$BRANCH/platform-descriptor.json" \
-            -o /tmp/platform/platform-descriptor.json || {
-            
-            echo "::warning::Could not fetch platform descriptor from branch $BRANCH, trying snapshot branch"
-            curl -fsSL "https://raw.githubusercontent.com/folio-org/platform-lsp/snapshot/platform-descriptor.json" \
-              -o /tmp/platform/platform-descriptor.json
-          }
+          if ! curl -fsSL "https://raw.githubusercontent.com/folio-org/platform-lsp/$BRANCH/platform-descriptor.json" \
+            -o /tmp/platform/platform-descriptor.json; then
+            echo "::error::Failed to fetch platform descriptor from branch $BRANCH"
+            echo "::error::Platform descriptor must exist for the target release branch"
+            exit 1
+          fi
 
-          echo "::notice::Platform descriptor fetched successfully"
+          echo "::notice::Platform descriptor fetched successfully from branch: $BRANCH"
 
       - name: Upload Platform Descriptor
         if: steps.generate.outputs.generated == 'true'
