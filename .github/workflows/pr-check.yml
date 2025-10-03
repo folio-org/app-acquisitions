@@ -133,7 +133,7 @@ jobs:
       descriptor_file: ${{ steps.generate.outputs.descriptor_file }}
       descriptor_file_name: ${{ steps.generate.outputs.descriptor_file_name }}
       validation_passed: ${{ steps.verify.outputs.validation_passed }}
-      failure_reason: ${{ steps.generate.outputs.generated != 'true' && 'Failed to generate application descriptor' || steps.verify.outputs.failure_reason || 'Check workflow logs for details' }}
+      failure_reason: ${{ steps.generate.outputs.generated != 'true' && 'Failed to generate application descriptor' || (steps.fetch-platform.outcome == 'failure' && format('Failed to fetch platform descriptor from branch {0}', needs.pre-check.outputs.base_branch)) || steps.verify.outputs.failure_reason || 'Check workflow logs for details' }}
       uploaded_to_registry: ${{ steps.verify.outputs.uploaded_to_registry }}
     steps:
       - name: Checkout Repository
@@ -198,6 +198,7 @@ jobs:
           upload_artifact: 'true'
 
       - name: Fetch Platform Descriptor
+        id: fetch-platform
         if: steps.generate.outputs.generated == 'true'
         env:
           BRANCH: ${{ needs.pre-check.outputs.base_branch }}
@@ -263,11 +264,16 @@ jobs:
             const generated = '${{ steps.generate.outputs.generated }}';
             const validationPassed = '${{ steps.verify.outputs.validation_passed }}';
             const failureReason = '${{ steps.verify.outputs.failure_reason }}';
+            const fetchPlatformOutcome = '${{ steps.fetch-platform.outcome }}';
 
             if (generated !== 'true') {
               conclusion = 'failure';
               title = 'Descriptor Generation Failed';
               summary = 'Failed to generate application descriptor';
+            } else if (fetchPlatformOutcome === 'failure') {
+              conclusion = 'failure';
+              title = 'Platform Descriptor Fetch Failed';
+              summary = 'Failed to fetch platform descriptor from branch ${{ needs.pre-check.outputs.base_branch }}';
             } else if (validationPassed === 'false') {
               conclusion = 'failure';
               title = 'Verification Failed';
