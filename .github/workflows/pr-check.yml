@@ -348,7 +348,59 @@ jobs:
             "text": "*${{ github.event.repository.name }} release update check ${{ (needs.check.result == 'success' && needs.check.outputs.validation_passed == 'true') && 'passed' || 'failed' }} <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|#${{ github.run_number }}>*"
           }
         }
+      ATTACHMENT: |
+        {
+          "color": "${{ (needs.check.result == 'success' && needs.check.outputs.validation_passed == 'true') && 'good' || 'danger' }}",
+          "fields": [
+            {
+              "title": "Release branch",
+              "value": "${{ needs.pre-check.outputs.base_branch }}",
+              "short": true
+            },
+            {
+              "title": "Update branch",
+              "value": "${{ needs.pre-check.outputs.head_branch }}",
+              "short": true
+            },
+            {
+              "title": "PR Number",
+              "value": "<https://github.com/${{ github.repository }}/pull/${{ inputs.pr_number }}|#${{ inputs.pr_number }}>",
+              "short": true
+            },
+            {
+              "title": "Commit",
+              "value": "<https://github.com/${{ github.repository }}/commit/${{ inputs.head_sha }}|${{ inputs.head_sha }}>",
+              "short": true
+            }${{ (needs.check.result != 'success' || needs.check.outputs.validation_passed != 'true') && format(',
+            {{
+              "title": "Failure Reason",
+              "value": "{0}",
+              "short": false
+            }}', needs.check.outputs.failure_reason) || '' }}
+          ],
+          "footer": "Eureka CI/CD"
+        }
     steps:
+      - name: Send to Team Channel
+        if: vars.SLACK_NOTIF_CHANNEL != ''
+        continue-on-error: true
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.EUREKA_CI_SLACK_BOT_TOKEN }}
+          errors: false
+          payload: |
+            {
+              "channel": "${{ vars.SLACK_NOTIF_CHANNEL }}",
+              "text": "${{ env.TITLE_TEXT }}",
+              "blocks": [
+                ${{ env.TITLE_BLOCK }}
+              ],
+              "attachments": [
+                ${{ env.ATTACHMENT }}
+              ]
+            }
+
       - name: Send to General Channel
         if: vars.GENERAL_SLACK_NOTIF_CHANNEL != ''
         continue-on-error: true
@@ -365,37 +417,7 @@ jobs:
                 ${{ env.TITLE_BLOCK }}
               ],
               "attachments": [
-                {
-                  "color": "${{ (needs.check.result == 'success' && needs.check.outputs.validation_passed == 'true') && 'good' || 'danger' }}",
-                  "fields": [
-                    {
-                      "title": "Release branch",
-                      "value": "${{ needs.pre-check.outputs.base_branch }}",
-                      "short": true
-                    },
-                    {
-                      "title": "Update branch",
-                      "value": "${{ needs.pre-check.outputs.head_branch }}",
-                      "short": true
-                    },
-                    {
-                      "title": "PR Number",
-                      "value": "<https://github.com/${{ github.repository }}/pull/${{ inputs.pr_number }}|#${{ inputs.pr_number }}>",
-                      "short": true
-                    },
-                    {
-                      "title": "Commit",
-                      "value": "<https://github.com/${{ github.repository }}/commit/${{ inputs.head_sha }}|${{ inputs.head_sha }}>",
-                      "short": true
-                    }${{ (needs.check.result != 'success' || needs.check.outputs.validation_passed != 'true') && format(',
-                    {{
-                      "title": "Failure Reason",
-                      "value": "{0}",
-                      "short": false
-                    }}', needs.check.outputs.failure_reason) || '' }}
-                  ],
-                  "footer": "Eureka CI/CD"
-                }
+                ${{ env.ATTACHMENT }}
               ]
             }
 
@@ -485,6 +507,20 @@ jobs:
 
             echo ""
             echo "### 📨 Notification Status"
+            echo ""
+
+            if [[ -n "${{ vars.SLACK_NOTIF_CHANNEL }}" ]]; then
+              if [[ "${{ needs.notify.result }}" == "success" ]]; then
+                echo "✅ **Team Channel** (\`${{ vars.SLACK_NOTIF_CHANNEL }}\`): Sent"
+              elif [[ "${{ needs.notify.result }}" == "failure" ]]; then
+                echo "⚠️ **Team Channel** (\`${{ vars.SLACK_NOTIF_CHANNEL }}\`): Failed"
+              else
+                echo "ℹ️ **Team Channel** (\`${{ vars.SLACK_NOTIF_CHANNEL }}\`): Skipped"
+              fi
+            else
+              echo "ℹ️ **Team Channel:** Not configured"
+            fi
+
             echo ""
 
             if [[ -n "${{ vars.GENERAL_SLACK_NOTIF_CHANNEL }}" ]]; then
