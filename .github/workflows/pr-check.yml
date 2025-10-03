@@ -436,8 +436,11 @@ jobs:
               elif [[ "$VALIDATION_STATUS" == "skipped" ]]; then
                 echo "⏭️ **Pre-Check:** Skipped"
                 echo "- **Reason:** $VALIDATION_MESSAGE"
+              elif [[ -z "$VALIDATION_STATUS" ]]; then
+                echo "⏭️ **Pre-Check:** Validation step was skipped"
+                echo "- This typically means the PR was not found or the commit is not in the PR"
               else
-                echo "⚠️ **Pre-Check:** Unknown status"
+                echo "⚠️ **Pre-Check:** Unknown status ($VALIDATION_STATUS)"
               fi
             elif [[ "$PRE_CHECK_RESULT" == "failure" ]]; then
               echo "❌ **Pre-Check:** Failed"
