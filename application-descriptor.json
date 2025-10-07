@@ -1,6 +1,6 @@
 {
   "name": "app-acquisitions",
-  "version": "1.2.0-SNAPSHOT.100100000001000",
+  "version": "1.2.0-SNAPSHOT.100100000001046",
   "description": "Application Descriptor Repository for the FOLIO Acquisitions application",
   "platform": "complete",
   "dependencies": [
@@ -12,11 +12,11 @@
   "modules": [
     {
       "name": "mod-organizations",
-      "version": "2.2.0-SNAPSHOT.74"
+      "version": "2.2.0-SNAPSHOT.75"
     },
     {
       "name": "mod-organizations-storage",
-      "version": "5.0.0-SNAPSHOT.130"
+      "version": "5.0.0-SNAPSHOT.131"
     },
     {
       "name": "mod-orders",
