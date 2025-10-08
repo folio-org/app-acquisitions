@@ -4,8 +4,8 @@ scan_config:
   labels:
     - release-update
   pr_reviewers:
-    - folio-org/kitfox
-    - folio-org/acquisitions
+    - epam-avramenko
+#    - folio-org/acquisitions
 
 release_branches:
   - R2-2025
