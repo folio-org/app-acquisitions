@@ -1,5 +1,5 @@
 scan_config:
-  enabled: false
+  enabled: true
   update_branch_format: "release-update/{0}"
   labels:
     - release-update
@@ -8,4 +8,4 @@ scan_config:
     - folio-org/acquisitions
 
 release_branches:
-#  - R2-2024
+  - R2-2025
