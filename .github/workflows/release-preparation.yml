@@ -33,16 +33,16 @@ on:
         required: false
         type: string
         default: 'false'
-      dispatch_id:
-        description: 'Unique identifier for workflow tracking'
-        required: false
-        type: string
-        default: ''
       dry_run:
         description: 'Perform dry run without making changes'
         required: false
         type: boolean
         default: false
+      dispatch_id:
+        description: 'Unique identifier for workflow tracking'
+        required: false
+        type: string
+        default: ''
 
 permissions:
   contents: write
