@@ -1,0 +1,117 @@
+{
+  "name": "${project.name}",
+  "version": "${project.version}",
+  "description": "${project.description}",
+  "platform": "complete",
+  "dependencies": [
+    {
+      "name": "app-platform-complete",
+      "version": "^2.1.0",
+      "preRelease": "false"
+    }
+  ],
+  "modules": [
+    {
+      "name": "mod-organizations",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "mod-organizations-storage",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "mod-orders",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "mod-orders-storage",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "mod-invoice",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "mod-invoice-storage",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "mod-finance",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "mod-finance-storage",
+      "version": "latest",
+      "preRelease": "false"
+    }
+  ],
+  "uiModules": [
+    {
+      "name": "folio_organizations",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "folio_orders",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "folio_invoice",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "folio_finance",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "folio_receiving",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "folio_claims",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "folio_acquisition-units",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "folio_plugin-find-organization",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "folio_plugin-find-contact",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "folio_plugin-find-interface",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "folio_plugin-find-fund",
+      "version": "latest",
+      "preRelease": "false"
+    },
+    {
+      "name": "folio_plugin-find-po-line",
+      "version": "latest",
+      "preRelease": "false"
+    }
+  ]
+}
