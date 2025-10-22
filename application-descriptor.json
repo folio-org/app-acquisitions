@@ -1,6 +1,6 @@
 {
   "name": "app-acquisitions",
-  "version": "1.2.0-SNAPSHOT.100100000002014",
+  "version": "1.2.0-SNAPSHOT.100100000002053",
   "description": "Application Descriptor Repository for the FOLIO Acquisitions application",
   "platform": "complete",
   "dependencies": [
@@ -44,7 +44,7 @@
     },
     {
       "name": "edge-orders",
-      "version": "3.3.0-SNAPSHOT.95"
+      "version": "3.3.0-SNAPSHOT.96"
     }
   ],
   "uiModules": [
