@@ -1,6 +1,6 @@
 {
   "name": "app-acquisitions",
-  "version": "1.2.0-SNAPSHOT.100200000000528",
+  "version": "1.2.0-SNAPSHOT.100200000000530",
   "description": "Application Descriptor Repository for the FOLIO Acquisitions application",
   "platform": "complete",
   "dependencies": [
@@ -40,7 +40,7 @@
     },
     {
       "name": "mod-finance-storage",
-      "version": "8.9.0-SNAPSHOT.424"
+      "version": "8.9.0-SNAPSHOT.428"
     },
     {
       "name": "edge-orders",
