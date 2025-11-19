@@ -1,6 +1,6 @@
 {
   "name": "app-acquisitions",
-  "version": "1.2.0-SNAPSHOT.100200000000909",
+  "version": "1.2.0-SNAPSHOT.100200000000970",
   "description": "Application Descriptor Repository for the FOLIO Acquisitions application",
   "platform": "complete",
   "dependencies": [
@@ -74,7 +74,7 @@
     },
     {
       "name": "folio_acquisition-units",
-      "version": "6.0.10990000000054"
+      "version": "6.1.1099000000000064"
     },
     {
       "name": "folio_plugin-find-organization",
