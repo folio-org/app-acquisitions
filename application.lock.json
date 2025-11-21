@@ -1,6 +1,6 @@
 {
   "name": "app-acquisitions",
-  "version": "1.2.0-SNAPSHOT.100200000001086",
+  "version": "1.2.0-SNAPSHOT.100200000001087",
   "description": "Application Descriptor Repository for the FOLIO Acquisitions application",
   "platform": "complete",
   "dependencies": [
@@ -50,7 +50,7 @@
   "uiModules": [
     {
       "name": "folio_organizations",
-      "version": "7.0.1099000000000152"
+      "version": "7.0.1099000000000156"
     },
     {
       "name": "folio_orders",
@@ -58,7 +58,7 @@
     },
     {
       "name": "folio_invoice",
-      "version": "8.0.1099000000000388"
+      "version": "8.0.1099000000000392"
     },
     {
       "name": "folio_finance",
@@ -70,31 +70,31 @@
     },
     {
       "name": "folio_claims",
-      "version": "2.0.1099000000000228"
+      "version": "2.0.1099000000000232"
     },
     {
       "name": "folio_acquisition-units",
-      "version": "6.1.1099000000000067"
+      "version": "6.1.1099000000000071"
     },
     {
       "name": "folio_plugin-find-organization",
-      "version": "6.0.1099000000000048"
+      "version": "6.0.1099000000000054"
     },
     {
       "name": "folio_plugin-find-contact",
-      "version": "6.1.1099000000000057"
+      "version": "6.1.1099000000000061"
     },
     {
       "name": "folio_plugin-find-interface",
-      "version": "6.0.10990000000053"
+      "version": "6.0.1099000000000061"
     },
     {
       "name": "folio_plugin-find-fund",
-      "version": "4.1.1099000000000044"
+      "version": "4.1.1099000000000048"
     },
     {
       "name": "folio_plugin-find-po-line",
-      "version": "6.0.1099000000000106"
+      "version": "6.0.1099000000000110"
     }
   ]
 }
