@@ -1,6 +1,6 @@
 {
   "name": "app-acquisitions",
-  "version": "1.2.0-SNAPSHOT.100200000001561",
+  "version": "1.2.0-SNAPSHOT.100200000001788",
   "description": "Application Descriptor Repository for the FOLIO Acquisitions application",
   "platform": "complete",
   "dependencies": [
@@ -24,7 +24,7 @@
     },
     {
       "name": "mod-orders-storage",
-      "version": "14.0.0-SNAPSHOT.476"
+      "version": "14.0.0-SNAPSHOT.477"
     },
     {
       "name": "mod-invoice",
@@ -50,7 +50,7 @@
   "uiModules": [
     {
       "name": "folio_organizations",
-      "version": "7.0.1099000000000159"
+      "version": "7.0.1099000000000163"
     },
     {
       "name": "folio_orders",
@@ -58,7 +58,7 @@
     },
     {
       "name": "folio_invoice",
-      "version": "8.0.1099000000000409"
+      "version": "8.0.1099000000000413"
     },
     {
       "name": "folio_finance",
@@ -66,11 +66,11 @@
     },
     {
       "name": "folio_receiving",
-      "version": "8.0.1099000000000317"
+      "version": "8.0.1099000000000325"
     },
     {
       "name": "folio_claims",
-      "version": "2.0.1099000000000232"
+      "version": "2.0.1099000000000236"
     },
     {
       "name": "folio_acquisition-units",
