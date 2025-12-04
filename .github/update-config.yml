@@ -8,11 +8,6 @@ update_config:
     - folio-org/acquisitions
 
 branches:
-  - RANCHER-2520-test:
-      enabled: true
-      need_pr: false
-      pre_release: "only"
-      descriptor_build_offset: "100200000000000"
   - R1-2025:
       enabled: true
       need_pr: true
