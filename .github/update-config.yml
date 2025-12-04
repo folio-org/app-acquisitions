@@ -4,8 +4,7 @@ update_config:
   labels:
     - version-update
   pr_reviewers:
-    - folio-org/kitfox
-    - folio-org/acquisitions
+    - epam-avramenko
 
 branches:
   - R1-2025:
