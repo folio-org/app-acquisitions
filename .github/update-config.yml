@@ -8,7 +8,7 @@ update_config:
     - folio-org/acquisitions
 
 branches:
-  - snapshot:
+  - RANCHER-2520-test:
       enabled: true
       need_pr: false
       pre_release: "only"
