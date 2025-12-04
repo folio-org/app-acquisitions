@@ -43,7 +43,7 @@
     },
     {
       "name": "mod-finance",
-      "version": "^8.0.0",
+      "version": "^5.0.0",
       "preRelease": "false"
     },
     {
