@@ -6,111 +6,111 @@
   "dependencies": [
     {
       "name": "app-platform-complete",
-      "version": "^VERSION",
+      "version": "^3.0.0",
       "preRelease": "false"
     }
   ],
   "modules": [
     {
       "name": "mod-organizations",
-      "version": "^VERSION",
+      "version": "^4.0.0",
       "preRelease": "false"
     },
     {
       "name": "mod-organizations-storage",
-      "version": "^VERSION",
+      "version": "^4.0.0",
       "preRelease": "false"
     },
     {
       "name": "mod-orders",
-      "version": "^VERSION",
+      "version": "^13.0.0",
       "preRelease": "false"
     },
     {
       "name": "mod-orders-storage",
-      "version": "^VERSION",
+      "version": "^13.0.0",
       "preRelease": "false"
     },
     {
       "name": "mod-invoice",
-      "version": "^VERSION",
+      "version": "^6.0.0",
       "preRelease": "false"
     },
     {
       "name": "mod-invoice-storage",
-      "version": "^VERSION",
+      "version": "^6.0.0",
       "preRelease": "false"
     },
     {
       "name": "mod-finance",
-      "version": "^VERSION",
+      "version": "^8.0.0",
       "preRelease": "false"
     },
     {
       "name": "mod-finance-storage",
-      "version": "^VERSION",
+      "version": "^8.0.0",
       "preRelease": "false"
     }
   ],
   "uiModules": [
     {
       "name": "folio_organizations",
-      "version": "^VERSION",
+      "version": "^6.0.0",
       "preRelease": "false"
     },
     {
       "name": "folio_orders",
-      "version": "^VERSION",
+      "version": "^8.0.0",
       "preRelease": "false"
     },
     {
       "name": "folio_invoice",
-      "version": "^VERSION",
+      "version": "^7.0.0",
       "preRelease": "false"
     },
     {
       "name": "folio_finance",
-      "version": "^VERSION",
+      "version": "^8.0.0",
       "preRelease": "false"
     },
     {
       "name": "folio_receiving",
-      "version": "^VERSION",
+      "version": "^7.0.0",
       "preRelease": "false"
     },
     {
       "name": "folio_claims",
-      "version": "^VERSION",
+      "version": "^1.0.0",
       "preRelease": "false"
     },
     {
       "name": "folio_acquisition-units",
-      "version": "^VERSION",
+      "version": "^6.0.0",
       "preRelease": "false"
     },
     {
       "name": "folio_plugin-find-organization",
-      "version": "^VERSION",
+      "version": "^6.0.0",
       "preRelease": "false"
     },
     {
       "name": "folio_plugin-find-contact",
-      "version": "^VERSION",
+      "version": "^6.0.0",
       "preRelease": "false"
     },
     {
       "name": "folio_plugin-find-interface",
-      "version": "^VERSION",
+      "version": "^6.0.0",
       "preRelease": "false"
     },
     {
       "name": "folio_plugin-find-fund",
-      "version": "^VERSION",
+      "version": "^4.0.0",
       "preRelease": "false"
     },
     {
       "name": "folio_plugin-find-po-line",
-      "version": "^VERSION",
+      "version": "^6.0.0",
       "preRelease": "false"
     }
   ]
