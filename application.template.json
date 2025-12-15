@@ -14,7 +14,7 @@
     {
       "name": "mod-organizations",
       "version": "latest",
-      "preRelease": "only"
+      "preRelease": "false"
     },
     {
       "name": "mod-organizations-storage",
