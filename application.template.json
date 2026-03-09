@@ -48,7 +48,7 @@
     },
     {
       "name": "mod-finance-storage",
-      "version": "~8.8.7",
+      "version": "8.8.7",
       "preRelease": "false"
     }
   ],
@@ -80,7 +80,7 @@
     },
     {
       "name": "folio_claims",
-      "version": "^1.0.0",
+      "version": "1.0.0",
       "preRelease": "false"
     },
     {
