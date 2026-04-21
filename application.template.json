@@ -6,122 +6,122 @@
   "dependencies": [
     {
       "name": "app-platform-complete",
-      "version": "^3.0.0-SNAPSHOT",
-      "preRelease": "only"
+      "version": "^VERSION_^3.0.0-SNAPSHOT",
+      "preRelease": "false"
     },
     {
       "name": "app-inventory",
-      "version": "^1.0.0-SNAPSHOT",
-      "preRelease": "only"
+      "version": "^VERSION_^1.0.0-SNAPSHOT",
+      "preRelease": "false"
     }
   ],
   "modules": [
     {
       "name": "mod-organizations",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "mod-organizations-storage",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "mod-orders",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "mod-orders-storage",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "mod-invoice",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "mod-invoice-storage",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "mod-finance",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "mod-finance-storage",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "edge-orders",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     }
   ],
   "uiModules": [
     {
       "name": "folio_organizations",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "folio_orders",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "folio_invoice",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "folio_finance",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "folio_receiving",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "folio_claims",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "folio_acquisition-units",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "folio_plugin-find-organization",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "folio_plugin-find-contact",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "folio_plugin-find-interface",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "folio_plugin-find-fund",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     },
     {
       "name": "folio_plugin-find-po-line",
-      "version": "latest",
-      "preRelease": "only"
+      "version": "^VERSION_latest",
+      "preRelease": "false"
     }
   ]
 }
