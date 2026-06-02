@@ -90,27 +90,27 @@
     },
     {
       "name": "folio_plugin-find-organization",
-      "version": "^6.0.0",
+      "version": "~6.0.0",
       "preRelease": "false"
     },
     {
       "name": "folio_plugin-find-contact",
-      "version": "^6.0.0",
+      "version": "~6.0.0",
       "preRelease": "false"
     },
     {
       "name": "folio_plugin-find-interface",
-      "version": "^6.0.0",
+      "version": "~6.0.0",
       "preRelease": "false"
     },
     {
       "name": "folio_plugin-find-fund",
-      "version": "^4.0.0",
+      "version": "~4.0.0",
       "preRelease": "false"
     },
     {
       "name": "folio_plugin-find-po-line",
-      "version": "^6.0.1",
+      "version": "~6.0.1",
       "preRelease": "false"
     }
   ]
