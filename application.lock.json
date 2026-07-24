@@ -1,9 +1,13 @@
 {
-  "id" : "app-acquisitions-2.0.15",
+  "id" : "app-acquisitions-2.0.16",
   "name" : "app-acquisitions",
-  "version" : "2.0.15",
+  "version" : "2.0.16",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
+    "id" : "mod-orders-storage-14.0.3",
+    "name" : "mod-orders-storage",
+    "version" : "14.0.3"
+  }, {
     "id" : "mod-organizations-2.2.0",
     "name" : "mod-organizations",
     "version" : "2.2.0"
@@ -15,10 +19,6 @@
     "id" : "mod-orders-13.1.6",
     "name" : "mod-orders",
     "version" : "13.1.6"
-  }, {
-    "id" : "mod-orders-storage-14.0.2",
-    "name" : "mod-orders-storage",
-    "version" : "14.0.2"
   }, {
     "id" : "mod-invoice-6.1.3",
     "name" : "mod-invoice",
@@ -41,13 +41,13 @@
     "version" : "3.3.0"
   } ],
   "uiModules" : [ {
-    "id" : "folio_orders-9.0.5",
-    "name" : "folio_orders",
-    "version" : "9.0.5"
-  }, {
     "id" : "folio_organizations-7.0.0",
     "name" : "folio_organizations",
     "version" : "7.0.0"
+  }, {
+    "id" : "folio_orders-9.0.5",
+    "name" : "folio_orders",
+    "version" : "9.0.5"
   }, {
     "id" : "folio_invoice-8.0.1",
     "name" : "folio_invoice",
@@ -2065,7 +2065,7 @@
       }
     }
   }, {
-    "id" : "mod-orders-storage-14.0.2",
+    "id" : "mod-orders-storage-14.0.3",
     "name" : "Orders CRUD module",
     "requires" : [ {
       "id" : "locale",
@@ -3174,7 +3174,7 @@
       "subPermissions" : [ "orders-storage.pieces.all", "orders-storage.wrapper-pieces.all", "orders-storage.titles.all", "orders-storage.po-lines.all", "orders-storage.acquisition-methods.all", "orders-storage.po-number.all", "orders-storage.po-line-number.all", "orders-storage.purchase-orders.all", "orders-storage.receiving-history.all", "orders-storage.order-invoice-relationships.all", "orders-storage.order-templates.all", "orders-storage.order-template-categories.all", "acquisitions-units-storage.units.all", "acquisitions-units-storage.memberships.all", "orders-storage.configuration.reasons-for-closure.all", "orders-storage.configuration.prefixes.all", "orders-storage.configuration.suffixes.all", "orders-storage.export-history.all", "orders-storage.audit-outbox.all", "orders-storage.claiming.all", "orders-storage.custom-fields.all", "orders-storage.routing-lists.all", "orders-storage.settings.all", "orders-storage.batch-tracking.all" ]
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioorg/mod-orders-storage:14.0.2",
+      "dockerImage" : "folioorg/mod-orders-storage:14.0.3",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
