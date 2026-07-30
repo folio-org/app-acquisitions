@@ -1,9 +1,13 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000011378",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000011404",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000011378",
+  "version" : "2.1.0-SNAPSHOT.100200000011404",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2593",
+    "name" : "mod-orders",
+    "version" : "14.0.0-SNAPSHOT.2593"
+  }, {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2053",
     "name" : "mod-organizations",
     "version" : "2.3.0-SNAPSHOT.2053"
@@ -11,10 +15,6 @@
     "id" : "mod-organizations-storage-5.1.0-SNAPSHOT.2082",
     "name" : "mod-organizations-storage",
     "version" : "5.1.0-SNAPSHOT.2082"
-  }, {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2587",
-    "name" : "mod-orders",
-    "version" : "14.0.0-SNAPSHOT.2587"
   }, {
     "id" : "mod-orders-storage-15.0.0-SNAPSHOT.2273",
     "name" : "mod-orders-storage",
@@ -41,13 +41,13 @@
     "version" : "4.0.0-SNAPSHOT.2044"
   } ],
   "uiModules" : [ {
-    "id" : "folio_orders-10.0.1099000000001113",
-    "name" : "folio_orders",
-    "version" : "10.0.1099000000001113"
-  }, {
     "id" : "folio_organizations-7.0.1099000000000235",
     "name" : "folio_organizations",
     "version" : "7.0.1099000000000235"
+  }, {
+    "id" : "folio_orders-10.0.1099000000001113",
+    "name" : "folio_orders",
+    "version" : "10.0.1099000000001113"
   }, {
     "id" : "folio_invoice-8.0.1099000000000561",
     "name" : "folio_invoice",
@@ -840,7 +840,7 @@
       }
     }
   }, {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2587",
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2593",
     "name" : "Orders Business Logic Module",
     "requires" : [ {
       "id" : "acquisitions-units-storage.units",
@@ -2017,7 +2017,7 @@
       }
     },
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-orders:14.0.0-SNAPSHOT.2587",
+      "dockerImage" : "folioci/mod-orders:14.0.0-SNAPSHOT.2593",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
