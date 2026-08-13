@@ -1,7 +1,7 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000011635",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000011658",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000011635",
+  "version" : "2.1.0-SNAPSHOT.100200000011658",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2053",
@@ -41,9 +41,9 @@
     "version" : "4.0.0-SNAPSHOT.2051"
   } ],
   "uiModules" : [ {
-    "id" : "folio_receiving-9.0.1099000000000580",
-    "name" : "folio_receiving",
-    "version" : "9.0.1099000000000580"
+    "id" : "folio_finance-9.0.1099000000000700",
+    "name" : "folio_finance",
+    "version" : "9.0.1099000000000700"
   }, {
     "id" : "folio_organizations-7.0.1099000000000235",
     "name" : "folio_organizations",
@@ -57,9 +57,9 @@
     "name" : "folio_invoice",
     "version" : "8.0.1099000000000561"
   }, {
-    "id" : "folio_finance-9.0.1099000000000697",
-    "name" : "folio_finance",
-    "version" : "9.0.1099000000000697"
+    "id" : "folio_receiving-9.0.1099000000000580",
+    "name" : "folio_receiving",
+    "version" : "9.0.1099000000000580"
   }, {
     "id" : "folio_claims-3.0.1099000000000331",
     "name" : "folio_claims",
@@ -7268,7 +7268,7 @@
       }
     }
   }, {
-    "id" : "folio_finance-9.0.1099000000000697",
+    "id" : "folio_finance-9.0.1099000000000700",
     "name" : "Description for ui-finance",
     "requires" : [ {
       "id" : "acquisitions-units",
