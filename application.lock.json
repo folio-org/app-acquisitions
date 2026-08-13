@@ -1,9 +1,13 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000011658",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000011662",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000011658",
+  "version" : "2.1.0-SNAPSHOT.100200000011662",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
+    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2115",
+    "name" : "mod-finance-storage",
+    "version" : "9.0.0-SNAPSHOT.2115"
+  }, {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2053",
     "name" : "mod-organizations",
     "version" : "2.3.0-SNAPSHOT.2053"
@@ -32,19 +36,11 @@
     "name" : "mod-finance",
     "version" : "6.0.0-SNAPSHOT.2072"
   }, {
-    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2086",
-    "name" : "mod-finance-storage",
-    "version" : "9.0.0-SNAPSHOT.2086"
-  }, {
     "id" : "edge-orders-4.0.0-SNAPSHOT.2051",
     "name" : "edge-orders",
     "version" : "4.0.0-SNAPSHOT.2051"
   } ],
   "uiModules" : [ {
-    "id" : "folio_finance-9.0.1099000000000700",
-    "name" : "folio_finance",
-    "version" : "9.0.1099000000000700"
-  }, {
     "id" : "folio_organizations-7.0.1099000000000235",
     "name" : "folio_organizations",
     "version" : "7.0.1099000000000235"
@@ -56,6 +52,10 @@
     "id" : "folio_invoice-8.0.1099000000000561",
     "name" : "folio_invoice",
     "version" : "8.0.1099000000000561"
+  }, {
+    "id" : "folio_finance-9.0.1099000000000700",
+    "name" : "folio_finance",
+    "version" : "9.0.1099000000000700"
   }, {
     "id" : "folio_receiving-9.0.1099000000000580",
     "name" : "folio_receiving",
@@ -5549,7 +5549,7 @@
       }
     }
   }, {
-    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2086",
+    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2115",
     "name" : "Finance CRUD module",
     "requires" : [ {
       "id" : "base-url",
@@ -5957,6 +5957,14 @@
         "methods" : [ "PUT" ],
         "pathPattern" : "/finance-storage/finance-data",
         "permissionsRequired" : [ "finance-storage.finance-data.collection.put" ]
+      } ]
+    }, {
+      "id" : "finance-storage.fiscal-year-hierarchy",
+      "version" : "1.0",
+      "handlers" : [ {
+        "methods" : [ "GET" ],
+        "pathPattern" : "/finance-storage/fiscal-year-hierarchy",
+        "permissionsRequired" : [ "finance-storage.fiscal-year-hierarchy.collection.get" ]
       } ]
     }, {
       "id" : "finance-storage.exchange-rate-source",
@@ -6376,6 +6384,15 @@
       "description" : "All permissions for the finance data",
       "subPermissions" : [ "finance-storage.finance-data.collection.get", "finance-storage.finance-data.collection.put" ]
     }, {
+      "permissionName" : "finance-storage.fiscal-year-hierarchy.collection.get",
+      "displayName" : "all fiscal-year-hierarchy",
+      "description" : "Get the ledger/group/fund/budget/expense-class hierarchy for a fiscal year"
+    }, {
+      "permissionName" : "finance-storage.fiscal-year-hierarchy.all",
+      "displayName" : "All fiscal-year-hierarchy perms",
+      "description" : "All permissions for the fiscal year hierarchy",
+      "subPermissions" : [ "finance-storage.fiscal-year-hierarchy.collection.get" ]
+    }, {
       "permissionName" : "finance-storage.exchange-rate-source.item.get",
       "displayName" : "get exchange rate source",
       "description" : "Get exchange rate source"
@@ -6404,10 +6421,10 @@
       "permissionName" : "finance.module.all",
       "displayName" : "All finance-module perms",
       "description" : "All permissions for the finance module",
-      "subPermissions" : [ "finance-storage.budgets.all", "finance-storage.expense-classes.all", "finance-storage.budget-expense-classes.all", "finance-storage.fiscal-years.all", "finance-storage.funds.all", "finance-storage.groups.all", "finance-storage.ledgers.all", "finance-storage.transactions.all", "finance-storage.transaction-totals.all", "finance-storage.fund-types.all", "finance-storage.fund-update-logs.all", "finance-storage.finance-data.all", "finance-storage.exchange-rate-source.all", "finance-storage.job-number.get" ]
+      "subPermissions" : [ "finance-storage.budgets.all", "finance-storage.expense-classes.all", "finance-storage.budget-expense-classes.all", "finance-storage.fiscal-years.all", "finance-storage.funds.all", "finance-storage.groups.all", "finance-storage.ledgers.all", "finance-storage.transactions.all", "finance-storage.transaction-totals.all", "finance-storage.fund-types.all", "finance-storage.fund-update-logs.all", "finance-storage.finance-data.all", "finance-storage.fiscal-year-hierarchy.all", "finance-storage.exchange-rate-source.all", "finance-storage.job-number.get" ]
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-finance-storage:9.0.0-SNAPSHOT.2086",
+      "dockerImage" : "folioci/mod-finance-storage:9.0.0-SNAPSHOT.2115",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
