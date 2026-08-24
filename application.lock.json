@@ -1,13 +1,9 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000011927",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012084",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000011927",
+  "version" : "2.1.0-SNAPSHOT.100200000012084",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
-    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2125",
-    "name" : "mod-finance-storage",
-    "version" : "9.0.0-SNAPSHOT.2125"
-  }, {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2053",
     "name" : "mod-organizations",
     "version" : "2.3.0-SNAPSHOT.2053"
@@ -36,11 +32,19 @@
     "name" : "mod-finance",
     "version" : "6.0.0-SNAPSHOT.2072"
   }, {
+    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2125",
+    "name" : "mod-finance-storage",
+    "version" : "9.0.0-SNAPSHOT.2125"
+  }, {
     "id" : "edge-orders-4.0.0-SNAPSHOT.2051",
     "name" : "edge-orders",
     "version" : "4.0.0-SNAPSHOT.2051"
   } ],
   "uiModules" : [ {
+    "id" : "folio_receiving-9.0.1099000000000585",
+    "name" : "folio_receiving",
+    "version" : "9.0.1099000000000585"
+  }, {
     "id" : "folio_organizations-7.0.1099000000000235",
     "name" : "folio_organizations",
     "version" : "7.0.1099000000000235"
@@ -56,10 +60,6 @@
     "id" : "folio_finance-9.0.1099000000000704",
     "name" : "folio_finance",
     "version" : "9.0.1099000000000704"
-  }, {
-    "id" : "folio_receiving-9.0.1099000000000580",
-    "name" : "folio_receiving",
-    "version" : "9.0.1099000000000580"
   }, {
     "id" : "folio_claims-3.0.1099000000000331",
     "name" : "folio_claims",
@@ -7570,7 +7570,7 @@
       }
     }
   }, {
-    "id" : "folio_receiving-9.0.1099000000000580",
+    "id" : "folio_receiving-9.0.1099000000000585",
     "name" : "Description for receiving",
     "requires" : [ {
       "id" : "acquisition-piece-events",
