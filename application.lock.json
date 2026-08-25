@@ -1,12 +1,12 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012124",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012126",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012124",
+  "version" : "2.1.0-SNAPSHOT.100200000012126",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2593",
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2606",
     "name" : "mod-orders",
-    "version" : "14.0.0-SNAPSHOT.2593"
+    "version" : "14.0.0-SNAPSHOT.2606"
   }, {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2053",
     "name" : "mod-organizations",
@@ -840,7 +840,7 @@
       }
     }
   }, {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2593",
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2606",
     "name" : "Orders Business Logic Module",
     "requires" : [ {
       "id" : "acquisitions-units-storage.units",
@@ -2017,7 +2017,7 @@
       }
     },
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-orders:14.0.0-SNAPSHOT.2593",
+      "dockerImage" : "folioci/mod-orders:14.0.0-SNAPSHOT.2606",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
