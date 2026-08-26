@@ -1,7 +1,7 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012127",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012163",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012127",
+  "version" : "2.1.0-SNAPSHOT.100200000012163",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2053",
@@ -41,17 +41,17 @@
     "version" : "4.0.0-SNAPSHOT.2058"
   } ],
   "uiModules" : [ {
-    "id" : "folio_orders-10.0.1099000000001123",
-    "name" : "folio_orders",
-    "version" : "10.0.1099000000001123"
+    "id" : "folio_invoice-8.0.1099000000000566",
+    "name" : "folio_invoice",
+    "version" : "8.0.1099000000000566"
   }, {
     "id" : "folio_organizations-7.0.1099000000000235",
     "name" : "folio_organizations",
     "version" : "7.0.1099000000000235"
   }, {
-    "id" : "folio_invoice-8.0.1099000000000561",
-    "name" : "folio_invoice",
-    "version" : "8.0.1099000000000561"
+    "id" : "folio_orders-10.0.1099000000001123",
+    "name" : "folio_orders",
+    "version" : "10.0.1099000000001123"
   }, {
     "id" : "folio_finance-9.0.1099000000000704",
     "name" : "folio_finance",
@@ -7074,7 +7074,7 @@
       }
     }
   }, {
-    "id" : "folio_invoice-8.0.1099000000000561",
+    "id" : "folio_invoice-8.0.1099000000000566",
     "name" : "Invoice",
     "requires" : [ {
       "id" : "acquisition-methods",
@@ -7172,12 +7172,12 @@
     }, {
       "permissionName" : "ui-invoice.invoice.view",
       "displayName" : "Invoice: Can view Invoices and Invoice lines",
-      "subPermissions" : [ "module.invoice.enabled", "acquisition.invoice.events.get", "acquisition.invoice-line.events.get", "acquisitions-units.units.collection.get", "batch-groups.collection.get", "batch-groups.item.get", "batch-voucher.batch-voucher-exports.collection.get", "batch-voucher.export-configurations.collection.get", "finance.budgets.collection.get", "finance.calculate-exchange.collection.get", "finance.calculate-exchange.item.get", "finance.fiscal-years.collection.get", "finance.fiscal-years.item.get", "finance.funds.collection.get", "finance.funds.expense-classes.collection.get", "finance.transactions.collection.get", "inventory-storage.location-units.campuses.collection.get", "inventory-storage.location-units.institutions.collection.get", "inventory-storage.location-units.libraries.collection.get", "inventory-storage.locations.collection.get", "invoice.invoice-lines.collection.get", "invoice.invoice-lines.item.get", "invoice.invoices.collection.get", "invoice.invoices.documents.collection.get", "invoice.invoices.documents.item.get", "invoice.invoices.item.get", "invoice-storage.adjustment-presets.collection.get", "invoice-storage.settings.collection.get", "mod-settings.global.read.ui-tags.tags.manage", "orders.collection.get", "orders.pieces.collection.get", "orders.po-lines.collection.get", "orders.po-lines.item.get", "organizations-storage.categories.collection.get", "organizations.organizations.collection.get", "organizations.organizations.item.get", "tags.collection.get", "tenant-addresses.collection.get", "tenant-addresses.item.get", "usergroups.collection.get", "users.collection.get", "users.item.get", "voucher.voucher-lines.collection.get", "voucher.vouchers.collection.get", "voucher.vouchers.item.get" ],
+      "subPermissions" : [ "module.invoice.enabled", "acquisition.invoice.events.get", "acquisition.invoice-line.events.get", "acquisitions-units.units.collection.get", "batch-groups.collection.get", "batch-groups.item.get", "batch-voucher.batch-voucher-exports.collection.get", "batch-voucher.export-configurations.collection.get", "finance.budgets.collection.get", "finance.calculate-exchange.collection.get", "finance.calculate-exchange.item.get", "finance.expense-classes.collection.get", "finance.fiscal-years.collection.get", "finance.fiscal-years.item.get", "finance.funds.collection.get", "finance.funds.expense-classes.collection.get", "finance.transactions.collection.get", "inventory-storage.location-units.campuses.collection.get", "inventory-storage.location-units.institutions.collection.get", "inventory-storage.location-units.libraries.collection.get", "inventory-storage.locations.collection.get", "invoice.invoice-lines.collection.get", "invoice.invoice-lines.item.get", "invoice.invoices.collection.get", "invoice.invoices.documents.collection.get", "invoice.invoices.documents.item.get", "invoice.invoices.item.get", "invoice-storage.adjustment-presets.collection.get", "invoice-storage.settings.collection.get", "mod-settings.global.read.ui-tags.tags.manage", "orders.collection.get", "orders.pieces.collection.get", "orders.po-lines.collection.get", "orders.po-lines.item.get", "organizations-storage.categories.collection.get", "organizations.organizations.collection.get", "organizations.organizations.item.get", "tags.collection.get", "tenant-addresses.collection.get", "tenant-addresses.item.get", "usergroups.collection.get", "users.collection.get", "users.item.get", "voucher.voucher-lines.collection.get", "voucher.vouchers.collection.get", "voucher.vouchers.item.get" ],
       "visible" : true
     }, {
       "permissionName" : "ui-invoice.invoice.edit",
       "displayName" : "Invoice: Can view and edit Invoices and Invoice lines",
-      "subPermissions" : [ "ui-invoice.invoice.view", "acquisitions-units.memberships.collection.get", "batch-groups.collection.get", "finance.exchange-rate.item.get", "finance.expense-classes.collection.get", "finance.expense-classes.item.get", "finance.funds.item.get", "invoice.invoice-lines.fund-distributions.validate", "invoice.invoice-lines.item.put", "invoice.invoices.documents.item.post", "invoice.invoices.documents.item.delete", "invoice.invoices.item.put", "orders.acquisition-methods.collection.get", "orders.configuration.prefixes.collection.get", "orders.configuration.suffixes.collection.get", "tags.item.post", "voucher.vouchers.item.put" ],
+      "subPermissions" : [ "ui-invoice.invoice.view", "acquisitions-units.memberships.collection.get", "batch-groups.collection.get", "finance.exchange-rate.item.get", "finance.expense-classes.item.get", "finance.funds.item.get", "invoice.invoice-lines.fund-distributions.validate", "invoice.invoice-lines.item.put", "invoice.invoices.documents.item.post", "invoice.invoices.documents.item.delete", "invoice.invoices.item.put", "orders.acquisition-methods.collection.get", "orders.configuration.prefixes.collection.get", "orders.configuration.suffixes.collection.get", "tags.item.post", "voucher.vouchers.item.put" ],
       "visible" : true
     }, {
       "permissionName" : "ui-invoice.invoice.create",
