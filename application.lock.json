@@ -1,7 +1,7 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012183",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012188",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012183",
+  "version" : "2.1.0-SNAPSHOT.100200000012188",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2053",
@@ -41,9 +41,9 @@
     "version" : "4.0.0-SNAPSHOT.2058"
   } ],
   "uiModules" : [ {
-    "id" : "folio_orders-10.0.1099000000001131",
+    "id" : "folio_orders-10.0.1099000000001134",
     "name" : "folio_orders",
-    "version" : "10.0.1099000000001131"
+    "version" : "10.0.1099000000001134"
   }, {
     "id" : "folio_organizations-7.0.1099000000000235",
     "name" : "folio_organizations",
@@ -6726,7 +6726,7 @@
       }
     }
   }, {
-    "id" : "folio_orders-10.0.1099000000001131",
+    "id" : "folio_orders-10.0.1099000000001134",
     "name" : "Description for orders",
     "requires" : [ {
       "id" : "acquisition-order-events",
