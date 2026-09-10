@@ -1,16 +1,20 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012254",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012255",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012254",
+  "version" : "2.1.0-SNAPSHOT.100200000012255",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
-    "id" : "mod-organizations-storage-5.1.0-SNAPSHOT.2110",
-    "name" : "mod-organizations-storage",
-    "version" : "5.1.0-SNAPSHOT.2110"
+    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2134",
+    "name" : "mod-finance-storage",
+    "version" : "9.0.0-SNAPSHOT.2134"
   }, {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2053",
     "name" : "mod-organizations",
     "version" : "2.3.0-SNAPSHOT.2053"
+  }, {
+    "id" : "mod-organizations-storage-5.1.0-SNAPSHOT.2110",
+    "name" : "mod-organizations-storage",
+    "version" : "5.1.0-SNAPSHOT.2110"
   }, {
     "id" : "mod-orders-14.0.0-SNAPSHOT.2606",
     "name" : "mod-orders",
@@ -31,10 +35,6 @@
     "id" : "mod-finance-6.0.0-SNAPSHOT.2072",
     "name" : "mod-finance",
     "version" : "6.0.0-SNAPSHOT.2072"
-  }, {
-    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2125",
-    "name" : "mod-finance-storage",
-    "version" : "9.0.0-SNAPSHOT.2125"
   }, {
     "id" : "edge-orders-4.0.0-SNAPSHOT.2058",
     "name" : "edge-orders",
@@ -5549,7 +5549,7 @@
       }
     }
   }, {
-    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2125",
+    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2134",
     "name" : "Finance CRUD module",
     "requires" : [ {
       "id" : "base-url",
@@ -5987,6 +5987,30 @@
         "permissionsRequired" : [ "finance-storage.exchange-rate-source.item.delete" ]
       } ]
     }, {
+      "id" : "finance-storage.settings",
+      "version" : "1.0",
+      "handlers" : [ {
+        "methods" : [ "GET" ],
+        "pathPattern" : "/finance-storage/settings",
+        "permissionsRequired" : [ "finance-storage.settings.collection.get" ]
+      }, {
+        "methods" : [ "POST" ],
+        "pathPattern" : "/finance-storage/settings",
+        "permissionsRequired" : [ "finance-storage.settings.item.post" ]
+      }, {
+        "methods" : [ "GET" ],
+        "pathPattern" : "/finance-storage/settings/{id}",
+        "permissionsRequired" : [ "finance-storage.settings.item.get" ]
+      }, {
+        "methods" : [ "PUT" ],
+        "pathPattern" : "/finance-storage/settings/{id}",
+        "permissionsRequired" : [ "finance-storage.settings.item.put" ]
+      }, {
+        "methods" : [ "DELETE" ],
+        "pathPattern" : "/finance-storage/settings/{id}",
+        "permissionsRequired" : [ "finance-storage.settings.item.delete" ]
+      } ]
+    }, {
       "id" : "_tenant",
       "version" : "2.0",
       "interfaceType" : "system",
@@ -6414,6 +6438,31 @@
       "description" : "All permissions for the exchange rate source",
       "subPermissions" : [ "finance-storage.exchange-rate-source.item.get", "finance-storage.exchange-rate-source.item.post", "finance-storage.exchange-rate-source.item.put", "finance-storage.exchange-rate-source.item.delete" ]
     }, {
+      "permissionName" : "finance-storage.settings.collection.get",
+      "displayName" : "get settings",
+      "description" : "Get list of settings"
+    }, {
+      "permissionName" : "finance-storage.settings.item.get",
+      "displayName" : "get setting",
+      "description" : "Get setting by id"
+    }, {
+      "permissionName" : "finance-storage.settings.item.post",
+      "displayName" : "save setting",
+      "description" : "Save setting"
+    }, {
+      "permissionName" : "finance-storage.settings.item.put",
+      "displayName" : "update setting",
+      "description" : "Update setting"
+    }, {
+      "permissionName" : "finance-storage.settings.item.delete",
+      "displayName" : "delete setting",
+      "description" : "Delete setting"
+    }, {
+      "permissionName" : "finance-storage.settings.all",
+      "displayName" : "All settings perms",
+      "description" : "All permissions for the generic Finance settings",
+      "subPermissions" : [ "finance-storage.settings.collection.get", "finance-storage.settings.item.get", "finance-storage.settings.item.post", "finance-storage.settings.item.put", "finance-storage.settings.item.delete" ]
+    }, {
       "permissionName" : "finance-storage.job-number.get",
       "displayName" : "job-number get",
       "description" : "Get job number"
@@ -6421,10 +6470,10 @@
       "permissionName" : "finance.module.all",
       "displayName" : "All finance-module perms",
       "description" : "All permissions for the finance module",
-      "subPermissions" : [ "finance-storage.budgets.all", "finance-storage.expense-classes.all", "finance-storage.budget-expense-classes.all", "finance-storage.fiscal-years.all", "finance-storage.funds.all", "finance-storage.groups.all", "finance-storage.ledgers.all", "finance-storage.transactions.all", "finance-storage.transaction-totals.all", "finance-storage.fund-types.all", "finance-storage.fund-update-logs.all", "finance-storage.finance-data.all", "finance-storage.fiscal-year-hierarchy.all", "finance-storage.exchange-rate-source.all", "finance-storage.job-number.get" ]
+      "subPermissions" : [ "finance-storage.budgets.all", "finance-storage.expense-classes.all", "finance-storage.budget-expense-classes.all", "finance-storage.fiscal-years.all", "finance-storage.funds.all", "finance-storage.groups.all", "finance-storage.ledgers.all", "finance-storage.transactions.all", "finance-storage.transaction-totals.all", "finance-storage.fund-types.all", "finance-storage.fund-update-logs.all", "finance-storage.finance-data.all", "finance-storage.fiscal-year-hierarchy.all", "finance-storage.exchange-rate-source.all", "finance-storage.settings.all", "finance-storage.job-number.get" ]
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-finance-storage:9.0.0-SNAPSHOT.2125",
+      "dockerImage" : "folioci/mod-finance-storage:9.0.0-SNAPSHOT.2134",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
