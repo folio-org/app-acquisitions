@@ -1,20 +1,16 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012253",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012254",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012253",
+  "version" : "2.1.0-SNAPSHOT.100200000012254",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
-    "id" : "mod-invoice-storage-7.0.0-SNAPSHOT.2157",
-    "name" : "mod-invoice-storage",
-    "version" : "7.0.0-SNAPSHOT.2157"
+    "id" : "mod-organizations-storage-5.1.0-SNAPSHOT.2110",
+    "name" : "mod-organizations-storage",
+    "version" : "5.1.0-SNAPSHOT.2110"
   }, {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2053",
     "name" : "mod-organizations",
     "version" : "2.3.0-SNAPSHOT.2053"
-  }, {
-    "id" : "mod-organizations-storage-5.1.0-SNAPSHOT.2099",
-    "name" : "mod-organizations-storage",
-    "version" : "5.1.0-SNAPSHOT.2099"
   }, {
     "id" : "mod-orders-14.0.0-SNAPSHOT.2606",
     "name" : "mod-orders",
@@ -27,6 +23,10 @@
     "id" : "mod-invoice-7.0.0-SNAPSHOT.2155",
     "name" : "mod-invoice",
     "version" : "7.0.0-SNAPSHOT.2155"
+  }, {
+    "id" : "mod-invoice-storage-7.0.0-SNAPSHOT.2157",
+    "name" : "mod-invoice-storage",
+    "version" : "7.0.0-SNAPSHOT.2157"
   }, {
     "id" : "mod-finance-6.0.0-SNAPSHOT.2072",
     "name" : "mod-finance",
@@ -273,7 +273,7 @@
       }
     }
   }, {
-    "id" : "mod-organizations-storage-5.1.0-SNAPSHOT.2099",
+    "id" : "mod-organizations-storage-5.1.0-SNAPSHOT.2110",
     "name" : "Organizations CRUD module",
     "provides" : [ {
       "id" : "organizations-storage.categories",
@@ -792,7 +792,7 @@
       "subPermissions" : [ "organizations-storage.categories.all", "organizations-storage.contacts.all", "organizations-storage.privileged-contacts.all", "organizations-storage.interfaces.all", "organizations-storage.interfaces.credentials.all", "organizations-storage.organizations.all", "organizations-storage.organization-types.all", "organizations-storage.banking-account-types.all", "organizations-storage.banking-information.all", "organizations-storage.settings.all" ]
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-organizations-storage:5.1.0-SNAPSHOT.2099",
+      "dockerImage" : "folioci/mod-organizations-storage:5.1.0-SNAPSHOT.2110",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
