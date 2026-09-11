@@ -1,7 +1,7 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012261",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012262",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012261",
+  "version" : "2.1.0-SNAPSHOT.100200000012262",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2053",
@@ -41,49 +41,49 @@
     "version" : "4.0.0-SNAPSHOT.2058"
   } ],
   "uiModules" : [ {
-    "id" : "folio_receiving-9.0.1099000000000591",
-    "name" : "folio_receiving",
-    "version" : "9.0.1099000000000591"
-  }, {
-    "id" : "folio_acquisition-units-7.1.1099000000000145",
-    "name" : "folio_acquisition-units",
-    "version" : "7.1.1099000000000145"
-  }, {
-    "id" : "folio_plugin-find-interface-6.2.1099000000000097",
-    "name" : "folio_plugin-find-interface",
-    "version" : "6.2.1099000000000097"
-  }, {
-    "id" : "folio_organizations-7.0.1099000000000235",
+    "id" : "folio_organizations-7.1.1099000000000241",
     "name" : "folio_organizations",
-    "version" : "7.0.1099000000000235"
+    "version" : "7.1.1099000000000241"
+  }, {
+    "id" : "folio_invoice-8.1.1099000000000569",
+    "name" : "folio_invoice",
+    "version" : "8.1.1099000000000569"
+  }, {
+    "id" : "folio_finance-9.1.1099000000000720",
+    "name" : "folio_finance",
+    "version" : "9.1.1099000000000720"
+  }, {
+    "id" : "folio_plugin-find-contact-6.2.1099000000000100",
+    "name" : "folio_plugin-find-contact",
+    "version" : "6.2.1099000000000100"
+  }, {
+    "id" : "folio_plugin-find-fund-4.2.1099000000000085",
+    "name" : "folio_plugin-find-fund",
+    "version" : "4.2.1099000000000085"
   }, {
     "id" : "folio_orders-10.0.1099000000001134",
     "name" : "folio_orders",
     "version" : "10.0.1099000000001134"
   }, {
-    "id" : "folio_invoice-8.0.1099000000000566",
-    "name" : "folio_invoice",
-    "version" : "8.0.1099000000000566"
-  }, {
-    "id" : "folio_finance-9.0.1099000000000704",
-    "name" : "folio_finance",
-    "version" : "9.0.1099000000000704"
+    "id" : "folio_receiving-9.0.1099000000000591",
+    "name" : "folio_receiving",
+    "version" : "9.0.1099000000000591"
   }, {
     "id" : "folio_claims-3.0.1099000000000331",
     "name" : "folio_claims",
     "version" : "3.0.1099000000000331"
   }, {
+    "id" : "folio_acquisition-units-7.1.1099000000000145",
+    "name" : "folio_acquisition-units",
+    "version" : "7.1.1099000000000145"
+  }, {
     "id" : "folio_plugin-find-organization-6.1.1099000000000093",
     "name" : "folio_plugin-find-organization",
     "version" : "6.1.1099000000000093"
   }, {
-    "id" : "folio_plugin-find-contact-6.1.1099000000000092",
-    "name" : "folio_plugin-find-contact",
-    "version" : "6.1.1099000000000092"
-  }, {
-    "id" : "folio_plugin-find-fund-4.1.1099000000000077",
-    "name" : "folio_plugin-find-fund",
-    "version" : "4.1.1099000000000077"
+    "id" : "folio_plugin-find-interface-6.2.1099000000000097",
+    "name" : "folio_plugin-find-interface",
+    "version" : "6.2.1099000000000097"
   }, {
     "id" : "folio_plugin-find-po-line-7.0.1099000000000181",
     "name" : "folio_plugin-find-po-line",
@@ -6594,7 +6594,7 @@
     }
   } ],
   "uiModuleDescriptors" : [ {
-    "id" : "folio_organizations-7.0.1099000000000235",
+    "id" : "folio_organizations-7.1.1099000000000241",
     "name" : "Organizations",
     "requires" : [ {
       "id" : "acquisition-methods",
@@ -7123,7 +7123,7 @@
       }
     }
   }, {
-    "id" : "folio_invoice-8.0.1099000000000566",
+    "id" : "folio_invoice-8.1.1099000000000569",
     "name" : "Invoice",
     "requires" : [ {
       "id" : "acquisition-methods",
@@ -7334,7 +7334,7 @@
       }
     }
   }, {
-    "id" : "folio_finance-9.0.1099000000000704",
+    "id" : "folio_finance-9.1.1099000000000720",
     "name" : "Description for ui-finance",
     "requires" : [ {
       "id" : "acquisitions-units",
@@ -7936,7 +7936,7 @@
       }
     }
   }, {
-    "id" : "folio_plugin-find-contact-6.1.1099000000000092",
+    "id" : "folio_plugin-find-contact-6.2.1099000000000100",
     "name" : "Find and select contacts plugin for Stripes",
     "requires" : [ {
       "id" : "organizations-storage.categories",
@@ -7973,7 +7973,7 @@
       }
     }
   }, {
-    "id" : "folio_plugin-find-fund-4.1.1099000000000077",
+    "id" : "folio_plugin-find-fund-4.2.1099000000000085",
     "name" : "Find and select funds plugin for Stripes",
     "requires" : [ ],
     "optional" : [ ],
