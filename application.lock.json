@@ -1,13 +1,9 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012255",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012261",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012255",
+  "version" : "2.1.0-SNAPSHOT.100200000012261",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
-    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2134",
-    "name" : "mod-finance-storage",
-    "version" : "9.0.0-SNAPSHOT.2134"
-  }, {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2053",
     "name" : "mod-organizations",
     "version" : "2.3.0-SNAPSHOT.2053"
@@ -36,11 +32,27 @@
     "name" : "mod-finance",
     "version" : "6.0.0-SNAPSHOT.2072"
   }, {
+    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2134",
+    "name" : "mod-finance-storage",
+    "version" : "9.0.0-SNAPSHOT.2134"
+  }, {
     "id" : "edge-orders-4.0.0-SNAPSHOT.2058",
     "name" : "edge-orders",
     "version" : "4.0.0-SNAPSHOT.2058"
   } ],
   "uiModules" : [ {
+    "id" : "folio_receiving-9.0.1099000000000591",
+    "name" : "folio_receiving",
+    "version" : "9.0.1099000000000591"
+  }, {
+    "id" : "folio_acquisition-units-7.1.1099000000000145",
+    "name" : "folio_acquisition-units",
+    "version" : "7.1.1099000000000145"
+  }, {
+    "id" : "folio_plugin-find-interface-6.2.1099000000000097",
+    "name" : "folio_plugin-find-interface",
+    "version" : "6.2.1099000000000097"
+  }, {
     "id" : "folio_organizations-7.0.1099000000000235",
     "name" : "folio_organizations",
     "version" : "7.0.1099000000000235"
@@ -57,17 +69,9 @@
     "name" : "folio_finance",
     "version" : "9.0.1099000000000704"
   }, {
-    "id" : "folio_receiving-9.0.1099000000000585",
-    "name" : "folio_receiving",
-    "version" : "9.0.1099000000000585"
-  }, {
     "id" : "folio_claims-3.0.1099000000000331",
     "name" : "folio_claims",
     "version" : "3.0.1099000000000331"
-  }, {
-    "id" : "folio_acquisition-units-7.0.1099000000000135",
-    "name" : "folio_acquisition-units",
-    "version" : "7.0.1099000000000135"
   }, {
     "id" : "folio_plugin-find-organization-6.1.1099000000000093",
     "name" : "folio_plugin-find-organization",
@@ -76,10 +80,6 @@
     "id" : "folio_plugin-find-contact-6.1.1099000000000092",
     "name" : "folio_plugin-find-contact",
     "version" : "6.1.1099000000000092"
-  }, {
-    "id" : "folio_plugin-find-interface-6.1.1099000000000088",
-    "name" : "folio_plugin-find-interface",
-    "version" : "6.1.1099000000000088"
   }, {
     "id" : "folio_plugin-find-fund-4.1.1099000000000077",
     "name" : "folio_plugin-find-fund",
@@ -7619,7 +7619,7 @@
       }
     }
   }, {
-    "id" : "folio_receiving-9.0.1099000000000585",
+    "id" : "folio_receiving-9.0.1099000000000591",
     "name" : "Description for receiving",
     "requires" : [ {
       "id" : "acquisition-piece-events",
@@ -7867,7 +7867,7 @@
       }
     }
   }, {
-    "id" : "folio_acquisition-units-7.0.1099000000000135",
+    "id" : "folio_acquisition-units-7.1.1099000000000145",
     "name" : "Acquisition units",
     "requires" : [ {
       "id" : "acquisitions-units",
@@ -7956,7 +7956,7 @@
       }
     }
   }, {
-    "id" : "folio_plugin-find-interface-6.1.1099000000000088",
+    "id" : "folio_plugin-find-interface-6.2.1099000000000097",
     "name" : "Find and select interfaces plugin for Stripes",
     "requires" : [ {
       "id" : "organizations-storage.interfaces",
