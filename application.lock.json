@@ -1,9 +1,13 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012275",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012282",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012275",
+  "version" : "2.1.0-SNAPSHOT.100200000012282",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
+    "id" : "mod-orders-storage-15.0.0-SNAPSHOT.2304",
+    "name" : "mod-orders-storage",
+    "version" : "15.0.0-SNAPSHOT.2304"
+  }, {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2053",
     "name" : "mod-organizations",
     "version" : "2.3.0-SNAPSHOT.2053"
@@ -15,10 +19,6 @@
     "id" : "mod-orders-14.0.0-SNAPSHOT.2606",
     "name" : "mod-orders",
     "version" : "14.0.0-SNAPSHOT.2606"
-  }, {
-    "id" : "mod-orders-storage-15.0.0-SNAPSHOT.2273",
-    "name" : "mod-orders-storage",
-    "version" : "15.0.0-SNAPSHOT.2273"
   }, {
     "id" : "mod-invoice-7.0.0-SNAPSHOT.2155",
     "name" : "mod-invoice",
@@ -41,14 +41,6 @@
     "version" : "4.0.0-SNAPSHOT.2058"
   } ],
   "uiModules" : [ {
-    "id" : "folio_plugin-find-organization-6.2.1099000000000102",
-    "name" : "folio_plugin-find-organization",
-    "version" : "6.2.1099000000000102"
-  }, {
-    "id" : "folio_plugin-find-po-line-7.0.1099000000000184",
-    "name" : "folio_plugin-find-po-line",
-    "version" : "7.0.1099000000000184"
-  }, {
     "id" : "folio_organizations-7.1.1099000000000241",
     "name" : "folio_organizations",
     "version" : "7.1.1099000000000241"
@@ -77,6 +69,10 @@
     "name" : "folio_acquisition-units",
     "version" : "7.1.1099000000000145"
   }, {
+    "id" : "folio_plugin-find-organization-6.2.1099000000000102",
+    "name" : "folio_plugin-find-organization",
+    "version" : "6.2.1099000000000102"
+  }, {
     "id" : "folio_plugin-find-contact-6.2.1099000000000100",
     "name" : "folio_plugin-find-contact",
     "version" : "6.2.1099000000000100"
@@ -88,6 +84,10 @@
     "id" : "folio_plugin-find-fund-4.2.1099000000000085",
     "name" : "folio_plugin-find-fund",
     "version" : "4.2.1099000000000085"
+  }, {
+    "id" : "folio_plugin-find-po-line-7.0.1099000000000184",
+    "name" : "folio_plugin-find-po-line",
+    "version" : "7.0.1099000000000184"
   } ],
   "dependencies" : [ {
     "name" : "app-platform-complete",
@@ -2065,7 +2065,7 @@
       }
     }
   }, {
-    "id" : "mod-orders-storage-15.0.0-SNAPSHOT.2273",
+    "id" : "mod-orders-storage-15.0.0-SNAPSHOT.2304",
     "name" : "Orders CRUD module",
     "requires" : [ {
       "id" : "locale",
@@ -3174,7 +3174,7 @@
       "subPermissions" : [ "orders-storage.pieces.all", "orders-storage.wrapper-pieces.all", "orders-storage.titles.all", "orders-storage.po-lines.all", "orders-storage.acquisition-methods.all", "orders-storage.po-number.all", "orders-storage.po-line-number.all", "orders-storage.purchase-orders.all", "orders-storage.receiving-history.all", "orders-storage.order-invoice-relationships.all", "orders-storage.order-templates.all", "orders-storage.order-template-categories.all", "acquisitions-units-storage.units.all", "acquisitions-units-storage.memberships.all", "orders-storage.configuration.reasons-for-closure.all", "orders-storage.configuration.prefixes.all", "orders-storage.configuration.suffixes.all", "orders-storage.export-history.all", "orders-storage.audit-outbox.all", "orders-storage.claiming.all", "orders-storage.custom-fields.all", "orders-storage.routing-lists.all", "orders-storage.settings.all", "orders-storage.batch-tracking.all" ]
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-orders-storage:15.0.0-SNAPSHOT.2273",
+      "dockerImage" : "folioci/mod-orders-storage:15.0.0-SNAPSHOT.2304",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
