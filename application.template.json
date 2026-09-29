@@ -28,7 +28,7 @@
     },
     {
       "name": "mod-orders-storage",
-      "version": "~13.9.7",
+      "version": "13.9.10-1",
       "preRelease": "false"
     },
     {
