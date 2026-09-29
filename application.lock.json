@@ -1,13 +1,9 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012372",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012376",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012372",
+  "version" : "2.1.0-SNAPSHOT.100200000012376",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
-    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2149",
-    "name" : "mod-finance-storage",
-    "version" : "9.0.0-SNAPSHOT.2149"
-  }, {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2053",
     "name" : "mod-organizations",
     "version" : "2.3.0-SNAPSHOT.2053"
@@ -36,11 +32,19 @@
     "name" : "mod-finance",
     "version" : "6.0.0-SNAPSHOT.2072"
   }, {
+    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2149",
+    "name" : "mod-finance-storage",
+    "version" : "9.0.0-SNAPSHOT.2149"
+  }, {
     "id" : "edge-orders-4.0.0-SNAPSHOT.2058",
     "name" : "edge-orders",
     "version" : "4.0.0-SNAPSHOT.2058"
   } ],
   "uiModules" : [ {
+    "id" : "folio_finance-9.1.1099000000000737",
+    "name" : "folio_finance",
+    "version" : "9.1.1099000000000737"
+  }, {
     "id" : "folio_organizations-7.1.1099000000000241",
     "name" : "folio_organizations",
     "version" : "7.1.1099000000000241"
@@ -52,10 +56,6 @@
     "id" : "folio_invoice-8.1.1099000000000572",
     "name" : "folio_invoice",
     "version" : "8.1.1099000000000572"
-  }, {
-    "id" : "folio_finance-9.1.1099000000000720",
-    "name" : "folio_finance",
-    "version" : "9.1.1099000000000720"
   }, {
     "id" : "folio_receiving-9.0.1099000000000598",
     "name" : "folio_receiving",
@@ -7357,7 +7357,7 @@
       }
     }
   }, {
-    "id" : "folio_finance-9.1.1099000000000720",
+    "id" : "folio_finance-9.1.1099000000000737",
     "name" : "Description for ui-finance",
     "requires" : [ {
       "id" : "acquisitions-units",
@@ -7414,6 +7414,9 @@
       "id" : "finance-storage.exchange-rate-source",
       "version" : "1.0"
     }, {
+      "id" : "finance-storage.settings",
+      "version" : "1.0"
+    }, {
       "id" : "finance.transactions",
       "version" : "6.0"
     }, {
@@ -7453,7 +7456,7 @@
     }, {
       "permissionName" : "ui-finance.settings.view",
       "displayName" : "Settings (Finance): View settings",
-      "subPermissions" : [ "settings.finance.enabled", "finance.expense-classes.collection.get", "finance.fiscal-years.collection.get", "finance.fund-codes-expense-classes.collection.get", "finance.fund-types.collection.get", "stripes-core.settings.read", "users.collection.get" ],
+      "subPermissions" : [ "settings.finance.enabled", "finance.expense-classes.collection.get", "finance.fiscal-years.collection.get", "finance.fund-codes-expense-classes.collection.get", "finance.fund-types.collection.get", "finance-storage.settings.collection.get", "stripes-core.settings.read", "users.collection.get" ],
       "visible" : true
     }, {
       "permissionName" : "ui-finance.settings.exportFundAndExpenseClassCodes",
@@ -7493,7 +7496,7 @@
     }, {
       "permissionName" : "ui-finance.settings.all",
       "displayName" : "Settings (Finance): View, edit, create, delete",
-      "subPermissions" : [ "ui-finance.settings.view", "finance.expense-classes.item.delete", "finance.expense-classes.item.post", "finance.expense-classes.item.put", "finance.fund-types.item.delete", "finance.fund-types.item.post", "finance.fund-types.item.put", "finance-storage.exchange-rate-source.item.post", "finance-storage.exchange-rate-source.item.put" ],
+      "subPermissions" : [ "ui-finance.settings.view", "finance.expense-classes.item.delete", "finance.expense-classes.item.post", "finance.expense-classes.item.put", "finance.fund-types.item.delete", "finance.fund-types.item.post", "finance.fund-types.item.put", "finance-storage.exchange-rate-source.item.post", "finance-storage.exchange-rate-source.item.put", "finance-storage.settings.item.post", "finance-storage.settings.item.put" ],
       "visible" : true
     }, {
       "permissionName" : "ui-finance.ledger.view",
