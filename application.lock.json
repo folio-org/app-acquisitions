@@ -1,20 +1,24 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012380",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012381",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012380",
+  "version" : "2.1.0-SNAPSHOT.100200000012381",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
+    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2155",
+    "name" : "mod-finance-storage",
+    "version" : "9.0.0-SNAPSHOT.2155"
+  }, {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2080",
     "name" : "mod-organizations",
     "version" : "2.3.0-SNAPSHOT.2080"
   }, {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2621",
-    "name" : "mod-orders",
-    "version" : "14.0.0-SNAPSHOT.2621"
-  }, {
     "id" : "mod-organizations-storage-5.1.0-SNAPSHOT.2110",
     "name" : "mod-organizations-storage",
     "version" : "5.1.0-SNAPSHOT.2110"
+  }, {
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2621",
+    "name" : "mod-orders",
+    "version" : "14.0.0-SNAPSHOT.2621"
   }, {
     "id" : "mod-orders-storage-15.0.0-SNAPSHOT.2333",
     "name" : "mod-orders-storage",
@@ -31,10 +35,6 @@
     "id" : "mod-finance-6.0.0-SNAPSHOT.2072",
     "name" : "mod-finance",
     "version" : "6.0.0-SNAPSHOT.2072"
-  }, {
-    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2149",
-    "name" : "mod-finance-storage",
-    "version" : "9.0.0-SNAPSHOT.2149"
   }, {
     "id" : "edge-orders-4.0.0-SNAPSHOT.2058",
     "name" : "edge-orders",
@@ -5549,7 +5549,7 @@
       }
     }
   }, {
-    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2149",
+    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2155",
     "name" : "Finance CRUD module",
     "requires" : [ {
       "id" : "base-url",
@@ -6484,7 +6484,7 @@
       "subPermissions" : [ "finance-storage.budgets.all", "finance-storage.expense-classes.all", "finance-storage.budget-expense-classes.all", "finance-storage.fiscal-years.all", "finance-storage.funds.all", "finance-storage.groups.all", "finance-storage.ledgers.all", "finance-storage.transactions.all", "finance-storage.transaction-totals.all", "finance-storage.fund-types.all", "finance-storage.fund-update-logs.all", "finance-storage.finance-data.all", "finance-storage.fiscal-year-hierarchy.all", "finance-storage.exchange-rate-source.all", "finance-storage.settings.all", "finance-storage.job-number.get" ]
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-finance-storage:9.0.0-SNAPSHOT.2149",
+      "dockerImage" : "folioci/mod-finance-storage:9.0.0-SNAPSHOT.2155",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
