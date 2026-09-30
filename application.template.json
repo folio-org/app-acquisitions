@@ -29,7 +29,7 @@
     {
       "name": "mod-orders-storage",
       "version": "13.9.10-1",
-      "preRelease": "false"
+      "preRelease": "true"
     },
     {
       "name": "mod-invoice",
