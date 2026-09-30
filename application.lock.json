@@ -1,16 +1,16 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012379",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012380",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012379",
+  "version" : "2.1.0-SNAPSHOT.100200000012380",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2618",
-    "name" : "mod-orders",
-    "version" : "14.0.0-SNAPSHOT.2618"
-  }, {
-    "id" : "mod-organizations-2.3.0-SNAPSHOT.2053",
+    "id" : "mod-organizations-2.3.0-SNAPSHOT.2080",
     "name" : "mod-organizations",
-    "version" : "2.3.0-SNAPSHOT.2053"
+    "version" : "2.3.0-SNAPSHOT.2080"
+  }, {
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2621",
+    "name" : "mod-orders",
+    "version" : "14.0.0-SNAPSHOT.2621"
   }, {
     "id" : "mod-organizations-storage-5.1.0-SNAPSHOT.2110",
     "name" : "mod-organizations-storage",
@@ -99,7 +99,7 @@
     "preRelease" : "only"
   } ],
   "moduleDescriptors" : [ {
-    "id" : "mod-organizations-2.3.0-SNAPSHOT.2053",
+    "id" : "mod-organizations-2.3.0-SNAPSHOT.2080",
     "name" : "Organizations business logic module",
     "requires" : [ {
       "id" : "organizations-storage.organizations",
@@ -255,7 +255,7 @@
       "subPermissions" : [ "organizations.acquisitions-units-assignments.all", "organizations.organizations.all", "organizations.banking-information.all" ]
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-organizations:2.3.0-SNAPSHOT.2053",
+      "dockerImage" : "folioci/mod-organizations:2.3.0-SNAPSHOT.2080",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
@@ -840,7 +840,7 @@
       }
     }
   }, {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2618",
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2621",
     "name" : "Orders Business Logic Module",
     "requires" : [ {
       "id" : "acquisitions-units-storage.units",
@@ -2017,7 +2017,7 @@
       }
     },
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-orders:14.0.0-SNAPSHOT.2618",
+      "dockerImage" : "folioci/mod-orders:14.0.0-SNAPSHOT.2621",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
