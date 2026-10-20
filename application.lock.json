@@ -1,12 +1,12 @@
 {
-  "id" : "app-acquisitions-2.0.16",
+  "id" : "app-acquisitions-2.0.17",
   "name" : "app-acquisitions",
-  "version" : "2.0.16",
+  "version" : "2.0.17",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
-    "id" : "mod-orders-storage-14.0.3",
+    "id" : "mod-orders-storage-14.0.4",
     "name" : "mod-orders-storage",
-    "version" : "14.0.3"
+    "version" : "14.0.4"
   }, {
     "id" : "mod-organizations-2.2.0",
     "name" : "mod-organizations",
@@ -2065,7 +2065,7 @@
       }
     }
   }, {
-    "id" : "mod-orders-storage-14.0.3",
+    "id" : "mod-orders-storage-14.0.4",
     "name" : "Orders CRUD module",
     "requires" : [ {
       "id" : "locale",
@@ -3174,7 +3174,7 @@
       "subPermissions" : [ "orders-storage.pieces.all", "orders-storage.wrapper-pieces.all", "orders-storage.titles.all", "orders-storage.po-lines.all", "orders-storage.acquisition-methods.all", "orders-storage.po-number.all", "orders-storage.po-line-number.all", "orders-storage.purchase-orders.all", "orders-storage.receiving-history.all", "orders-storage.order-invoice-relationships.all", "orders-storage.order-templates.all", "orders-storage.order-template-categories.all", "acquisitions-units-storage.units.all", "acquisitions-units-storage.memberships.all", "orders-storage.configuration.reasons-for-closure.all", "orders-storage.configuration.prefixes.all", "orders-storage.configuration.suffixes.all", "orders-storage.export-history.all", "orders-storage.audit-outbox.all", "orders-storage.claiming.all", "orders-storage.custom-fields.all", "orders-storage.routing-lists.all", "orders-storage.settings.all", "orders-storage.batch-tracking.all" ]
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioorg/mod-orders-storage:14.0.3",
+      "dockerImage" : "folioorg/mod-orders-storage:14.0.4",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
