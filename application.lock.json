@@ -1,7 +1,7 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012535",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012536",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012535",
+  "version" : "2.1.0-SNAPSHOT.100200000012536",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2080",
@@ -41,6 +41,10 @@
     "version" : "4.0.0-SNAPSHOT.2058"
   } ],
   "uiModules" : [ {
+    "id" : "folio_receiving-9.0.1099000000000604",
+    "name" : "folio_receiving",
+    "version" : "9.0.1099000000000604"
+  }, {
     "id" : "folio_organizations-7.1.1099000000000246",
     "name" : "folio_organizations",
     "version" : "7.1.1099000000000246"
@@ -56,10 +60,6 @@
     "id" : "folio_finance-9.1.1099000000000737",
     "name" : "folio_finance",
     "version" : "9.1.1099000000000737"
-  }, {
-    "id" : "folio_receiving-9.0.1099000000000601",
-    "name" : "folio_receiving",
-    "version" : "9.0.1099000000000601"
   }, {
     "id" : "folio_claims-3.0.1099000000000336",
     "name" : "folio_claims",
@@ -7645,7 +7645,7 @@
       }
     }
   }, {
-    "id" : "folio_receiving-9.0.1099000000000601",
+    "id" : "folio_receiving-9.0.1099000000000604",
     "name" : "Description for receiving",
     "requires" : [ {
       "id" : "acquisition-piece-events",
