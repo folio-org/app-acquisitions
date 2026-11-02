@@ -1,7 +1,7 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012541",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012554",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012541",
+  "version" : "2.1.0-SNAPSHOT.100200000012554",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2080",
@@ -41,21 +41,21 @@
     "version" : "4.0.0-SNAPSHOT.2058"
   } ],
   "uiModules" : [ {
-    "id" : "folio_finance-9.1.1099000000000745",
-    "name" : "folio_finance",
-    "version" : "9.1.1099000000000745"
+    "id" : "folio_orders-10.0.1099000000001183",
+    "name" : "folio_orders",
+    "version" : "10.0.1099000000001183"
   }, {
     "id" : "folio_organizations-7.1.1099000000000246",
     "name" : "folio_organizations",
     "version" : "7.1.1099000000000246"
   }, {
-    "id" : "folio_orders-10.0.1099000000001164",
-    "name" : "folio_orders",
-    "version" : "10.0.1099000000001164"
-  }, {
     "id" : "folio_invoice-8.1.1099000000000572",
     "name" : "folio_invoice",
     "version" : "8.1.1099000000000572"
+  }, {
+    "id" : "folio_finance-9.1.1099000000000745",
+    "name" : "folio_finance",
+    "version" : "9.1.1099000000000745"
   }, {
     "id" : "folio_receiving-9.0.1099000000000604",
     "name" : "folio_receiving",
@@ -6798,7 +6798,7 @@
       }
     }
   }, {
-    "id" : "folio_orders-10.0.1099000000001164",
+    "id" : "folio_orders-10.0.1099000000001183",
     "name" : "Description for orders",
     "requires" : [ {
       "id" : "acquisition-order-events",
@@ -6934,7 +6934,7 @@
       "version" : "1.0"
     }, {
       "id" : "template-engine",
-      "version" : "2.0"
+      "version" : "2.3"
     }, {
       "id" : "tenant-addresses",
       "version" : "1.0"
@@ -7076,6 +7076,30 @@
       "subPermissions" : [ "ui-orders.settings.order-templates.edit", "orders.order-templates.item.delete" ],
       "visible" : true
     }, {
+      "permissionName" : "ui-orders.settings.email-templates.view",
+      "displayName" : "Settings (Orders): Can view Email Templates",
+      "description" : "",
+      "subPermissions" : [ "settings.orders.enabled", "templates.collection.get", "templates.item.get", "template-request.preview.post" ],
+      "visible" : true
+    }, {
+      "permissionName" : "ui-orders.settings.email-templates.edit",
+      "displayName" : "Settings (Orders): Can view and edit Email Templates",
+      "description" : "",
+      "subPermissions" : [ "ui-orders.settings.email-templates.view", "templates.item.put" ],
+      "visible" : true
+    }, {
+      "permissionName" : "ui-orders.settings.email-templates.create",
+      "displayName" : "Settings (Orders): Can create Email Templates",
+      "description" : "",
+      "subPermissions" : [ "ui-orders.settings.email-templates.edit", "templates.item.post" ],
+      "visible" : true
+    }, {
+      "permissionName" : "ui-orders.settings.email-templates.delete",
+      "displayName" : "Settings (Orders): Can delete Email Templates",
+      "description" : "",
+      "subPermissions" : [ "ui-orders.settings.email-templates.edit", "templates.item.delete" ],
+      "visible" : true
+    }, {
       "permissionName" : "mod-settings.global.read.ui-orders.custom-fields.manage",
       "displayName" : "Settings (Orders): Read the settings in the 'custom fields' section",
       "visible" : false
@@ -7110,12 +7134,12 @@
       "permissionName" : "ui-orders.settings.view",
       "displayName" : "Settings (Orders): Can view all settings",
       "description" : "",
-      "subPermissions" : [ "settings.orders.enabled", "addresstypes.collection.get", "ui-orders.settings.order-templates.view", "configuration.entries.collection.get", "configuration.entries.item.get", "finance.expense-classes.collection.get", "orders.configuration.prefixes.collection.get", "orders.configuration.reasons-for-closure.collection.get", "orders.configuration.suffixes.collection.get", "orders-storage.settings.collection.get", "orders-storage.settings.item.get", "ui-orders.third-party-services.execute", "orders.acquisition-methods.collection.get", "ui-orders.settings.custom-fields.view", "templates.item.get" ],
+      "subPermissions" : [ "settings.orders.enabled", "addresstypes.collection.get", "ui-orders.settings.order-templates.view", "configuration.entries.collection.get", "configuration.entries.item.get", "finance.expense-classes.collection.get", "orders.configuration.prefixes.collection.get", "orders.configuration.reasons-for-closure.collection.get", "orders.configuration.suffixes.collection.get", "orders-storage.settings.collection.get", "orders-storage.settings.item.get", "ui-orders.third-party-services.execute", "orders.acquisition-methods.collection.get", "ui-orders.settings.custom-fields.view", "templates.item.get", "ui-orders.settings.email-templates.view" ],
       "visible" : true
     }, {
       "permissionName" : "ui-orders.settings.all",
       "displayName" : "Settings (Orders): Can view and edit all settings",
-      "subPermissions" : [ "ui-orders.settings.view", "ui-orders.settings.order-templates.create", "ui-orders.settings.order-templates.delete", "configuration.entries.collection.get", "configuration.entries.item.get", "configuration.entries.item.post", "configuration.entries.item.put", "orders.configuration.prefixes.collection.get", "orders.configuration.prefixes.item.post", "orders.configuration.prefixes.item.put", "orders.configuration.prefixes.item.delete", "orders.configuration.reasons-for-closure.collection.get", "orders.configuration.reasons-for-closure.item.post", "orders.configuration.reasons-for-closure.item.put", "orders.configuration.reasons-for-closure.item.delete", "orders.configuration.suffixes.collection.get", "orders.configuration.suffixes.item.post", "orders.configuration.suffixes.item.put", "orders.configuration.suffixes.item.delete", "orders.acquisition-methods.collection.get", "orders.acquisition-method.item.post", "orders.acquisition-method.item.put", "orders.acquisition-method.item.delete", "orders-storage.settings.item.post", "orders-storage.settings.item.put", "orders-storage.order-template-categories.item.post", "orders-storage.order-template-categories.item.put", "orders-storage.order-template-categories.item.delete", "ui-orders.settings.custom-fields.view", "ui-orders.settings.custom-fields.edit", "ui-orders.settings.custom-fields.delete", "templates.item.post", "templates.item.put" ],
+      "subPermissions" : [ "ui-orders.settings.view", "ui-orders.settings.order-templates.create", "ui-orders.settings.order-templates.delete", "configuration.entries.collection.get", "configuration.entries.item.get", "configuration.entries.item.post", "configuration.entries.item.put", "orders.configuration.prefixes.collection.get", "orders.configuration.prefixes.item.post", "orders.configuration.prefixes.item.put", "orders.configuration.prefixes.item.delete", "orders.configuration.reasons-for-closure.collection.get", "orders.configuration.reasons-for-closure.item.post", "orders.configuration.reasons-for-closure.item.put", "orders.configuration.reasons-for-closure.item.delete", "orders.configuration.suffixes.collection.get", "orders.configuration.suffixes.item.post", "orders.configuration.suffixes.item.put", "orders.configuration.suffixes.item.delete", "orders.acquisition-methods.collection.get", "orders.acquisition-method.item.post", "orders.acquisition-method.item.put", "orders.acquisition-method.item.delete", "orders-storage.settings.item.post", "orders-storage.settings.item.put", "orders-storage.order-template-categories.item.post", "orders-storage.order-template-categories.item.put", "orders-storage.order-template-categories.item.delete", "ui-orders.settings.custom-fields.view", "ui-orders.settings.custom-fields.edit", "ui-orders.settings.custom-fields.delete", "templates.item.post", "templates.item.put", "ui-orders.settings.email-templates.create", "ui-orders.settings.email-templates.delete" ],
       "visible" : true
     }, {
       "permissionName" : "ui-orders.order.exportCSV",
