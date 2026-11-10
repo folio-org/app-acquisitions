@@ -1,13 +1,9 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012583",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012586",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012583",
+  "version" : "2.1.0-SNAPSHOT.100200000012586",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2633",
-    "name" : "mod-orders",
-    "version" : "14.0.0-SNAPSHOT.2633"
-  }, {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2080",
     "name" : "mod-organizations",
     "version" : "2.3.0-SNAPSHOT.2080"
@@ -15,6 +11,10 @@
     "id" : "mod-organizations-storage-5.1.0-SNAPSHOT.2110",
     "name" : "mod-organizations-storage",
     "version" : "5.1.0-SNAPSHOT.2110"
+  }, {
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2633",
+    "name" : "mod-orders",
+    "version" : "14.0.0-SNAPSHOT.2633"
   }, {
     "id" : "mod-orders-storage-15.0.0-SNAPSHOT.2393",
     "name" : "mod-orders-storage",
@@ -41,9 +41,9 @@
     "version" : "4.0.0-SNAPSHOT.2058"
   } ],
   "uiModules" : [ {
-    "id" : "folio_organizations-7.1.1099000000000265",
+    "id" : "folio_organizations-7.1.1099000000000275",
     "name" : "folio_organizations",
-    "version" : "7.1.1099000000000265"
+    "version" : "7.1.1099000000000275"
   }, {
     "id" : "folio_orders-10.0.1099000000001189",
     "name" : "folio_orders",
@@ -6620,7 +6620,7 @@
     }
   } ],
   "uiModuleDescriptors" : [ {
-    "id" : "folio_organizations-7.1.1099000000000265",
+    "id" : "folio_organizations-7.1.1099000000000275",
     "name" : "Organizations",
     "requires" : [ {
       "id" : "acquisition-methods",
