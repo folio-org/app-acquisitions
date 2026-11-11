@@ -1,12 +1,16 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012589",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012590",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012589",
+  "version" : "2.1.0-SNAPSHOT.100200000012590",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2648",
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2651",
     "name" : "mod-orders",
-    "version" : "14.0.0-SNAPSHOT.2648"
+    "version" : "14.0.0-SNAPSHOT.2651"
+  }, {
+    "id" : "edge-orders-4.0.0-SNAPSHOT.2081",
+    "name" : "edge-orders",
+    "version" : "4.0.0-SNAPSHOT.2081"
   }, {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2080",
     "name" : "mod-organizations",
@@ -35,10 +39,6 @@
     "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2160",
     "name" : "mod-finance-storage",
     "version" : "9.0.0-SNAPSHOT.2160"
-  }, {
-    "id" : "edge-orders-4.0.0-SNAPSHOT.2058",
-    "name" : "edge-orders",
-    "version" : "4.0.0-SNAPSHOT.2058"
   } ],
   "uiModules" : [ {
     "id" : "folio_organizations-7.1.1099000000000275",
@@ -840,7 +840,7 @@
       }
     }
   }, {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2648",
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2651",
     "name" : "Orders Business Logic Module",
     "requires" : [ {
       "id" : "acquisitions-units-storage.units",
@@ -2017,7 +2017,7 @@
       }
     },
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-orders:14.0.0-SNAPSHOT.2648",
+      "dockerImage" : "folioci/mod-orders:14.0.0-SNAPSHOT.2651",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
@@ -6541,7 +6541,7 @@
       }
     }
   }, {
-    "id" : "edge-orders-4.0.0-SNAPSHOT.2058",
+    "id" : "edge-orders-4.0.0-SNAPSHOT.2081",
     "name" : "Acquisitions - Orders Edge API",
     "provides" : [ ],
     "optional" : [ {
@@ -6601,7 +6601,7 @@
     } ],
     "permissionSets" : [ ],
     "launchDescriptor" : {
-      "dockerImage" : "folioci/edge-orders:4.0.0-SNAPSHOT.2058",
+      "dockerImage" : "folioci/edge-orders:4.0.0-SNAPSHOT.2081",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
