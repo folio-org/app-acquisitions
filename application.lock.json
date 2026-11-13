@@ -1,46 +1,50 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012594",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012597",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012594",
+  "version" : "2.1.0-SNAPSHOT.100200000012597",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
-    "id" : "mod-invoice-storage-7.0.0-SNAPSHOT.2189",
-    "name" : "mod-invoice-storage",
-    "version" : "7.0.0-SNAPSHOT.2189"
-  }, {
-    "id" : "mod-organizations-2.3.0-SNAPSHOT.2080",
+    "id" : "mod-organizations-2.3.0-SNAPSHOT.2095",
     "name" : "mod-organizations",
-    "version" : "2.3.0-SNAPSHOT.2080"
+    "version" : "2.3.0-SNAPSHOT.2095"
   }, {
-    "id" : "mod-organizations-storage-5.1.0-SNAPSHOT.2110",
+    "id" : "mod-organizations-storage-5.1.0-SNAPSHOT.2128",
     "name" : "mod-organizations-storage",
-    "version" : "5.1.0-SNAPSHOT.2110"
+    "version" : "5.1.0-SNAPSHOT.2128"
   }, {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2651",
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2667",
     "name" : "mod-orders",
-    "version" : "14.0.0-SNAPSHOT.2651"
+    "version" : "14.0.0-SNAPSHOT.2667"
+  }, {
+    "id" : "mod-invoice-7.0.0-SNAPSHOT.2193",
+    "name" : "mod-invoice",
+    "version" : "7.0.0-SNAPSHOT.2193"
+  }, {
+    "id" : "mod-invoice-storage-7.0.0-SNAPSHOT.2201",
+    "name" : "mod-invoice-storage",
+    "version" : "7.0.0-SNAPSHOT.2201"
+  }, {
+    "id" : "mod-finance-6.0.0-SNAPSHOT.2116",
+    "name" : "mod-finance",
+    "version" : "6.0.0-SNAPSHOT.2116"
+  }, {
+    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2181",
+    "name" : "mod-finance-storage",
+    "version" : "9.0.0-SNAPSHOT.2181"
+  }, {
+    "id" : "edge-orders-4.0.0-SNAPSHOT.2086",
+    "name" : "edge-orders",
+    "version" : "4.0.0-SNAPSHOT.2086"
   }, {
     "id" : "mod-orders-storage-15.0.0-SNAPSHOT.2393",
     "name" : "mod-orders-storage",
     "version" : "15.0.0-SNAPSHOT.2393"
-  }, {
-    "id" : "mod-invoice-7.0.0-SNAPSHOT.2155",
-    "name" : "mod-invoice",
-    "version" : "7.0.0-SNAPSHOT.2155"
-  }, {
-    "id" : "mod-finance-6.0.0-SNAPSHOT.2103",
-    "name" : "mod-finance",
-    "version" : "6.0.0-SNAPSHOT.2103"
-  }, {
-    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2160",
-    "name" : "mod-finance-storage",
-    "version" : "9.0.0-SNAPSHOT.2160"
-  }, {
-    "id" : "edge-orders-4.0.0-SNAPSHOT.2081",
-    "name" : "edge-orders",
-    "version" : "4.0.0-SNAPSHOT.2081"
   } ],
   "uiModules" : [ {
+    "id" : "folio_claims-3.0.1099000000000339",
+    "name" : "folio_claims",
+    "version" : "3.0.1099000000000339"
+  }, {
     "id" : "folio_organizations-7.1.1099000000000283",
     "name" : "folio_organizations",
     "version" : "7.1.1099000000000283"
@@ -60,10 +64,6 @@
     "id" : "folio_receiving-9.0.1099000000000604",
     "name" : "folio_receiving",
     "version" : "9.0.1099000000000604"
-  }, {
-    "id" : "folio_claims-3.0.1099000000000336",
-    "name" : "folio_claims",
-    "version" : "3.0.1099000000000336"
   }, {
     "id" : "folio_acquisition-units-7.1.1099000000000145",
     "name" : "folio_acquisition-units",
@@ -99,7 +99,7 @@
     "preRelease" : "only"
   } ],
   "moduleDescriptors" : [ {
-    "id" : "mod-organizations-2.3.0-SNAPSHOT.2080",
+    "id" : "mod-organizations-2.3.0-SNAPSHOT.2095",
     "name" : "Organizations business logic module",
     "requires" : [ {
       "id" : "organizations-storage.organizations",
@@ -255,7 +255,7 @@
       "subPermissions" : [ "organizations.acquisitions-units-assignments.all", "organizations.organizations.all", "organizations.banking-information.all" ]
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-organizations:2.3.0-SNAPSHOT.2080",
+      "dockerImage" : "folioci/mod-organizations:2.3.0-SNAPSHOT.2095",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
@@ -273,7 +273,7 @@
       }
     }
   }, {
-    "id" : "mod-organizations-storage-5.1.0-SNAPSHOT.2110",
+    "id" : "mod-organizations-storage-5.1.0-SNAPSHOT.2128",
     "name" : "Organizations CRUD module",
     "provides" : [ {
       "id" : "organizations-storage.categories",
@@ -792,7 +792,7 @@
       "subPermissions" : [ "organizations-storage.categories.all", "organizations-storage.contacts.all", "organizations-storage.privileged-contacts.all", "organizations-storage.interfaces.all", "organizations-storage.interfaces.credentials.all", "organizations-storage.organizations.all", "organizations-storage.organization-types.all", "organizations-storage.banking-account-types.all", "organizations-storage.banking-information.all", "organizations-storage.settings.all" ]
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-organizations-storage:5.1.0-SNAPSHOT.2110",
+      "dockerImage" : "folioci/mod-organizations-storage:5.1.0-SNAPSHOT.2128",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
@@ -840,7 +840,7 @@
       }
     }
   }, {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2651",
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2667",
     "name" : "Orders Business Logic Module",
     "requires" : [ {
       "id" : "acquisitions-units-storage.units",
@@ -2017,7 +2017,7 @@
       }
     },
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-orders:14.0.0-SNAPSHOT.2651",
+      "dockerImage" : "folioci/mod-orders:14.0.0-SNAPSHOT.2667",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
@@ -3225,7 +3225,7 @@
       }
     }
   }, {
-    "id" : "mod-invoice-7.0.0-SNAPSHOT.2155",
+    "id" : "mod-invoice-7.0.0-SNAPSHOT.2193",
     "name" : "Invoice business logic module",
     "requires" : [ {
       "id" : "locale",
@@ -3877,7 +3877,7 @@
       }
     },
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-invoice:7.0.0-SNAPSHOT.2155",
+      "dockerImage" : "folioci/mod-invoice:7.0.0-SNAPSHOT.2193",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
@@ -3931,7 +3931,7 @@
       }
     }
   }, {
-    "id" : "mod-invoice-storage-7.0.0-SNAPSHOT.2189",
+    "id" : "mod-invoice-storage-7.0.0-SNAPSHOT.2201",
     "name" : "Invoice CRUD module",
     "requires" : [ {
       "id" : "configuration",
@@ -4537,7 +4537,7 @@
       "visible" : false
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-invoice-storage:7.0.0-SNAPSHOT.2189",
+      "dockerImage" : "folioci/mod-invoice-storage:7.0.0-SNAPSHOT.2201",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
@@ -4588,7 +4588,7 @@
       }
     }
   }, {
-    "id" : "mod-finance-6.0.0-SNAPSHOT.2103",
+    "id" : "mod-finance-6.0.0-SNAPSHOT.2116",
     "name" : "Finance business logic module",
     "requires" : [ {
       "id" : "finance-storage.budgets",
@@ -5555,7 +5555,7 @@
       "subPermissions" : [ "finance.acquisitions-units-assignments.create.execute", "finance.acquisitions-units-assignments.manage.execute" ]
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-finance:6.0.0-SNAPSHOT.2103",
+      "dockerImage" : "folioci/mod-finance:6.0.0-SNAPSHOT.2116",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
@@ -5573,7 +5573,7 @@
       }
     }
   }, {
-    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2160",
+    "id" : "mod-finance-storage-9.0.0-SNAPSHOT.2181",
     "name" : "Finance CRUD module",
     "requires" : [ {
       "id" : "base-url",
@@ -6508,7 +6508,7 @@
       "subPermissions" : [ "finance-storage.budgets.all", "finance-storage.expense-classes.all", "finance-storage.budget-expense-classes.all", "finance-storage.fiscal-years.all", "finance-storage.funds.all", "finance-storage.groups.all", "finance-storage.ledgers.all", "finance-storage.transactions.all", "finance-storage.transaction-totals.all", "finance-storage.fund-types.all", "finance-storage.fund-update-logs.all", "finance-storage.finance-data.all", "finance-storage.fiscal-year-hierarchy.all", "finance-storage.exchange-rate-source.all", "finance-storage.settings.all", "finance-storage.job-number.get" ]
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-finance-storage:9.0.0-SNAPSHOT.2160",
+      "dockerImage" : "folioci/mod-finance-storage:9.0.0-SNAPSHOT.2181",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
@@ -6562,7 +6562,7 @@
       }
     }
   }, {
-    "id" : "edge-orders-4.0.0-SNAPSHOT.2081",
+    "id" : "edge-orders-4.0.0-SNAPSHOT.2086",
     "name" : "Acquisitions - Orders Edge API",
     "provides" : [ ],
     "optional" : [ {
@@ -6622,7 +6622,7 @@
     } ],
     "permissionSets" : [ ],
     "launchDescriptor" : {
-      "dockerImage" : "folioci/edge-orders:4.0.0-SNAPSHOT.2081",
+      "dockerImage" : "folioci/edge-orders:4.0.0-SNAPSHOT.2086",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
@@ -7865,7 +7865,7 @@
       }
     }
   }, {
-    "id" : "folio_claims-3.0.1099000000000336",
+    "id" : "folio_claims-3.0.1099000000000339",
     "name" : "UI module for claiming",
     "requires" : [ {
       "id" : "acquisitions-units",
