@@ -1,9 +1,13 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012597",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012610",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012597",
+  "version" : "2.1.0-SNAPSHOT.100200000012610",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2675",
+    "name" : "mod-orders",
+    "version" : "14.0.0-SNAPSHOT.2675"
+  }, {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2095",
     "name" : "mod-organizations",
     "version" : "2.3.0-SNAPSHOT.2095"
@@ -12,9 +16,9 @@
     "name" : "mod-organizations-storage",
     "version" : "5.1.0-SNAPSHOT.2128"
   }, {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2667",
-    "name" : "mod-orders",
-    "version" : "14.0.0-SNAPSHOT.2667"
+    "id" : "mod-orders-storage-15.0.0-SNAPSHOT.2393",
+    "name" : "mod-orders-storage",
+    "version" : "15.0.0-SNAPSHOT.2393"
   }, {
     "id" : "mod-invoice-7.0.0-SNAPSHOT.2193",
     "name" : "mod-invoice",
@@ -35,16 +39,8 @@
     "id" : "edge-orders-4.0.0-SNAPSHOT.2086",
     "name" : "edge-orders",
     "version" : "4.0.0-SNAPSHOT.2086"
-  }, {
-    "id" : "mod-orders-storage-15.0.0-SNAPSHOT.2393",
-    "name" : "mod-orders-storage",
-    "version" : "15.0.0-SNAPSHOT.2393"
   } ],
   "uiModules" : [ {
-    "id" : "folio_claims-3.0.1099000000000339",
-    "name" : "folio_claims",
-    "version" : "3.0.1099000000000339"
-  }, {
     "id" : "folio_organizations-7.1.1099000000000283",
     "name" : "folio_organizations",
     "version" : "7.1.1099000000000283"
@@ -64,6 +60,10 @@
     "id" : "folio_receiving-9.0.1099000000000604",
     "name" : "folio_receiving",
     "version" : "9.0.1099000000000604"
+  }, {
+    "id" : "folio_claims-3.0.1099000000000339",
+    "name" : "folio_claims",
+    "version" : "3.0.1099000000000339"
   }, {
     "id" : "folio_acquisition-units-7.1.1099000000000145",
     "name" : "folio_acquisition-units",
@@ -840,7 +840,7 @@
       }
     }
   }, {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2667",
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2675",
     "name" : "Orders Business Logic Module",
     "requires" : [ {
       "id" : "acquisitions-units-storage.units",
@@ -2017,7 +2017,7 @@
       }
     },
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-orders:14.0.0-SNAPSHOT.2667",
+      "dockerImage" : "folioci/mod-orders:14.0.0-SNAPSHOT.2675",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
