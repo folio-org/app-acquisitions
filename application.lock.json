@@ -1,12 +1,12 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012614",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012615",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012614",
+  "version" : "2.1.0-SNAPSHOT.100200000012615",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
-    "id" : "mod-invoice-storage-7.0.0-SNAPSHOT.2214",
-    "name" : "mod-invoice-storage",
-    "version" : "7.0.0-SNAPSHOT.2214"
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2684",
+    "name" : "mod-orders",
+    "version" : "14.0.0-SNAPSHOT.2684"
   }, {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2095",
     "name" : "mod-organizations",
@@ -16,10 +16,6 @@
     "name" : "mod-organizations-storage",
     "version" : "5.1.0-SNAPSHOT.2128"
   }, {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2675",
-    "name" : "mod-orders",
-    "version" : "14.0.0-SNAPSHOT.2675"
-  }, {
     "id" : "mod-orders-storage-15.0.0-SNAPSHOT.2393",
     "name" : "mod-orders-storage",
     "version" : "15.0.0-SNAPSHOT.2393"
@@ -27,6 +23,10 @@
     "id" : "mod-invoice-7.0.0-SNAPSHOT.2193",
     "name" : "mod-invoice",
     "version" : "7.0.0-SNAPSHOT.2193"
+  }, {
+    "id" : "mod-invoice-storage-7.0.0-SNAPSHOT.2214",
+    "name" : "mod-invoice-storage",
+    "version" : "7.0.0-SNAPSHOT.2214"
   }, {
     "id" : "mod-finance-6.0.0-SNAPSHOT.2116",
     "name" : "mod-finance",
@@ -840,7 +840,7 @@
       }
     }
   }, {
-    "id" : "mod-orders-14.0.0-SNAPSHOT.2675",
+    "id" : "mod-orders-14.0.0-SNAPSHOT.2684",
     "name" : "Orders Business Logic Module",
     "requires" : [ {
       "id" : "acquisitions-units-storage.units",
@@ -1504,7 +1504,7 @@
         "methods" : [ "POST" ],
         "pathPattern" : "/pieces/claim",
         "permissionsRequired" : [ "pieces.send-claims.collection.post" ],
-        "modulePermissions" : [ "locale.item.get", "orders-storage.pieces.collection.get", "orders-storage.pieces.item.put", "orders-storage.po-lines.item.get", "orders-storage.po-lines.item.put", "orders-storage.purchase-orders.item.get", "orders-storage.titles.item.get", "organizations-storage.organizations.item.get", "data-export.config.collection.get", "data-export.job.item.post", "data-export.job.send.item.execute" ]
+        "modulePermissions" : [ "locale.item.get", "orders-storage.pieces.collection.get", "orders-storage.pieces.item.put", "orders-storage.po-lines.item.get", "orders-storage.po-lines.item.put", "orders-storage.purchase-orders.item.get", "orders-storage.titles.item.get", "organizations-storage.organizations.item.get", "data-export.effective-configs.collection.get", "data-export.job.item.post", "data-export.job.send.item.execute" ]
       } ]
     }, {
       "id" : "_jsonSchemas",
@@ -1535,7 +1535,7 @@
       "version" : "1.0"
     }, {
       "id" : "data-export-spring",
-      "version" : "2.0"
+      "version" : "2.1"
     }, {
       "id" : "source-manager-job-executions",
       "version" : "3.4"
@@ -2017,7 +2017,7 @@
       }
     },
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-orders:14.0.0-SNAPSHOT.2675",
+      "dockerImage" : "folioci/mod-orders:14.0.0-SNAPSHOT.2684",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
