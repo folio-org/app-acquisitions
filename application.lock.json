@@ -1,24 +1,20 @@
 {
-  "id" : "app-acquisitions-2.0.18",
+  "id" : "app-acquisitions-2.0.19",
   "name" : "app-acquisitions",
-  "version" : "2.0.18",
+  "version" : "2.0.19",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
-    "id" : "mod-organizations-storage-5.0.1",
-    "name" : "mod-organizations-storage",
-    "version" : "5.0.1"
-  }, {
-    "id" : "edge-orders-3.3.1",
-    "name" : "edge-orders",
-    "version" : "3.3.1"
+    "id" : "mod-orders-13.1.7",
+    "name" : "mod-orders",
+    "version" : "13.1.7"
   }, {
     "id" : "mod-organizations-2.2.1",
     "name" : "mod-organizations",
     "version" : "2.2.1"
   }, {
-    "id" : "mod-orders-13.1.6",
-    "name" : "mod-orders",
-    "version" : "13.1.6"
+    "id" : "mod-organizations-storage-5.0.1",
+    "name" : "mod-organizations-storage",
+    "version" : "5.0.1"
   }, {
     "id" : "mod-orders-storage-14.0.5",
     "name" : "mod-orders-storage",
@@ -39,6 +35,10 @@
     "id" : "mod-finance-storage-8.9.2",
     "name" : "mod-finance-storage",
     "version" : "8.9.2"
+  }, {
+    "id" : "edge-orders-3.3.1",
+    "name" : "edge-orders",
+    "version" : "3.3.1"
   } ],
   "uiModules" : [ {
     "id" : "folio_organizations-7.0.0",
@@ -840,7 +840,7 @@
       }
     }
   }, {
-    "id" : "mod-orders-13.1.6",
+    "id" : "mod-orders-13.1.7",
     "name" : "Orders Business Logic Module",
     "requires" : [ {
       "id" : "acquisitions-units-storage.units",
@@ -2017,7 +2017,7 @@
       }
     },
     "launchDescriptor" : {
-      "dockerImage" : "folioorg/mod-orders:13.1.6",
+      "dockerImage" : "folioorg/mod-orders:13.1.7",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
