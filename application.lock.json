@@ -4,9 +4,21 @@
   "version" : "2.0.18",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
+    "id" : "mod-organizations-storage-5.0.1",
+    "name" : "mod-organizations-storage",
+    "version" : "5.0.1"
+  }, {
+    "id" : "edge-orders-3.3.1",
+    "name" : "edge-orders",
+    "version" : "3.3.1"
+  }, {
     "id" : "mod-organizations-2.2.1",
     "name" : "mod-organizations",
     "version" : "2.2.1"
+  }, {
+    "id" : "mod-orders-13.1.6",
+    "name" : "mod-orders",
+    "version" : "13.1.6"
   }, {
     "id" : "mod-orders-storage-14.0.5",
     "name" : "mod-orders-storage",
@@ -27,18 +39,6 @@
     "id" : "mod-finance-storage-8.9.2",
     "name" : "mod-finance-storage",
     "version" : "8.9.2"
-  }, {
-    "id" : "mod-organizations-storage-5.0.0",
-    "name" : "mod-organizations-storage",
-    "version" : "5.0.0"
-  }, {
-    "id" : "mod-orders-13.1.6",
-    "name" : "mod-orders",
-    "version" : "13.1.6"
-  }, {
-    "id" : "edge-orders-3.3.0",
-    "name" : "edge-orders",
-    "version" : "3.3.0"
   } ],
   "uiModules" : [ {
     "id" : "folio_organizations-7.0.0",
@@ -273,7 +273,7 @@
       }
     }
   }, {
-    "id" : "mod-organizations-storage-5.0.0",
+    "id" : "mod-organizations-storage-5.0.1",
     "name" : "Organizations CRUD module",
     "provides" : [ {
       "id" : "organizations-storage.categories",
@@ -792,7 +792,7 @@
       "subPermissions" : [ "organizations-storage.categories.all", "organizations-storage.contacts.all", "organizations-storage.privileged-contacts.all", "organizations-storage.interfaces.all", "organizations-storage.interfaces.credentials.all", "organizations-storage.organizations.all", "organizations-storage.organization-types.all", "organizations-storage.banking-account-types.all", "organizations-storage.banking-information.all", "organizations-storage.settings.all" ]
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioorg/mod-organizations-storage:5.0.0",
+      "dockerImage" : "folioorg/mod-organizations-storage:5.0.1",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
@@ -6449,7 +6449,7 @@
       }
     }
   }, {
-    "id" : "edge-orders-3.3.0",
+    "id" : "edge-orders-3.3.1",
     "name" : "Acquisitions - Orders Edge API",
     "provides" : [ ],
     "optional" : [ {
@@ -6509,7 +6509,7 @@
     } ],
     "permissionSets" : [ ],
     "launchDescriptor" : {
-      "dockerImage" : "folioorg/edge-orders:3.3.0",
+      "dockerImage" : "folioorg/edge-orders:3.3.1",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
