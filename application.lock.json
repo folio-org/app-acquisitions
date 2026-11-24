@@ -1,7 +1,7 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012635",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012638",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012635",
+  "version" : "2.1.0-SNAPSHOT.100200000012638",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2095",
@@ -41,9 +41,13 @@
     "version" : "4.0.0-SNAPSHOT.2086"
   } ],
   "uiModules" : [ {
-    "id" : "folio_orders-10.0.1099000000001212",
+    "id" : "folio_orders-10.0.1099000000001223",
     "name" : "folio_orders",
-    "version" : "10.0.1099000000001212"
+    "version" : "10.0.1099000000001223"
+  }, {
+    "id" : "folio_finance-9.1.1099000000000750",
+    "name" : "folio_finance",
+    "version" : "9.1.1099000000000750"
   }, {
     "id" : "folio_organizations-7.1.1099000000000283",
     "name" : "folio_organizations",
@@ -52,10 +56,6 @@
     "id" : "folio_invoice-8.1.1099000000000580",
     "name" : "folio_invoice",
     "version" : "8.1.1099000000000580"
-  }, {
-    "id" : "folio_finance-9.1.1099000000000745",
-    "name" : "folio_finance",
-    "version" : "9.1.1099000000000745"
   }, {
     "id" : "folio_receiving-9.0.1099000000000604",
     "name" : "folio_receiving",
@@ -6822,7 +6822,7 @@
       }
     }
   }, {
-    "id" : "folio_orders-10.0.1099000000001212",
+    "id" : "folio_orders-10.0.1099000000001223",
     "name" : "Description for orders",
     "requires" : [ {
       "id" : "acquisition-order-events",
@@ -7011,13 +7011,13 @@
       "permissionName" : "ui-orders.orders.edit",
       "displayName" : "Orders: Can edit Orders and Order lines",
       "description" : "",
-      "subPermissions" : [ "data-export.config.collection.get", "orders.holding-detail.item.post", "orders.item.put", "orders.order-templates.collection.get", "orders.order-templates.item.get", "orders.pieces.item.delete", "orders.po-lines.fund-distributions.validate", "orders.po-lines.item.patch", "orders.po-lines.item.put", "orders.po-number.item.get", "orders.po-number.item.post", "orders.routing-lists.item.delete", "orders.routing-lists.item.put", "orders.routing-lists.item.post", "orders.titles.item.post", "ui-orders.orders.view" ],
+      "subPermissions" : [ "data-export.config.collection.get", "data-export.effective-configs.collection.get", "orders.holding-detail.item.post", "orders.item.put", "orders.order-templates.collection.get", "orders.order-templates.item.get", "orders.pieces.item.delete", "orders.po-lines.fund-distributions.validate", "orders.po-lines.item.patch", "orders.po-lines.item.put", "orders.po-number.item.get", "orders.po-number.item.post", "orders.routing-lists.item.delete", "orders.routing-lists.item.put", "orders.routing-lists.item.post", "orders.titles.item.post", "ui-orders.orders.view" ],
       "visible" : true
     }, {
       "permissionName" : "ui-orders.orders.create",
       "displayName" : "Orders: Can create new Orders and Order lines",
       "description" : "",
-      "subPermissions" : [ "data-export.config.collection.get", "orders.item.post", "orders.order-templates.collection.get", "orders.order-templates.item.get", "orders.po-lines.fund-distributions.validate", "orders.po-lines.item.post", "orders.po-number.item.get", "orders.po-number.item.post", "orders.routing-lists.item.post", "orders.titles.item.put", "ui-orders.orders.view" ],
+      "subPermissions" : [ "data-export.config.collection.get", "data-export.effective-configs.collection.get", "orders.item.post", "orders.order-templates.collection.get", "orders.order-templates.item.get", "orders.po-lines.fund-distributions.validate", "orders.po-lines.item.post", "orders.po-number.item.get", "orders.po-number.item.post", "orders.routing-lists.item.post", "orders.titles.item.put", "ui-orders.orders.view" ],
       "visible" : true
     }, {
       "permissionName" : "ui-orders.orders.delete",
@@ -7405,7 +7405,7 @@
       }
     }
   }, {
-    "id" : "folio_finance-9.1.1099000000000745",
+    "id" : "folio_finance-9.1.1099000000000750",
     "name" : "Description for ui-finance",
     "requires" : [ {
       "id" : "acquisitions-units",
@@ -7460,6 +7460,9 @@
       "version" : "1.5 2.0"
     }, {
       "id" : "finance-storage.exchange-rate-source",
+      "version" : "1.0"
+    }, {
+      "id" : "finance-storage.fiscal-year-hierarchy",
       "version" : "1.0"
     }, {
       "id" : "finance-storage.settings",
@@ -7519,7 +7522,7 @@
     }, {
       "permissionName" : "ui-finance.fiscal-year.view",
       "displayName" : "Finance: View fiscal year",
-      "subPermissions" : [ "module.finance.enabled", "acquisitions-units.units.collection.get", "finance.budgets.collection.get", "finance.fiscal-years.collection.get", "finance.fiscal-years.item.get", "finance.funds.collection.get", "finance.group-fiscal-year-summaries.collection.get", "finance.groups.collection.get", "finance.ledgers.collection.get", "finance-storage.settings.collection.get", "users.collection.get" ],
+      "subPermissions" : [ "module.finance.enabled", "acquisitions-units.units.collection.get", "finance.budgets.collection.get", "finance.fiscal-years.collection.get", "finance.fiscal-years.item.get", "finance.funds.collection.get", "finance.group-fiscal-year-summaries.collection.get", "finance.groups.collection.get", "finance.ledgers.collection.get", "finance-storage.fiscal-year-hierarchy.collection.get", "finance-storage.settings.collection.get", "users.collection.get" ],
       "visible" : true
     }, {
       "permissionName" : "ui-finance.fiscal-year.edit",
@@ -7549,7 +7552,7 @@
     }, {
       "permissionName" : "ui-finance.ledger.view",
       "displayName" : "Finance: View ledger",
-      "subPermissions" : [ "module.finance.enabled", "acquisitions-units.units.collection.get", "finance.budgets.collection.get", "finance.finance-data.collection.get", "finance.funds.collection.get", "finance.group-fiscal-year-summaries.collection.get", "finance.group-fund-fiscal-years.batch.post", "finance.group-fund-fiscal-years.collection.get", "finance.groups.collection.get", "finance.ledger-rollovers-errors.collection.get", "finance.ledgers.collection.get", "finance.ledgers.current-fiscal-year.item.get", "finance.ledgers.item.get", "finance.fiscal-years.collection.get", "finance-storage.settings.collection.get", "users.collection.get" ],
+      "subPermissions" : [ "module.finance.enabled", "acquisitions-units.units.collection.get", "finance.budgets.collection.get", "finance.finance-data.collection.get", "finance.funds.collection.get", "finance.group-fiscal-year-summaries.collection.get", "finance.group-fund-fiscal-years.batch.post", "finance.group-fund-fiscal-years.collection.get", "finance.groups.collection.get", "finance.ledger-rollovers-errors.collection.get", "finance.ledgers.collection.get", "finance.ledgers.current-fiscal-year.item.get", "finance.ledgers.item.get", "finance.fiscal-years.collection.get", "finance-storage.fiscal-year-hierarchy.collection.get", "finance-storage.settings.collection.get", "users.collection.get" ],
       "visible" : true
     }, {
       "permissionName" : "ui-finance.ledger.edit",
@@ -7575,7 +7578,7 @@
     }, {
       "permissionName" : "ui-finance.group.view",
       "displayName" : "Finance: View group",
-      "subPermissions" : [ "module.finance.enabled", "acquisitions-units.units.collection.get", "finance.budgets.collection.get", "finance.finance-data.collection.get", "finance.fiscal-years.collection.get", "finance.funds.collection.get", "finance.group-fiscal-year-summaries.collection.get", "finance.groups-expense-classes-totals.collection.get", "finance.groups.collection.get", "finance.groups.item.get", "finance.ledgers.collection.get", "finance.ledgers.current-fiscal-year.item.get", "finance-storage.settings.collection.get", "users.collection.get" ],
+      "subPermissions" : [ "module.finance.enabled", "acquisitions-units.units.collection.get", "finance.budgets.collection.get", "finance.finance-data.collection.get", "finance.fiscal-years.collection.get", "finance.funds.collection.get", "finance.group-fiscal-year-summaries.collection.get", "finance.groups-expense-classes-totals.collection.get", "finance.groups.collection.get", "finance.groups.item.get", "finance.ledgers.collection.get", "finance.ledgers.current-fiscal-year.item.get", "finance-storage.fiscal-year-hierarchy.collection.get", "finance-storage.settings.collection.get", "users.collection.get" ],
       "visible" : true
     }, {
       "permissionName" : "ui-finance.group.edit",
@@ -7595,7 +7598,7 @@
     }, {
       "permissionName" : "ui-finance.fund-budget.view",
       "displayName" : "Finance: View fund and budget",
-      "subPermissions" : [ "module.finance.enabled", "acquisitions-units.units.collection.get", "configuration.entries.collection.get", "finance.budgets-expense-classes-totals.collection.get", "finance.budgets.collection.get", "finance.budgets.item.get", "finance.expense-classes.collection.get", "finance.expense-classes.item.get", "finance.fiscal-years.collection.get", "finance.fiscal-years.item.get", "finance.fund-types.collection.get", "finance.fund-types.item.get", "finance.funds.budget.item.get", "finance.funds.collection.get", "finance.funds.item.get", "finance.groups.collection.get", "finance.ledgers.collection.get", "finance.ledgers.current-fiscal-year.item.get", "finance.ledgers.item.get", "finance.transactions.collection.get", "finance.transactions.item.get", "finance-storage.settings.collection.get", "invoice.invoices.collection.get", "invoice.invoices.item.get", "mod-settings.global.read.ui-tags.tags.manage", "orders.item.get", "orders.po-lines.collection.get", "orders.po-lines.item.get", "organizations.organizations.collection.get", "tags.collection.get", "users.collection.get" ],
+      "subPermissions" : [ "module.finance.enabled", "acquisitions-units.units.collection.get", "configuration.entries.collection.get", "finance.budgets-expense-classes-totals.collection.get", "finance.budgets.collection.get", "finance.budgets.item.get", "finance.expense-classes.collection.get", "finance.expense-classes.item.get", "finance.fiscal-years.collection.get", "finance.fiscal-years.item.get", "finance.fund-types.collection.get", "finance.fund-types.item.get", "finance.funds.budget.item.get", "finance.funds.collection.get", "finance.funds.item.get", "finance.groups.collection.get", "finance.ledgers.collection.get", "finance.ledgers.current-fiscal-year.item.get", "finance.ledgers.item.get", "finance.transactions.collection.get", "finance.transactions.item.get", "finance-storage.fiscal-year-hierarchy.collection.get", "finance-storage.settings.collection.get", "invoice.invoices.collection.get", "invoice.invoices.item.get", "mod-settings.global.read.ui-tags.tags.manage", "orders.item.get", "orders.po-lines.collection.get", "orders.po-lines.item.get", "organizations.organizations.collection.get", "tags.collection.get", "users.collection.get" ],
       "visible" : true
     }, {
       "permissionName" : "ui-finance.fund-budget.edit",
