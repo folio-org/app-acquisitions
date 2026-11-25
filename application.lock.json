@@ -1,9 +1,17 @@
 {
-  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012638",
+  "id" : "app-acquisitions-2.1.0-SNAPSHOT.100200000012640",
   "name" : "app-acquisitions",
-  "version" : "2.1.0-SNAPSHOT.100200000012638",
+  "version" : "2.1.0-SNAPSHOT.100200000012640",
   "description" : "Application Descriptor Repository for the FOLIO Acquisitions application",
   "modules" : [ {
+    "id" : "mod-orders-storage-15.0.0-SNAPSHOT.2420",
+    "name" : "mod-orders-storage",
+    "version" : "15.0.0-SNAPSHOT.2420"
+  }, {
+    "id" : "mod-invoice-storage-7.0.0-SNAPSHOT.2217",
+    "name" : "mod-invoice-storage",
+    "version" : "7.0.0-SNAPSHOT.2217"
+  }, {
     "id" : "mod-organizations-2.3.0-SNAPSHOT.2095",
     "name" : "mod-organizations",
     "version" : "2.3.0-SNAPSHOT.2095"
@@ -16,17 +24,9 @@
     "name" : "mod-orders",
     "version" : "14.0.0-SNAPSHOT.2684"
   }, {
-    "id" : "mod-orders-storage-15.0.0-SNAPSHOT.2393",
-    "name" : "mod-orders-storage",
-    "version" : "15.0.0-SNAPSHOT.2393"
-  }, {
     "id" : "mod-invoice-7.0.0-SNAPSHOT.2193",
     "name" : "mod-invoice",
     "version" : "7.0.0-SNAPSHOT.2193"
-  }, {
-    "id" : "mod-invoice-storage-7.0.0-SNAPSHOT.2214",
-    "name" : "mod-invoice-storage",
-    "version" : "7.0.0-SNAPSHOT.2214"
   }, {
     "id" : "mod-finance-6.0.0-SNAPSHOT.2116",
     "name" : "mod-finance",
@@ -41,21 +41,21 @@
     "version" : "4.0.0-SNAPSHOT.2086"
   } ],
   "uiModules" : [ {
-    "id" : "folio_orders-10.0.1099000000001223",
-    "name" : "folio_orders",
-    "version" : "10.0.1099000000001223"
-  }, {
-    "id" : "folio_finance-9.1.1099000000000750",
-    "name" : "folio_finance",
-    "version" : "9.1.1099000000000750"
-  }, {
     "id" : "folio_organizations-7.1.1099000000000283",
     "name" : "folio_organizations",
     "version" : "7.1.1099000000000283"
   }, {
+    "id" : "folio_orders-10.0.1099000000001223",
+    "name" : "folio_orders",
+    "version" : "10.0.1099000000001223"
+  }, {
     "id" : "folio_invoice-8.1.1099000000000580",
     "name" : "folio_invoice",
     "version" : "8.1.1099000000000580"
+  }, {
+    "id" : "folio_finance-9.1.1099000000000750",
+    "name" : "folio_finance",
+    "version" : "9.1.1099000000000750"
   }, {
     "id" : "folio_receiving-9.0.1099000000000604",
     "name" : "folio_receiving",
@@ -2065,7 +2065,7 @@
       }
     }
   }, {
-    "id" : "mod-orders-storage-15.0.0-SNAPSHOT.2393",
+    "id" : "mod-orders-storage-15.0.0-SNAPSHOT.2420",
     "name" : "Orders CRUD module",
     "requires" : [ {
       "id" : "locale",
@@ -3174,7 +3174,7 @@
       "subPermissions" : [ "orders-storage.pieces.all", "orders-storage.wrapper-pieces.all", "orders-storage.titles.all", "orders-storage.po-lines.all", "orders-storage.acquisition-methods.all", "orders-storage.po-number.all", "orders-storage.po-line-number.all", "orders-storage.purchase-orders.all", "orders-storage.receiving-history.all", "orders-storage.order-invoice-relationships.all", "orders-storage.order-templates.all", "orders-storage.order-template-categories.all", "acquisitions-units-storage.units.all", "acquisitions-units-storage.memberships.all", "orders-storage.configuration.reasons-for-closure.all", "orders-storage.configuration.prefixes.all", "orders-storage.configuration.suffixes.all", "orders-storage.export-history.all", "orders-storage.audit-outbox.all", "orders-storage.claiming.all", "orders-storage.custom-fields.all", "orders-storage.routing-lists.all", "orders-storage.settings.all", "orders-storage.batch-tracking.all" ]
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-orders-storage:15.0.0-SNAPSHOT.2393",
+      "dockerImage" : "folioci/mod-orders-storage:15.0.0-SNAPSHOT.2420",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
@@ -3931,7 +3931,7 @@
       }
     }
   }, {
-    "id" : "mod-invoice-storage-7.0.0-SNAPSHOT.2214",
+    "id" : "mod-invoice-storage-7.0.0-SNAPSHOT.2217",
     "name" : "Invoice CRUD module",
     "requires" : [ {
       "id" : "configuration",
@@ -4537,7 +4537,7 @@
       "visible" : false
     } ],
     "launchDescriptor" : {
-      "dockerImage" : "folioci/mod-invoice-storage:7.0.0-SNAPSHOT.2214",
+      "dockerImage" : "folioci/mod-invoice-storage:7.0.0-SNAPSHOT.2217",
       "dockerPull" : true,
       "env" : [ {
         "name" : "JAVA_OPTIONS",
